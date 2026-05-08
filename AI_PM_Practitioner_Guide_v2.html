@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI in Project & Program Management — Practitioner Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,900;1,300;1,600&family=Epilogue:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f1117;
+  --paper: #f8f5ef;
+  --cream: #ede9e0;
+  --mid: #d5cfc4;
+  --accent: #c8410a;
+  --blue: #1a4d6e;
+  --teal: #1a6b6e;
+  --green: #2d6a4f;
+  --gold: #9a6f0a;
+  --muted: #6b6459;
+  --light: #9a9289;
+  --sidebar-w: 260px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Epilogue',sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.65;overflow-x:hidden;}
+
+/* ── PROGRESS BAR ── */
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0%;z-index:999;transition:width 0.3s ease;}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);
+  background:var(--ink);z-index:200;overflow-y:auto;
+  display:flex;flex-direction:column;
+  transition:transform 0.3s ease;
+}
+#sidebar::-webkit-scrollbar{width:4px;}
+#sidebar::-webkit-scrollbar-track{background:transparent;}
+#sidebar::-webkit-scrollbar-thumb{background:#333;}
+
+.sb-brand{
+  padding:28px 24px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  flex-shrink:0;
+}
+.sb-brand-name{
+  font-family:'Fraunces',serif;font-size:16px;font-weight:600;
+  color:#f8f5ef;line-height:1.2;
+}
+.sb-brand-name span{color:var(--accent);}
+.sb-brand-sub{
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:#3a3530;margin-top:4px;
+}
+
+.sb-nav{padding:16px 0;flex:1;}
+.sb-section{margin-bottom:4px;}
+
+.sb-section-label{
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:0.25em;text-transform:uppercase;
+  color:#3a3530;padding:8px 24px 4px;
+}
+
+.sb-link{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 24px;cursor:pointer;
+  font-size:13px;color:#6b6459;font-weight:300;
+  transition:color 0.15s,background 0.15s;
+  border:none;background:none;width:100%;text-align:left;
+}
+.sb-link:hover{color:#f8f5ef;background:rgba(255,255,255,0.04);}
+.sb-link.active{color:#f8f5ef;background:rgba(200,65,10,0.12);}
+.sb-link.active .sb-dot{background:var(--accent);}
+.sb-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#2a2520;flex-shrink:0;
+  transition:background 0.15s;
+}
+
+.sb-footer{
+  padding:20px 24px;border-top:1px solid rgba(255,255,255,0.06);
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:0.1em;color:#2a2520;flex-shrink:0;
+}
+
+/* ── MOBILE TOGGLE ── */
+#menu-btn{
+  display:none;position:fixed;top:14px;left:14px;z-index:300;
+  background:var(--ink);border:none;cursor:pointer;
+  padding:10px;color:#f8f5ef;font-size:18px;
+  border-radius:2px;
+}
+#overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);
+  z-index:150;
+}
+
+/* ── MAIN CONTENT ── */
+#main{
+  margin-left:var(--sidebar-w);
+  min-height:100vh;
+}
+
+/* ── SECTIONS ── */
+.section{
+  display:none;
+  min-height:100vh;
+  flex-direction:column;
+}
+.section.active{display:flex;}
+
+/* ── HERO SECTION ── */
+#sec-hero{
+  background:var(--ink);
+  padding:80px;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+#sec-hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%,rgba(200,65,10,0.12) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 60% at 10% 80%,rgba(26,77,110,0.15) 0%,transparent 60%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.hero-inner{position:relative;max-width:760px;}
+.hero-eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:28px;
+  animation:fadeUp 0.6s 0.1s both;
+}
+.hero-h1{
+  font-family:'Fraunces',serif;font-size:clamp(40px,6vw,78px);
+  font-weight:900;color:#f8f5ef;line-height:1.0;margin-bottom:24px;
+  animation:fadeUp 0.7s 0.2s both;
+}
+.hero-h1 em{font-style:italic;font-weight:300;color:var(--accent);}
+.hero-desc{
+  font-size:16px;font-weight:300;color:#9a9289;max-width:560px;
+  margin-bottom:44px;line-height:1.75;
+  animation:fadeUp 0.7s 0.3s both;
+}
+.hero-stats{
+  display:flex;gap:44px;flex-wrap:wrap;margin-bottom:40px;
+  animation:fadeUp 0.7s 0.4s both;
+}
+.h-stat .num{font-family:'Fraunces',serif;font-size:32px;font-weight:600;color:#f8f5ef;display:block;line-height:1;}
+.h-stat .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#4a4540;}
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap;animation:fadeUp 0.7s 0.5s both;}
+.chip{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;
+  padding:5px 12px;border:1px solid rgba(255,255,255,0.1);color:#6b6459;
+}
+.hero-start-btn{
+  margin-top:48px;display:inline-flex;align-items:center;gap:10px;
+  background:var(--accent);color:#fff;border:none;cursor:pointer;
+  padding:14px 28px;font-family:'Epilogue',sans-serif;
+  font-size:14px;font-weight:600;letter-spacing:0.02em;
+  transition:background 0.2s;
+  animation:fadeUp 0.7s 0.6s both;
+}
+.hero-start-btn:hover{background:#a83508;}
+
+/* ── GENERIC SECTION LAYOUT ── */
+.sec-wrap{padding:64px 72px;flex:1;}
+.sec-num{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:14px;
+}
+.sec-h{
+  font-family:'Fraunces',serif;font-size:clamp(28px,4vw,44px);
+  font-weight:900;line-height:1.05;margin-bottom:14px;
+}
+.sec-desc{
+  color:var(--muted);font-size:15px;font-weight:300;
+  max-width:640px;line-height:1.75;margin-bottom:48px;
+}
+.rule{border:none;border-top:1px solid var(--mid);margin:48px 0;}
+
+/* ── NAV FOOTER (prev/next) ── */
+.sec-nav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:28px 72px;border-top:1px solid var(--mid);
+  background:var(--cream);flex-shrink:0;
+}
+.sec-nav-btn{
+  display:flex;align-items:center;gap:10px;
+  background:none;border:1px solid var(--mid);
+  padding:10px 20px;cursor:pointer;
+  font-family:'Epilogue',sans-serif;font-size:13px;
+  font-weight:500;color:var(--ink);
+  transition:border-color 0.2s,color 0.2s,background 0.2s;
+}
+.sec-nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.sec-nav-btn:disabled{opacity:0.3;cursor:default;}
+.sec-nav-btn:disabled:hover{border-color:var(--mid);color:var(--ink);}
+.sec-counter{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:0.15em;color:var(--light);
+}
+
+/* ── PERSONAL NARRATIVE ── */
+.narrative-block{
+  background:var(--ink);padding:36px 40px;margin:32px 0;
+  border-left:4px solid var(--accent);
+}
+.narr-eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:12px;
+}
+.narr-text{
+  font-family:'Fraunces',serif;font-size:17px;font-weight:300;
+  font-style:italic;color:#d5cfc4;line-height:1.75;
+}
+.narr-attr{
+  margin-top:16px;font-size:12px;color:#4a4540;
+  font-weight:300;
+}
+
+/* ── CALLOUT ── */
+.callout{
+  border-left:3px solid var(--accent);background:var(--cream);
+  padding:16px 20px;margin:20px 0;font-size:13px;
+  color:var(--muted);font-weight:300;line-height:1.7;
+}
+.callout strong{color:var(--ink);}
+.callout.blue{border-left-color:var(--blue);background:#eef4f8;}
+.callout.green{border-left-color:var(--green);background:#eef6f1;}
+
+/* ── INTRO CARDS ── */
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--mid);margin-bottom:40px;}
+.three-col.two{grid-template-columns:repeat(2,1fr);}
+.info-card{background:var(--paper);padding:28px 24px;}
+.ic-icon{font-size:24px;margin-bottom:10px;display:block;}
+.ic-h{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-bottom:8px;}
+.ic-p{font-size:13px;color:var(--muted);font-weight:300;line-height:1.7;}
+
+/* ── USE CASE GRID ── */
+.uc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--mid);margin-bottom:40px;}
+.uc-card{background:var(--paper);padding:28px 24px;}
+.uc-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);margin-bottom:10px;}
+.uc-h{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin-bottom:8px;}
+.uc-p{font-size:13px;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:14px;}
+.pill-row{display:flex;flex-wrap:wrap;gap:6px;}
+.pill{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.06em;padding:3px 9px;background:var(--ink);color:var(--paper);}
+
+/* ── PROMPT TABS ── */
+.ptabs{display:flex;gap:0;border-bottom:2px solid var(--mid);overflow-x:auto;margin-bottom:0;}
+.ptab{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;
+  text-transform:uppercase;padding:11px 18px;cursor:pointer;
+  color:var(--light);border-bottom:2px solid transparent;margin-bottom:-2px;
+  white-space:nowrap;transition:color 0.2s,border-color 0.2s;
+  background:none;border-top:none;border-left:none;border-right:none;
+}
+.ptab:hover{color:var(--ink);}
+.ptab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.ppanel{display:none;padding-top:28px;}
+.ppanel.active{display:block;}
+
+/* ── PROMPT CARD ── */
+.prompt-card{border:1px solid var(--mid);margin-bottom:24px;overflow:hidden;}
+.pc-head{
+  background:var(--ink);padding:13px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  flex-wrap:wrap;
+}
+.pc-scenario{font-size:13px;font-weight:500;color:#f8f5ef;flex:1;}
+.pc-badge{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;
+  padding:3px 10px;background:rgba(200,65,10,0.3);color:#f8b090;flex-shrink:0;
+}
+.pc-body{display:grid;grid-template-columns:1fr 1fr;}
+.pc-prompt{background:#f5f0ff;padding:18px 20px;border-right:1px solid var(--mid);}
+.pc-output{background:#f0faf4;padding:18px 20px;}
+.pc-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:8px;}
+.pc-prompt .pc-label{color:#6040a0;}
+.pc-output .pc-label{color:var(--green);}
+.pc-prompt pre,.pc-output pre{font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.65;white-space:pre-wrap;color:#2d2d2d;}
+.pc-prompt pre{color:#3d2d6d;font-style:italic;}
+.pc-tip{background:var(--cream);padding:11px 18px;border-top:1px solid var(--mid);font-size:12px;color:var(--muted);font-weight:300;}
+.pc-tip strong{color:var(--ink);}
+
+/* ── TOOLS TABLE ── */
+.t-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:32px;}
+.t-table th{background:var(--ink);color:var(--paper);padding:11px 14px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;font-weight:400;}
+.t-table td{padding:11px 14px;border-bottom:1px solid var(--mid);vertical-align:top;}
+.t-table tr:nth-child(even) td{background:var(--cream);}
+.t-name{font-weight:600;color:var(--blue);}
+.t-cat{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;background:var(--cream);border:1px solid var(--mid);padding:2px 7px;color:var(--teal);display:inline-block;}
+
+/* ── CERT SECTION ── */
+.cert-role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--mid);margin-bottom:40px;}
+.cert-role-card{background:var(--paper);padding:28px 24px;}
+.crc-role{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.crc-h{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-bottom:14px;}
+.cert-item{padding:10px 0;border-bottom:1px solid var(--mid);}
+.cert-item:last-child{border-bottom:none;}
+.cert-name{font-weight:600;font-size:13px;color:var(--blue);margin-bottom:2px;}
+.cert-body{font-size:12px;color:var(--muted);font-weight:300;line-height:1.6;}
+.cert-level{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.06em;}
+.lv-foundation{color:var(--green);}
+.lv-intermediate{color:var(--gold);}
+.lv-advanced{color:var(--accent);}
+
+.ai-provider-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-bottom:40px;}
+.ai-prov-card{border:1px solid var(--mid);padding:28px;}
+.apc-logo-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.apc-logo{
+  width:36px;height:36px;border-radius:4px;display:flex;align-items:center;
+  justify-content:center;font-size:16px;font-weight:900;color:#fff;
+  font-family:'Fraunces',serif;flex-shrink:0;
+}
+.apc-h{font-family:'Fraunces',serif;font-size:18px;font-weight:600;}
+.apc-tagline{font-size:12px;color:var(--light);font-weight:300;margin-bottom:16px;}
+.apc-certs{}
+.apc-cert{padding:8px 0;border-bottom:1px solid var(--mid);font-size:13px;}
+.apc-cert:last-child{border-bottom:none;}
+.apc-cert-name{font-weight:500;color:var(--ink);margin-bottom:2px;}
+.apc-cert-meta{font-size:12px;color:var(--muted);font-weight:300;}
+.apc-cert-pill{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:0.06em;padding:1px 7px;margin-left:6px;
+  border:1px solid currentColor;vertical-align:middle;
+}
+.free-pill{color:var(--green);}
+.paid-pill{color:var(--muted);}
+
+.cert-path-box{
+  background:var(--ink);color:var(--paper);padding:32px 36px;margin-bottom:32px;
+}
+.cpb-h{font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:#f8f5ef;margin-bottom:20px;}
+.cpb-steps{display:flex;gap:0;position:relative;flex-wrap:wrap;}
+.cpb-step{flex:1;min-width:160px;padding:0 16px 0 0;position:relative;}
+.cpb-step:not(:last-child)::after{content:'→';position:absolute;right:0;top:50%;transform:translateY(-50%);color:var(--accent);font-size:18px;}
+.cpb-step-num{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--accent);margin-bottom:6px;}
+.cpb-step-name{font-size:13px;color:#f8f5ef;font-weight:500;margin-bottom:4px;}
+.cpb-step-cert{font-size:12px;color:#6b6459;font-weight:300;}
+
+/* ── MATURITY ── */
+.maturity-row{display:grid;grid-template-columns:44px 200px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid var(--mid);align-items:start;}
+.ml{font-family:'Fraunces',serif;font-size:30px;font-weight:900;color:var(--mid);line-height:1;}
+.maturity-row.active .ml{color:var(--accent);}
+.mn{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin-bottom:3px;}
+.ms{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.05em;color:var(--light);}
+.md{font-size:13px;color:var(--muted);font-weight:300;line-height:1.7;}
+
+/* ── COACHING ── */
+.coach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--mid);margin-bottom:32px;}
+.coach-card{background:var(--ink);padding:32px 26px;}
+.cc-tier{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.cc-h{font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:#f8f5ef;margin-bottom:4px;}
+.cc-role{font-size:12px;color:rgba(248,245,239,0.35);margin-bottom:18px;font-weight:300;}
+.cc-list{list-style:none;}
+.cc-list li{font-size:12px;color:rgba(248,245,239,0.6);font-weight:300;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;gap:8px;line-height:1.5;}
+.cc-list li::before{content:'→';color:var(--accent);flex-shrink:0;font-size:11px;margin-top:1px;}
+
+/* ── TIMELINE ── */
+.tl-row{display:grid;grid-template-columns:90px 24px 1fr;gap:0 18px;position:relative;}
+.tl-period{text-align:right;padding-top:7px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;color:var(--light);}
+.tl-spine{display:flex;flex-direction:column;align-items:center;}
+.tl-dot{width:12px;height:12px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:8px;}
+.tl-line{width:2px;flex:1;background:var(--mid);margin-top:4px;}
+.tl-row:last-child .tl-line{display:none;}
+.tl-c{border:1px solid var(--mid);padding:18px 22px;margin-bottom:16px;background:var(--cream);}
+.tl-h{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin-bottom:8px;}
+.tl-items{font-size:13px;color:var(--muted);font-weight:300;line-height:1.9;}
+
+/* ── METRICS ── */
+.metrics-g{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--mid);margin-bottom:32px;}
+.mc{background:var(--paper);padding:26px 22px;}
+.mc-before{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--light);margin-bottom:4px;text-decoration:line-through;}
+.mc-after{font-family:'Fraunces',serif;font-size:30px;font-weight:900;color:var(--green);line-height:1;margin-bottom:6px;}
+.mc-name{font-size:13px;color:var(--muted);font-weight:300;}
+
+/* ── FOOTER ── */
+.sec-footer{background:var(--ink);padding:48px 72px;margin-top:auto;}
+.sf-top{display:grid;grid-template-columns:1fr auto;gap:32px;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:20px;}
+.sf-h{font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:#f8f5ef;margin-bottom:6px;}
+.sf-sub{font-size:13px;color:#4a4540;font-weight:300;}
+.sf-author{text-align:right;font-size:13px;color:#4a4540;font-weight:300;}
+.sf-author strong{color:#9a9289;display:block;margin-bottom:3px;}
+.sf-bottom{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.15em;color:#2a2520;text-transform:uppercase;}
+
+/* ── ANIM ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  #sidebar{transform:translateX(calc(-1 * var(--sidebar-w)));}
+  #sidebar.open{transform:translateX(0);}
+  #menu-btn{display:block;}
+  #main{margin-left:0;}
+  .sec-wrap{padding:48px 28px;}
+  .three-col,.coach-grid,.cert-role-grid{grid-template-columns:1fr;}
+  .uc-grid{grid-template-columns:1fr;}
+  .metrics-g{grid-template-columns:repeat(2,1fr);}
+  .ai-provider-grid{grid-template-columns:1fr;}
+  .pc-body{grid-template-columns:1fr;}
+  .pc-prompt{border-right:none;border-bottom:1px solid var(--mid);}
+  .sec-nav{padding:20px 28px;}
+  #sec-hero{padding:60px 28px;}
+  .sf-top{grid-template-columns:1fr;}
+  .sf-author{text-align:left;}
+  .sec-footer{padding:36px 28px;}
+  .tl-row{grid-template-columns:64px 20px 1fr;}
+  .maturity-row{grid-template-columns:36px 160px 1fr;gap:14px;}
+  .cert-path-box{padding:24px;}
+  .cpb-steps{flex-direction:column;gap:12px;}
+  .cpb-step::after{display:none;}
+}
+@media(max-width:600px){
+  .metrics-g{grid-template-columns:1fr 1fr;}
+  .cpb-steps{flex-direction:column;}
+  .hero-stats{gap:24px;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<button id="menu-btn" onclick="toggleMenu()">☰</button>
+<div id="overlay" onclick="toggleMenu()"></div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sb-brand">
+    <div class="sb-brand-name">AI<span>×</span>PM Guide</div>
+    <div class="sb-brand-sub">2026 Practitioner Edition</div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-section">
+      <div class="sb-section-label">Start Here</div>
+      <button class="sb-link active" onclick="goTo(0)"><span class="sb-dot"></span>Introduction</button>
+      <button class="sb-link" onclick="goTo(1)"><span class="sb-dot"></span>Why AI for PMs</button>
+    </div>
+    <div class="sb-section">
+      <div class="sb-section-label">Core Content</div>
+      <button class="sb-link" onclick="goTo(2)"><span class="sb-dot"></span>Use Cases</button>
+      <button class="sb-link" onclick="goTo(3)"><span class="sb-dot"></span>Prompt Library</button>
+      <button class="sb-link" onclick="goTo(4)"><span class="sb-dot"></span>Tool Stack</button>
+    </div>
+    <div class="sb-section">
+      <div class="sb-section-label">Growth</div>
+      <button class="sb-link" onclick="goTo(5)"><span class="sb-dot"></span>Certification Paths</button>
+      <button class="sb-link" onclick="goTo(6)"><span class="sb-dot"></span>AI Maturity Model</button>
+    </div>
+    <div class="sb-section">
+      <div class="sb-section-label">Leadership</div>
+      <button class="sb-link" onclick="goTo(7)"><span class="sb-dot"></span>Team Coaching</button>
+      <button class="sb-link" onclick="goTo(8)"><span class="sb-dot"></span>90-Day Plan</button>
+      <button class="sb-link" onclick="goTo(9)"><span class="sb-dot"></span>Outcomes</button>
+    </div>
+  </div>
+  <div class="sb-footer">© 2026 · Projit Mookerjee<br>Share freely · Attribute generously</div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+
+<!-- ════════════════════════════════
+     SEC 0 · HERO / INTRO
+════════════════════════════════ -->
+<section class="section active" id="sec-hero">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px;position:relative;overflow:hidden;background:var(--ink);">
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Practitioner Learning Guide · 2026 Edition</p>
+      <h1 class="hero-h1">AI in Project &<br><em>Program</em><br>Management</h1>
+      <p class="hero-desc">A practical field guide for Project Managers, Program Managers, Portfolio Managers, Scrum Masters, and Release Managers — built from 14+ years of delivery leadership across enterprise programs.</p>
+      <div class="hero-stats">
+        <div class="h-stat"><span class="num">20+</span><span class="lbl">Real Use Cases</span></div>
+        <div class="h-stat"><span class="num">40+</span><span class="lbl">Prompt Examples</span></div>
+        <div class="h-stat"><span class="num">5</span><span class="lbl">Tool Ecosystems</span></div>
+        <div class="h-stat"><span class="num">4–6 hrs</span><span class="lbl">Saved Per Week</span></div>
+      </div>
+      <div class="hero-chips">
+        <span class="chip">Project Managers</span>
+        <span class="chip">Program Managers</span>
+        <span class="chip">Portfolio Managers</span>
+        <span class="chip">Scrum Masters</span>
+        <span class="chip">Release Managers</span>
+      </div>
+      <button class="hero-start-btn" onclick="goTo(1)">Start Reading →</button>
+    </div>
+  </div>
+  <div class="sec-nav">
+    <button class="sec-nav-btn" disabled>← Previous</button>
+    <span class="sec-counter">1 of 10</span>
+    <button class="sec-nav-btn" onclick="goTo(1)">Why AI for PMs →</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SEC 1 · WHY AI
+════════════════════════════════ -->
+<section class="section" id="sec-why">
+  <div class="sec-wrap">
+    <p class="sec-num">01 · Foundation</p>
+    <h2 class="sec-h">Why AI Changes the<br>PM Craft — Not Replaces It</h2>
+    <p class="sec-desc">The role of the project manager isn't disappearing. It's shifting — from coordinator of effort to orchestrator of intelligence. Here's what that actually means in practice.</p>
+
+    <div class="narrative-block">
+      <p class="narr-eyebrow">From the Field</p>
+      <p class="narr-text">"Managing a $65M+ portfolio across 12 enterprise clients taught me something counterintuitive: the bottleneck was never the work — it was the synthesis. Turning raw delivery data into a board-ready narrative, extracting a clean action log from a two-hour governance call, stress-testing a project plan for risks nobody had named yet. These tasks consumed enormous PM bandwidth. AI changed that. The judgment, the relationships, the escalation calls — those are still mine. But the synthesis work? That runs in minutes now, not hours."</p>
+      <p class="narr-attr">— Senior Delivery Leader, Enterprise Insurance & Financial Services</p>
+    </div>
+
+    <div class="three-col">
+      <div class="info-card">
+        <span class="ic-icon">⚡</span>
+        <h3 class="ic-h">Speed Without Shortcuts</h3>
+        <p class="ic-p">AI collapses the time between raw data and decision-ready output. Status reports that took 3 hours take 20 minutes. Risk that was invisible on Friday gets flagged Tuesday. The discipline doesn't change — the pace does.</p>
+      </div>
+      <div class="info-card">
+        <span class="ic-icon">🎯</span>
+        <h3 class="ic-h">Augmented, Not Automated</h3>
+        <p class="ic-p">AI handles the synthesis, drafting, and pattern recognition. You handle the judgment, relationships, and decisions that require context AI can't replicate. The PM who thrives is the one who knows exactly which tasks to delegate to AI — and which to keep.</p>
+      </div>
+      <div class="info-card">
+        <span class="ic-icon">📐</span>
+        <h3 class="ic-h">Start With the Problem</h3>
+        <p class="ic-p">Never start with a tool. Start with the PM pain point that costs the most time or quality — slow status reports, missed risks, bloated planning cycles. Then find the AI tool and prompt that solves exactly that. Every example in this guide follows that logic.</p>
+      </div>
+    </div>
+
+    <div class="rule"></div>
+    <h3 style="font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin-bottom:20px;">What Changes. What Doesn't.</h3>
+
+    <div class="three-col two">
+      <div class="info-card">
+        <h3 class="ic-h" style="color:var(--green);">✅ AI Does This Better</h3>
+        <p class="ic-p" style="line-height:2;">First-draft synthesis from raw data<br>Pattern recognition across large logs<br>Consistent formatting under time pressure<br>Meeting transcription and action extraction<br>Risk identification from project descriptions<br>Generating options, templates, frameworks</p>
+      </div>
+      <div class="info-card">
+        <h3 class="ic-h" style="color:var(--accent);">🧠 You Still Own This</h3>
+        <p class="ic-p" style="line-height:2;">Stakeholder judgment and trust-building<br>Escalation decisions in ambiguous situations<br>Negotiating scope and priority trade-offs<br>Reading team dynamics and culture<br>Strategic narrative for executive audiences<br>Knowing which AI output is wrong</p>
+      </div>
+    </div>
+
+    <div class="callout blue">
+      <strong>Important governance note:</strong> Before using AI tools on client or project data, verify your organization's AI usage policy. Avoid pasting personally identifiable information, confidential client data, or proprietary contract terms into consumer AI tools. Many enterprise AI tools (M365 Copilot, Jira AI) process data within your organization's secure tenant — use those for sensitive content.
+    </div>
+  </div>
+  <div class="sec-nav">
+    <button class="sec-nav-btn" onclick="goTo(0)">← Introduction</button>
+    <span class="sec-counter">2 of 10</span>
+    <button class="sec-nav-btn" onclick="goTo(2)">Use Cases →</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SEC 2 · USE CASES
+════════════════════════════════ -->
+<section class="section" id="sec-usecases">
+  <div class="sec-wrap">
+    <p class="sec-num">02 · Use Cases</p>
+    <h2 class="sec-h">Where AI Fits in Your<br>Day-to-Day Delivery Work</h2>
+    <p class="sec-desc">Six delivery domains where AI has the highest practical impact — mapped to specific roles and tools. Each links to real prompts in the next section.</p>
+
+    <div class="uc-grid">
+      <div class="uc-card">
+        <p class="uc-tag">Domain 01</p>
+        <h3 class="uc-h">Project Planning & Work Breakdown</h3>
+        <p class="uc-p">AI generates first-draft WBS structures, decomposes epics into sprint-ready stories, identifies missing dependencies, and suggests effort estimates from scope descriptions. Planning workshops that took days take hours.</p>
+        <div class="pill-row"><span class="pill">All AI Assistants</span><span class="pill">Jira AI</span><span class="pill">Copilot in Teams</span></div>
+      </div>
+      <div class="uc-card">
+        <p class="uc-tag">Domain 02</p>
+        <h3 class="uc-h">Budget, Cost & Financial Tracking</h3>
+        <p class="uc-p">AI interprets variance reports, flags burn rate anomalies, drafts budget narratives for executives, and builds EAC/ETC models in spreadsheets using natural language — no formula knowledge required.</p>
+        <div class="pill-row"><span class="pill">Copilot in Excel</span><span class="pill">Power BI Copilot</span><span class="pill">Claude</span></div>
+      </div>
+      <div class="uc-card">
+        <p class="uc-tag">Domain 03</p>
+        <h3 class="uc-h">Status Reporting & Executive Communication</h3>
+        <p class="uc-p">AI converts raw sprint or portfolio data into board-ready narratives, generates RAG summaries, drafts stakeholder emails, and produces slide content — in minutes from any data source you can paste or connect.</p>
+        <div class="pill-row"><span class="pill">Copilot in PowerPoint</span><span class="pill">Copilot in Word</span><span class="pill">Claude</span></div>
+      </div>
+      <div class="uc-card">
+        <p class="uc-tag">Domain 04</p>
+        <h3 class="uc-h">Risk Identification & RAID Management</h3>
+        <p class="uc-p">AI stress-tests project plans against historical failure patterns, generates RAID log entries from meeting transcripts, and drafts mitigation strategies — surfacing what experienced PMs call "the risks you didn't know to ask about."</p>
+        <div class="pill-row"><span class="pill">Claude</span><span class="pill">Meeting AI Tools</span><span class="pill">Jira AI</span></div>
+      </div>
+      <div class="uc-card">
+        <p class="uc-tag">Domain 05</p>
+        <h3 class="uc-h">Team Management & Meeting Intelligence</h3>
+        <p class="uc-p">AI transcribes meetings, extracts action items, identifies blockers, detects team sentiment trends, and drafts follow-up communications — eliminating the manual admin that follows every governance call or standup.</p>
+        <div class="pill-row"><span class="pill">Copilot for Teams</span><span class="pill">Fireflies.ai</span><span class="pill">Otter.ai</span></div>
+      </div>
+      <div class="uc-card">
+        <p class="uc-tag">Domain 06</p>
+        <h3 class="uc-h">Agile, Scrum & Release Management</h3>
+        <p class="uc-p">AI supports PI Planning preparation, backlog grooming, user story generation, retro synthesis, and release readiness checklists — across SAFe, Scrum, and Kanban contexts, without changing your ceremony structure.</p>
+        <div class="pill-row"><span class="pill">Jira AI</span><span class="pill">Linear AI</span><span class="pill">Miro AI</span><span class="pill">Claude</span></div>
+      </div>
+    </div>
+
+    <div class="narrative-block">
+      <p class="narr-eyebrow">From the Field</p>
+      <p class="narr-text">"One of the most underused AI applications I've seen in delivery teams is the pre-mortem. Before a major go-live, I started asking AI: 'Assume this program failed. What went wrong?' The responses consistently surfaced 3–4 risks that my experienced team hadn't named — not because they weren't capable, but because our collective blind spots aligned. That single habit has changed how I approach risk planning on every engagement."</p>
+      <p class="narr-attr">— From experience running SaaS migration programs for enterprise insurers and public sector clients</p>
+    </div>
+  </div>
+  <div class="sec-nav">
+    <button class="sec-nav-btn" onclick="goTo(1)">← Why AI for PMs</button>
+    <span class="sec-counter">3 of 10</span>
+    <button class="sec-nav-btn" onclick="goTo(3)">Prompt Library →</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SEC 3 · PROMPT LIBRARY
+════════════════════════════════ -->
+<section class="section" id="sec-prompts">
+  <div class="sec-wrap">
+    <p class="sec-num">03 · Prompt Library</p>
+    <h2 class="sec-h">Real Prompts.<br>Real PM Outputs.</h2>
+    <p class="sec-desc">Copy, adapt, and use these directly. Each example shows the exact prompt structure and the type of output you'll get. Note: replace any sample context with your real project details.</p>
+
+    <div class="ptabs">
+      <button class="ptab active" onclick="switchTab(this,'pt-plan')">Planning & WBS</button>
+      <button class="ptab" onclick="switchTab(this,'pt-budget')">Budget & Cost</button>
+      <button class="ptab" onclick="switchTab(this,'pt-status')">Status & Reporting</button>
+      <button class="ptab" onclick="switchTab(this,'pt-risk')">Risk & RAID</button>
+      <button class="ptab" onclick="switchTab(this,'pt-team')">Team & Meetings</button>
+      <button class="ptab" onclick="switchTab(this,'pt-agile')">Agile & Release</button>
+    </div>
+
+    <!-- PLANNING -->
+    <div id="pt-plan" class="ppanel active">
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: You need a WBS for a core platform migration in under 30 minutes</span>
+          <span class="pc-badge">Claude · ChatGPT · Any AI</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt</p>
+            <pre>You are a senior IT program manager. Create a detailed Work Breakdown Structure for a core insurance platform cloud migration with the following context:
+- Client: Mid-size specialty insurer, ~200 staff
+- Timeline: 12 months
+- Workstreams: Data migration, integration, UAT, training, cutover
+- Constraint: No downtime during peak renewal season (Q4)
+
+Format as numbered hierarchy (Level 1, 2, 3). Flag high-risk tasks with [RISK].</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre>1.0 Program Initiation
+  1.1 Governance Setup
+    1.1.1 Steering committee charter
+    1.1.2 RACI matrix [RISK]
+  1.2 Discovery & Assessment
+    1.2.1 Current-state process mapping
+    ...
+2.0 Data Migration [RISK]
+  2.1 Data profiling & cleansing
+  2.2 Mapping legacy → target schema
+  2.3 Migration scripts + rollback plan [RISK]
+
+→ Full 3–4 level WBS in ~60 seconds.
+→ Refine with your team; use as baseline.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Pro tip:</strong> Paste your existing SOW or scope document into the AI first, then ask it to generate the WBS directly from that content. Output will be project-specific, not generic. Works best with Claude or ChatGPT-4o for long documents.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: Decompose a vague epic into sprint-ready user stories in Jira</span>
+          <span class="pc-badge">Jira AI · Claude · ChatGPT</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt</p>
+            <pre>Break this epic into 6–8 user stories with acceptance criteria:
+
+Epic: "Migrate claims intake portal to cloud-native architecture"
+
+For each story:
+As a [user], I want [goal] so that [benefit].
+Acceptance Criteria:
+- [criterion 1]
+- [criterion 2]
+Estimate: [S/M/L]</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre>Story 1: Infrastructure Provisioning
+As a DevOps engineer, I want a Terraform-managed cloud environment so that deployments are reproducible.
+AC:
+- Environment provisioned in &lt;30 min via IaC
+- Rollback tested and documented
+Estimate: L
+
+Story 2: Authentication Migration
+As a claims adjuster, I want SSO login...
+
+→ 6–8 sprint-ready stories in 45 seconds.
+→ Bulk-import directly into Jira via CSV.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Jira AI tip:</strong> In Jira's next-gen projects, use "Break down epic" in Atlassian Intelligence — it generates child issues directly without copy-paste. Link to your Confluence confluence page for even better context.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: Build a project timeline with dependencies in a spreadsheet</span>
+          <span class="pc-badge">Copilot in Excel · Google Sheets AI</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt (in Excel/Sheets Copilot chat)</p>
+            <pre>I have project tasks in column A and durations in column B. Please:
+1. Add columns: Start Date, End Date, Predecessor, Owner, Status
+2. Calculate dates assuming Feb 3 start, 5-day work weeks
+3. Add conditional formatting: Red=Overdue, Yellow=At Risk, Green=On Track
+4. Add a summary row at top showing total project duration</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre>Excel adds calculated columns automatically.
+Conditional formatting rules applied.
+Dependency logic in formulas.
+
+Then ask follow-up questions:
+"Which tasks are on the critical path?"
+"Show tasks missing an owner"
+"Add % complete and update status dynamically"
+"Create a pivot showing tasks by workstream"
+
+→ Full tracker built in minutes, not hours.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Excel Copilot tip:</strong> Requires Microsoft 365 Copilot licence. Start with a plain task list — Copilot handles formula complexity. Use "Analyze data" to get natural-language insights like "which workstream has the most overdue tasks?"</p>
+      </div>
+    </div>
+
+    <!-- BUDGET -->
+    <div id="pt-budget" class="ppanel">
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: Budget is 13% over plan — need a steering committee narrative in 20 minutes</span>
+          <span class="pc-badge">Claude · Copilot in Word</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt</p>
+            <pre>You are a program manager preparing a budget variance narrative for a steering committee. Data:
+
+Approved Budget: $4.2M
+Spend to Date (Month 5): $1.95M
+Planned Spend to Date: $1.72M
+Variance: +$230K (13.4% over plan)
+Root causes: Extended UAT cycles due to integration failures; 2-week contractor extension for data migration work.
+
+Write a 3-paragraph executive narrative that:
+1. States variance clearly without alarm
+2. Explains root causes with context
+3. Describes corrective actions and revised forecast
+
+Tone: Professional, confident, factual. Audience: C-suite.</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre>As of Month 5, the program reflects a budget variance of $230K above plan (13.4%), driven primarily by two identified factors requiring brief context...
+
+The variance is attributable to extended UAT cycles required to resolve integration defects, and a two-week contractor extension to complete data migration validation. Both items were escalated at the program level...
+
+Corrective actions include [X, Y]. The revised EAC of $4.38M reflects a contingency draw-down that remains within the approved envelope. No additional funding requests are anticipated.
+
+→ Ready to paste into your board deck
+   in under 2 minutes.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Reuse tip:</strong> Save this as a monthly template in Claude Projects or a Confluence macro. Update only the numbers — the structure stays consistent and your board gets familiar with the format.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: Build an EAC model and burn rate forecast using AI-assisted spreadsheet</span>
+          <span class="pc-badge">Copilot in Excel · Power BI Copilot</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt (Excel Copilot)</p>
+            <pre>My spreadsheet has: Month, Planned Budget, Actual Spend, Headcount columns.
+
+1. Add EAC column: EAC = Actual + (BAC - EV) / CPI
+2. Add Burn Rate column (monthly spend rate)
+3. Add Forecast to Complete column
+4. Create a line chart: Planned vs Actual vs Forecast
+5. Add a 2-sentence plain-English summary at the top describing current burn status</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre>EVM columns added with formulas.
+Trend chart auto-generated.
+Plain-English summary written:
+
+"Current burn rate of $387K/month is 14% above plan. At this rate the project will exhaust budget by Month 9 — 6 weeks ahead of schedule."
+
+Then ask:
+"What if we reduce headcount by 2 from Month 6?"
+"Show spend by workstream as a pie chart"
+
+→ Share directly with PMO or finance.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Power BI tip:</strong> Connect your budget spreadsheet to Power BI, then ask Copilot "Which months had the highest variance?" or "Break down spend by workstream" — instant analytics without building dashboards from scratch.</p>
+      </div>
+    </div>
+
+    <!-- STATUS -->
+    <div id="pt-status" class="ppanel">
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: Turn messy sprint data into a clean weekly status report in under 15 minutes</span>
+          <span class="pc-badge">Claude · Jira AI · Copilot in Word</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt</p>
+            <pre>Create a weekly project status report from this sprint summary:
+
+Sprint: Week 12 | Velocity: 34 pts (planned 40)
+Completed: Auth module, Data pipeline Phase 1, Integration handshake
+In Progress: Data migration module — BLOCKED (awaiting API credentials from vendor)
+Bugs: 3 critical raised this week
+Next: Integration testing Phase 2, UAT kickoff
+
+Format:
+- RAG status + 1-line justification
+- Accomplishments (3 bullets)
+- Risks & Issues (flag the blocker clearly)
+- Next week priorities (3 bullets)
+- Decisions needed
+
+Audience: Project sponsor and client. Max 1 page.</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre">STATUS: 🟡 AMBER
+Velocity at 85% of target; active vendor blocker requires action this week.
+
+ACCOMPLISHMENTS
+• Auth module delivered and code-reviewed
+• Data pipeline Phase 1 complete and signed off
+• Integration handshake testing passed
+
+RISKS & ISSUES
+🔴 Data migration BLOCKED — vendor API credentials not received. PM escalation sent. ETA Thursday.
+
+NEXT WEEK
+• Resolve vendor blocker or activate contingency plan
+• Begin UAT kickoff with client team
+• Complete integration testing Phase 2
+
+DECISIONS NEEDED
+• If blocker persists past Wednesday: approve 3-day UAT timeline buffer?
+
+→ Ready in 90 seconds. Email or paste to Confluence.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Automation tip:</strong> Set up a weekly automated export from your project tool (Jira, Azure DevOps) to email you a sprint summary every Friday at 4pm. Paste that into Claude with this prompt. The entire cycle takes under 10 minutes.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: Create an executive-ready program dashboard slide using Copilot</span>
+          <span class="pc-badge">Copilot in PowerPoint · Copilot in Word</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt (PowerPoint Copilot)</p>
+            <pre">Create a 1-slide program dashboard:
+
+Program: Digital Modernization Initiative | Phase 2 of 3
+Schedule: On Track | Budget: Amber (4% over)
+Milestones: UAT complete ✅ | Go-Live: [target date] 🎯
+Key Risk: Vendor dependency on third-party API certification
+Team: 24 FTEs across 3 workstreams
+
+Include: traffic light indicators per category, milestone progress bar, 2-sentence program health summary at bottom.</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre>Copilot generates formatted slide with:
+• RAG indicators per category
+• Visual milestone tracker bar
+• Clean two-column layout
+• Health summary pre-written
+
+Iterate with natural language:
+"Make the design more minimal"
+"Change budget status to Red and update the summary"
+"Add a second slide with top 5 risks"
+
+→ Board-ready slide in 3 minutes.
+→ No PowerPoint expertise needed.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Word Copilot tip:</strong> Draft your monthly report in Word, then ask Copilot "Summarize this into 5 bullet points for a 30-second verbal update." Perfect for stand-ups and quick sponsor briefings.</p>
+      </div>
+    </div>
+
+    <!-- RISK -->
+    <div id="pt-risk" class="ppanel">
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: Extract a complete RAID log from this week's meeting notes in 5 minutes</span>
+          <span class="pc-badge">Claude · Fireflies.ai transcript · Otter.ai</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt</p>
+            <pre>From this meeting transcript, extract a structured RAID log:
+
+Categories: Risks, Assumptions, Issues, Dependencies
+For each item:
+- ID (R001, A001, I001, D001)
+- Description (1 sentence)
+- Owner
+- Impact (H/M/L)
+- Due Date (if mentioned)
+- Status (Open/Monitoring/Closed)
+
+[Paste your Fireflies or Otter.ai transcript here]</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre>RISKS
+R001 | Vendor certification delay may push go-live 2 weeks | Owner: PM | Impact: H | Due: Mar 1 | Open
+R002 | UAT resource conflict with parallel program | Owner: PMO | Impact: M | Monitoring
+
+ISSUES
+I001 | Test environment not provisioned for offshore team | Owner: DevOps Lead | Impact: H | Due: Jan 28 | Open
+
+DEPENDENCIES
+D001 | Go-live requires client IT security sign-off | Owner: Client PM | Open
+
+→ Full RAID log from a 60-min transcript
+   in under 3 minutes.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Workflow:</strong> Set Fireflies.ai or Otter.ai to auto-join all project meetings. At week-end, paste the compiled transcript into Claude with this RAID prompt. Your log stays current with near-zero manual effort.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: AI stress-testing your project plan to surface risks you haven't thought of</span>
+          <span class="pc-badge">Claude · ChatGPT · Any AI</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt</p>
+            <pre">You are a senior program risk manager. Review this project plan and identify 8 risks a typical PM might overlook.
+
+Project: Cloud SaaS migration for a regulated insurer
+Timeline: 9 months | Budget: $3.8M | Team: 18 FTEs + 2 vendors
+Activities: Data migration, system integration, UAT, training, cutover
+
+For each risk:
+1. Risk description
+2. Why PMs commonly miss this
+3. Specific mitigation (not generic)
+4. Leading indicator to monitor</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre>Risk 1: Undiscovered Data Quality Issues
+Why missed: Profiling scoped too narrowly in Phase 1.
+Mitigation: Run full statistical profiling on 100% of records by Month 2 (not a sample). Reserve 3-week remediation buffer.
+Leading indicator: Data error rate in profiling reports.
+
+Risk 2: Legacy Workarounds Treated as Bugs in UAT
+Why missed: Client teams describe process deviations as defects rather than intended behavior.
+Mitigation: Document all known workarounds before UAT begins. Assign a business analyst to triage defects vs. workarounds.
+...
+
+→ 8 specific, actionable risks in 60 seconds.
+→ Use as input for your next risk workshop.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Pre-mortem technique:</strong> Ask AI "Imagine it's end of project and it failed. What went wrong?" This framing unlocks more honest risk identification than asking for a risk list directly. Use this in your planning workshops with the team.</p>
+      </div>
+    </div>
+
+    <!-- TEAM -->
+    <div id="pt-team" class="ppanel">
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: Turn a 60-minute steering committee transcript into actions, decisions, follow-ups</span>
+          <span class="pc-badge">Copilot for Teams · Fireflies.ai · Otter.ai</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt (post-meeting)</p>
+            <pre>From this meeting transcript, extract and organize:
+
+1. KEY DECISIONS MADE (who decided)
+2. ACTION ITEMS (Owner | Due Date | Description)
+3. OPEN QUESTIONS (not resolved — needs follow-up)
+4. ESCALATIONS raised
+5. 3-sentence meeting summary for those who couldn't attend
+
+[Paste transcript]</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre>DECISIONS
+✅ Go-live date confirmed: [date] (Sponsor)
+✅ 5-day UAT buffer approved (PMO Director)
+
+ACTION ITEMS
+• [Name] | [Date] | Confirm vendor SLA terms
+• [Name] | [Date] | Fix environment access for offshore team
+
+OPEN QUESTIONS
+• What triggers the rollback decision?
+• Who approves parallel run sign-off?
+
+ESCALATIONS
+🔴 Vendor API delay — needs executive intervention by Friday
+
+SUMMARY
+The committee confirmed the go-live date and approved a 5-day UAT buffer. A vendor API delay was escalated for executive action. Three follow-up items were assigned before the next fortnightly review.
+
+→ Email to attendees in 5 minutes.
+→ Paste actions directly into Jira.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Microsoft Teams:</strong> Copilot for Teams auto-generates these summaries after every meeting if transcription is enabled — no manual prompting needed. It appears in the Meeting Recap tab within minutes of the call ending.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: Prepare a coaching conversation framework for an underperforming team member</span>
+          <span class="pc-badge">Claude · ChatGPT · Any AI</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt</p>
+            <pre">Draft a 1:1 coaching conversation guide for a junior PM who delays status updates and avoids escalating issues.
+
+Include:
+1. Opening with curiosity, not judgment (2 sentences)
+2. 3 diagnostic questions to understand root cause
+3. A concrete framework or tool to help (not just advice)
+4. 2 specific, measurable commitments for next 2 weeks
+5. Closing with encouragement
+
+Tone: Direct but supportive. Not HR-scripted.</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre">Opening: "I want to talk about status updates — not to criticize, but because I think something's getting in the way. Can you walk me through what happens when a report is due?"
+
+Diagnostic questions:
+1. "What's hardest about sending updates when things aren't going well?"
+2. "When you spot a risk, what goes through your mind before escalating?"
+3. "What would make it easier?"
+
+Framework: The 'Progress–Risk–Ask' template — lead with progress, state the risk briefly, end with one specific ask. Removes the shame of delivering bad news cold.
+
+Commitments:
+• Status update by 4pm every Friday
+• Escalate any blocker within 24 hrs
+
+→ Tailored guide in 60 seconds.
+→ Adapt tone; make it your own voice.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Manager note:</strong> Use AI to prepare for difficult conversations — not to script them word-for-word. The best use here is surfacing the questions you should be asking. The best conversations happen when you listen to the answers, not read from a script.</p>
+      </div>
+    </div>
+
+    <!-- AGILE -->
+    <div id="pt-agile" class="ppanel">
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: Scrum Master synthesizing a sprint retrospective from 24 sticky notes across 3 teams</span>
+          <span class="pc-badge">Claude · Miro AI · Jira AI</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt</p>
+            <pre>Below are 24 sticky notes from our sprint retrospective (3 teams — went well / didn't go well / actions). Synthesize into:
+
+1. Top 3 themes from "went well" (with example quotes)
+2. Top 3 themes from "didn't go well" (root cause, not symptom)
+3. 3 concrete action items with owners and success criteria
+4. 1 honest team health observation
+
+[Paste sticky note content]</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre">WENT WELL
+Theme 1: Deployment automation reduced release friction. Team cited "no more manual deployments" (6 mentions across teams).
+
+DIDN'T GO WELL
+Theme 1: Unclear acceptance criteria causing late-sprint rework. Root cause: stories approved without edge cases defined — a communication gap between PO and dev, not a process failure.
+
+ACTION ITEMS
+• PO to run 15-min AC review before every sprint start | Success: Zero rework stories next sprint
+
+TEAM HEALTH
+Team is energized by automation wins but quietly frustrated by the AC cycle. Risk of disengagement if root cause isn't visibly addressed within 2 sprints.
+
+→ Retro synthesis in 2 minutes. Share immediately.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Miro AI tip:</strong> Miro's AI clusters sticky notes automatically in retro boards — use "Cluster by theme" then export the clusters as text to Claude for deeper synthesis and action planning.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="pc-head">
+          <span class="pc-scenario">📋 Scenario: Release Manager building a Go/No-Go checklist for a major SaaS go-live</span>
+          <span class="pc-badge">Claude · ChatGPT · Jira · Confluence</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-prompt">
+            <p class="pc-label">💬 Your Prompt</p>
+            <pre">Create a Go/No-Go checklist for a SaaS platform going live in 5 days.
+Context: Regulated environment, 3,000 end users, overnight cutover.
+
+Cover: Technical readiness, business readiness, rollback plan, communications, support readiness, compliance.
+
+For each item:
+- Checklist item description
+- Owner role
+- Verification method
+- Hard stop? (Yes/No)</pre>
+          </div>
+          <div class="pc-output">
+            <p class="pc-label">✅ What You Get</p>
+            <pre">TECHNICAL READINESS
+☐ All critical defects resolved or formally deferred | Owner: QA Lead | Verify: Zero open critical issues in tracker | Hard stop: YES
+
+☐ Performance test results meet SLA benchmarks | Owner: Architect | Verify: Load test report approved | Hard stop: YES
+
+☐ Rollback procedure tested in staging environment | Owner: DevOps | Verify: Dry run completed and timed | Hard stop: YES
+
+COMPLIANCE
+☐ Data privacy impact assessment signed | Owner: Compliance | Hard stop: YES
+
+→ Full 25-item checklist generated.
+→ Paste into Confluence as a template for reuse.</pre>
+          </div>
+        </div>
+        <p class="pc-tip"><strong>💡 Release Manager tip:</strong> Save this checklist in your project wiki as a reusable template. Add your project context once — reuse across every release. Cuts Go/No-Go prep from 2 hours to 20 minutes.</p>
+      </div>
+    </div>
+
+  </div><!-- /sec-wrap -->
+  <div class="sec-nav">
+    <button class="sec-nav-btn" onclick="goTo(2)">← Use Cases</button>
+    <span class="sec-counter">4 of 10</span>
+    <button class="sec-nav-btn" onclick="goTo(4)">Tool Stack →</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SEC 4 · TOOLS
+════════════════════════════════ -->
+<section class="section" id="sec-tools">
+  <div class="sec-wrap">
+    <p class="sec-num">04 · Tool Stack</p>
+    <h2 class="sec-h">The AI Toolstack for<br>Delivery Professionals</h2>
+    <p class="sec-desc">Organized by what you already use. Start with AI built into tools your team uses today — lowest change management, fastest time to value. Expand from there.</p>
+
+    <div class="callout">
+      <strong>Start here:</strong> Before adding new tools, check what's already in your existing licences. AI features are embedded in Microsoft 365 (Word, Excel, PowerPoint, Outlook, Teams), Atlassian (Jira, Confluence), and ServiceNow. You may already have access — the first step is activating, not purchasing.
+    </div>
+
+    <table class="t-table">
+      <thead>
+        <tr>
+          <th>Tool</th>
+          <th>Category</th>
+          <th>Best PM Use Cases</th>
+          <th>Access</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="t-name">Microsoft 365 Copilot</span></td><td><span class="t-cat">Office Suite AI</span></td><td>Status reports in Word, budget models in Excel, slide decks in PowerPoint, email drafts in Outlook, meeting summaries in Teams</td><td>Add-on to M365 (check with IT)</td></tr>
+        <tr><td><span class="t-name">Claude (Anthropic)</span></td><td><span class="t-cat">AI Assistant</span></td><td>Long-document analysis, complex prompt chains, WBS generation, RFP drafting, RAID synthesis, risk pre-mortems, narrative writing</td><td>Free / Pro tier</td></tr>
+        <tr><td><span class="t-name">ChatGPT (OpenAI)</span></td><td><span class="t-cat">AI Assistant</span></td><td>Advanced data analysis (upload CSVs), code for automation, broad PM task coverage, image-to-table extraction</td><td>Free / Plus tier</td></tr>
+        <tr><td><span class="t-name">Atlassian Intelligence</span></td><td><span class="t-cat">PM Tooling AI</span></td><td>Summarize epics, auto-generate child issues, search across Confluence/Jira, draft release notes, explain issues in plain English</td><td>Included in Premium/Enterprise</td></tr>
+        <tr><td><span class="t-name">ServiceNow Now Assist</span></td><td><span class="t-cat">ITSM AI</span></td><td>Summarize incident history, auto-draft change requests, suggest knowledge articles, accelerate problem resolution</td><td>Add-on to ServiceNow licences</td></tr>
+        <tr><td><span class="t-name">Fireflies.ai</span></td><td><span class="t-cat">Meeting Intelligence</span></td><td>Auto-join all project meetings, transcribe, extract action items, search meeting history, generate follow-up emails</td><td>Free / Pro tier</td></tr>
+        <tr><td><span class="t-name">Otter.ai</span></td><td><span class="t-cat">Meeting Intelligence</span></td><td>Real-time transcription, automated meeting summaries, auto-join for Zoom/Teams/Meet, integrates with calendar</td><td>Free / Pro tier</td></tr>
+        <tr><td><span class="t-name">Power BI + Copilot</span></td><td><span class="t-cat">Analytics AI</span></td><td>Ask natural language questions of project data, auto-generate visual reports, explain anomalies in plain English</td><td>Included in M365/Fabric licences</td></tr>
+        <tr><td><span class="t-name">Miro AI</span></td><td><span class="t-cat">Collaboration AI</span></td><td>Cluster retro stickies, generate mind maps, summarize whiteboard sessions, create visual project timelines</td><td>Included in Miro plans</td></tr>
+        <tr><td><span class="t-name">Notion AI / Confluence AI</span></td><td><span class="t-cat">Knowledge AI</span></td><td>Summarize project wikis, draft SOPs and runbooks, Q&A across documentation, generate weekly digests</td><td>Add-on to base plans</td></tr>
+      </tbody>
+    </table>
+
+    <div class="narrative-block">
+      <p class="narr-eyebrow">From the Field</p>
+      <p class="narr-text">"When I scaled a delivery organization from 23 to 75 professionals in 15 months, the hardest part wasn't hiring — it was onboarding fast enough to maintain delivery quality. AI-assisted documentation, runbook generation, and knowledge synthesis made that possible. New team members could get context on a complex program in hours rather than weeks. That capability — turning institutional knowledge into accessible, queryable documentation — is one of the most underrated AI applications in delivery leadership."</p>
+      <p class="narr-attr">— From experience building and scaling a global insurance delivery practice</p>
+    </div>
+
+  </div>
+  <div class="sec-nav">
+    <button class="sec-nav-btn" onclick="goTo(3)">← Prompt Library</button>
+    <span class="sec-counter">5 of 10</span>
+    <button class="sec-nav-btn" onclick="goTo(5)">Certification Paths →</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SEC 5 · CERTIFICATIONS
+════════════════════════════════ -->
+<section class="section" id="sec-certs">
+  <div class="sec-wrap">
+    <p class="sec-num">05 · AI Learning & Certification</p>
+    <h2 class="sec-h">AI Learning Paths<br>by Delivery Role</h2>
+    <p class="sec-desc">AI credentials mapped to your specific role — what to start with, what to pursue next, and which provider programs are worth your time. All paths are AI-specific; no general PM certs here.</p>
+
+    <div class="callout blue">
+      <strong>How to use this section:</strong> Find your role below. Start with the free foundations — they're genuinely good and take only a few hours. Add a paid credential when you want external validation or are moving into an advisory or consulting track. Every course listed here counts toward PDUs if you hold a PMI credential.
+    </div>
+
+    <!-- ROLE-SPECIFIC AI PATHS -->
+    <h3 style="font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin-bottom:24px;">AI Learning — By Role</h3>
+    <div class="cert-role-grid">
+
+      <!-- PROJECT MANAGERS -->
+      <div class="cert-role-card">
+        <p class="crc-role">Role Track</p>
+        <h3 class="crc-h">Project Managers</h3>
+        <div class="cert-item">
+          <div class="cert-name">PMI Generative AI for PMs <span class="cert-level lv-foundation">● Start Here</span></div>
+          <div class="cert-body">PMI's official AI micro-credential for project managers. Covers GenAI concepts, practical PM applications, responsible use, and how AI changes the project lifecycle. Earns PDUs toward PMP renewal. ~6 hours. Available at pmi.org.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">Microsoft 365 Copilot Adoption for PMs <span class="cert-level lv-foundation">● Practical</span></div>
+          <div class="cert-body">Free adoption content from Microsoft: Copilot in Word, Excel, PowerPoint, Outlook, and Teams — with role-specific PM guidance. No exam. Directly applicable to daily work. Available at adoption.microsoft.com.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">Anthropic Academy — Claude for Work <span class="cert-level lv-foundation">● Practical</span></div>
+          <div class="cert-body">Free courses on Claude fundamentals, prompt engineering, and responsible AI workflows. Directly applicable if you're using Claude for status reports, RAID logs, or planning work. Available at anthropic.com/academy. ~4 hours.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">AI-900: Azure AI Fundamentals <span class="cert-level lv-intermediate">● Intermediate</span></div>
+          <div class="cert-body">Microsoft's foundational AI credential. No coding required. Covers AI services, responsible AI, and GenAI concepts in the Azure ecosystem. ~8 hours of free learning at learn.microsoft.com. Optional paid exam ~$165 USD.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">PMI AI+ Micro-Credential <span class="cert-level lv-intermediate">● Intermediate</span></div>
+          <div class="cert-body">PMI's dedicated AI credential for practitioners. Covers AI strategy, implementation governance, and responsible AI in project environments. Builds directly on the GenAI for PMs course. Earns additional PDUs. pmi.org/certifications/micro-credentials.</div>
+        </div>
+      </div>
+
+      <!-- PROGRAM & PORTFOLIO MANAGERS -->
+      <div class="cert-role-card">
+        <p class="crc-role">Role Track</p>
+        <h3 class="crc-h">Program & Portfolio Managers</h3>
+        <div class="cert-item">
+          <div class="cert-name">Google Generative AI Learning Path <span class="cert-level lv-foundation">● Start Here</span></div>
+          <div class="cert-body">10-course path on Google Cloud Skills Boost covering GenAI fundamentals, LLMs, responsible AI, and prompt design. Free, earns a shareable badge. ~10 hours. Best free AI foundations series available — platform-agnostic enough to apply anywhere.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">AWS AI Practitioner (AIF-C01) <span class="cert-level lv-intermediate">● Intermediate</span></div>
+          <div class="cert-body">AWS's business-focused AI credential — no coding required. Covers GenAI concepts, responsible AI, and AWS AI services. Ideal for program managers overseeing cloud-native AI programs. Free learning on AWS Skill Builder; exam ~$150 USD.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">Google Cloud Digital Leader <span class="cert-level lv-intermediate">● Intermediate</span></div>
+          <div class="cert-body">Business-level cloud and AI credential from Google. Covers how AI capabilities map to business outcomes — directly useful for program managers building AI investment cases and executive narratives. No deep technical knowledge needed. Exam ~$200 USD.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">MIT Sloan: AI Strategy for Business <span class="cert-level lv-advanced">● Strategic</span></div>
+          <div class="cert-body">Online executive program focused on AI strategy, ROI, governance, and organizational transformation. Designed for senior leaders — directly applicable to portfolio-level AI investment decisions and board-level narratives. ~30 hours. Paid program.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">Anthropic: Responsible AI in Enterprise <span class="cert-level lv-intermediate">● Governance</span></div>
+          <div class="cert-body">Anthropic's guidance on AI governance, data handling, responsible deployment, and AI safety for enterprise contexts. Essential reading for program managers overseeing AI implementations in regulated industries. Free at anthropic.com.</div>
+        </div>
+      </div>
+
+      <!-- SCRUM MASTERS & RELEASE MANAGERS -->
+      <div class="cert-role-card">
+        <p class="crc-role">Role Track</p>
+        <h3 class="crc-h">Scrum Masters & Release Managers</h3>
+        <div class="cert-item">
+          <div class="cert-name">Anthropic Academy — Prompt Engineering <span class="cert-level lv-foundation">● Start Here</span></div>
+          <div class="cert-body">Free short course (co-developed with DeepLearning.AI) covering structured prompting, role framing, chain-of-thought, and output formatting — all with delivery use cases. ~3 hours. Directly applicable to retro synthesis, backlog grooming, and release checklist generation.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">Google: Prompt Design in Vertex AI <span class="cert-level lv-foundation">● Practical</span></div>
+          <div class="cert-body">Hands-on prompt engineering badge from Google Cloud Skills Boost. Covers prompt structure, few-shot patterns, and output control. Free to complete. Useful for Scrum Masters building reusable prompt libraries for ceremonies and release workflows.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">Microsoft: GitHub Copilot for Delivery Teams <span class="cert-level lv-intermediate">● Intermediate</span></div>
+          <div class="cert-body">Helps Release Managers and Scrum Masters understand AI-assisted development workflows — critical for evaluating velocity claims, sprint capacity, and release readiness in teams using Copilot. Free learning at learn.microsoft.com.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">AWS: Generative AI Essentials <span class="cert-level lv-foundation">● Practical</span></div>
+          <div class="cert-body">AWS's introductory GenAI series — covers foundations, real-world use cases, and responsible deployment. ~6 hours. Free on AWS Skill Builder. Good starting point for Release Managers working in AWS-based delivery environments who want to understand the AI tooling their teams use.</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">Google: Responsible AI Practices <span class="cert-level lv-intermediate">● Governance</span></div>
+          <div class="cert-body">Google's free course on responsible AI — bias, fairness, transparency, and accountability. Directly applicable for Scrum Masters coaching teams on responsible AI use in sprint work, and Release Managers setting Go/No-Go criteria for AI-powered releases.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule"></div>
+
+    <!-- PROVIDER PROGRAMS -->
+    <h3 style="font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin-bottom:8px;">AI Provider Programs at a Glance</h3>
+    <p style="font-size:13px;color:var(--muted);font-weight:300;margin-bottom:28px;max-width:640px;line-height:1.7;">All four major AI providers offer structured learning — the free content is genuinely excellent and sufficient for most delivery roles. Paid credentials add external credibility for advisory and consulting tracks.</p>
+
+    <div class="ai-provider-grid">
+      <div class="ai-prov-card">
+        <div class="apc-logo-row">
+          <div class="apc-logo" style="background:#0078d4;">M</div>
+          <div><div class="apc-h">Microsoft</div></div>
+        </div>
+        <p class="apc-tagline">learn.microsoft.com · adoption.microsoft.com · Best for M365 and Azure environments.</p>
+        <div class="apc-certs">
+          <div class="apc-cert">
+            <div class="apc-cert-name">AI-900: Azure AI Fundamentals <span class="apc-cert-pill free-pill">Free Learning</span></div>
+            <div class="apc-cert-meta">AI concepts + Azure AI services. No coding required. ~8 hrs. Optional exam ~$165 USD. Best starting credential for enterprise PM contexts.</div>
+          </div>
+          <div class="apc-cert">
+            <div class="apc-cert-name">M365 Copilot Adoption Content <span class="apc-cert-pill free-pill">Free</span></div>
+            <div class="apc-cert-meta">Role-specific Copilot guidance for Word, Excel, PowerPoint, Outlook, Teams. Practical, no exam, immediately applicable. adoption.microsoft.com.</div>
+          </div>
+          <div class="apc-cert">
+            <div class="apc-cert-name">AI-102: Azure AI Engineer Associate <span class="apc-cert-pill paid-pill">Paid Exam ~$165</span></div>
+            <div class="apc-cert-meta">Technical credential for PMs overseeing AI development teams. Requires some technical background. Useful for those managing Azure AI implementations directly.</div>
+          </div>
+          <div class="apc-cert">
+            <div class="apc-cert-name">GitHub Copilot for Teams <span class="apc-cert-pill free-pill">Free Learning</span></div>
+            <div class="apc-cert-meta">Understand AI-assisted development for delivery teams. Helps PMs evaluate productivity claims and set realistic sprint expectations when teams use Copilot.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-prov-card">
+        <div class="apc-logo-row">
+          <div class="apc-logo" style="background:#ea4335;">G</div>
+          <div><div class="apc-h">Google</div></div>
+        </div>
+        <p class="apc-tagline">cloudskillsboost.google.com · Best free AI fundamentals available. No account required for most badges.</p>
+        <div class="apc-certs">
+          <div class="apc-cert">
+            <div class="apc-cert-name">Generative AI Learning Path <span class="apc-cert-pill free-pill">Free · Badge</span></div>
+            <div class="apc-cert-meta">10-course path: GenAI fundamentals, LLMs, responsible AI, prompt design. ~10 hrs. Platform-agnostic — the concepts apply regardless of which AI tools you use.</div>
+          </div>
+          <div class="apc-cert">
+            <div class="apc-cert-name">Responsible AI Practices <span class="apc-cert-pill free-pill">Free</span></div>
+            <div class="apc-cert-meta">Bias, fairness, transparency, accountability. Essential for PMs in regulated industries. Directly applicable to AI governance frameworks and release criteria.</div>
+          </div>
+          <div class="apc-cert">
+            <div class="apc-cert-name">Prompt Design in Vertex AI <span class="apc-cert-pill free-pill">Free · Badge</span></div>
+            <div class="apc-cert-meta">Hands-on prompt engineering. Builds the practical skill behind every use case in this guide — most valuable thing you can learn after understanding AI basics.</div>
+          </div>
+          <div class="apc-cert">
+            <div class="apc-cert-name">Cloud Digital Leader <span class="apc-cert-pill paid-pill">Paid Exam ~$200</span></div>
+            <div class="apc-cert-meta">Business-level AI + cloud credential. No deep technical knowledge needed. Strong for program/portfolio managers building AI investment cases.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-prov-card">
+        <div class="apc-logo-row">
+          <div class="apc-logo" style="background:#ff9900;color:#111;">A</div>
+          <div><div class="apc-h">AWS</div></div>
+        </div>
+        <p class="apc-tagline">explore.skillbuilder.aws · Best for AWS-environment teams. Free Skill Builder tier is comprehensive.</p>
+        <div class="apc-certs">
+          <div class="apc-cert">
+            <div class="apc-cert-name">Generative AI Essentials <span class="apc-cert-pill free-pill">Free · ~6 hrs</span></div>
+            <div class="apc-cert-meta">AWS's introductory GenAI series: foundations, real-world use cases, responsible deployment. Good starting point for PMs in AWS environments.</div>
+          </div>
+          <div class="apc-cert">
+            <div class="apc-cert-name">AI Practitioner (AIF-C01) <span class="apc-cert-pill paid-pill">Paid Exam ~$150</span></div>
+            <div class="apc-cert-meta">AWS's business-focused AI credential — no coding needed. GenAI concepts, responsible AI, AWS AI services. Strongest AI cert for PMs managing cloud-native programs on AWS.</div>
+          </div>
+          <div class="apc-cert">
+            <div class="apc-cert-name">Responsible AI on AWS <span class="apc-cert-pill free-pill">Free</span></div>
+            <div class="apc-cert-meta">AWS-specific guidance on responsible AI, bias detection, governance frameworks, and auditability. Practical for PMs setting AI acceptance criteria and managing AI risk in delivery.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-prov-card">
+        <div class="apc-logo-row">
+          <div class="apc-logo" style="background:#c8410a;">An</div>
+          <div><div class="apc-h">Anthropic</div></div>
+        </div>
+        <p class="apc-tagline">anthropic.com/academy · Best for Claude users and responsible AI focus. Practical, non-technical, free.</p>
+        <div class="apc-certs">
+          <div class="apc-cert">
+            <div class="apc-cert-name">Anthropic Academy <span class="apc-cert-pill free-pill">Free</span></div>
+            <div class="apc-cert-meta">Claude fundamentals, prompt engineering, responsible AI, workflow building. Directly applicable if you're using Claude for PM tasks. anthropic.com/academy.</div>
+          </div>
+          <div class="apc-cert">
+            <div class="apc-cert-name">Prompt Engineering for PMs <span class="apc-cert-pill free-pill">Free · DeepLearning.AI</span></div>
+            <div class="apc-cert-meta">Co-developed by Anthropic + DeepLearning.AI. Structured prompting, role framing, chain-of-thought — all with delivery use cases. ~3 hours. Highest ROI course in this entire list for day-to-day PM impact.</div>
+          </div>
+          <div class="apc-cert">
+            <div class="apc-cert-name">Responsible AI in Enterprise <span class="apc-cert-pill free-pill">Free</span></div>
+            <div class="apc-cert-meta">AI governance, data privacy, responsible deployment, safety principles. Critical for PMs in regulated industries — insurance, fintech, public sector. Directly applicable to AI acceptance criteria and program governance.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule"></div>
+
+    <!-- SEQUENCED PATH -->
+    <h3 style="font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin-bottom:20px;">Recommended Sequence — Start to Strategic</h3>
+    <div class="cert-path-box">
+      <p class="cpb-h">AI Learning Path for Delivery Professionals — Any Role</p>
+      <div class="cpb-steps">
+        <div class="cpb-step">
+          <p class="cpb-step-num">Step 1 · Free · 8 hrs</p>
+          <p class="cpb-step-name">AI Foundations</p>
+          <p class="cpb-step-cert">Google GenAI Learning Path (Cloud Skills Boost) — platform-agnostic, earns a badge, covers everything you need to follow the rest of this guide intelligently.</p>
+        </div>
+        <div class="cpb-step">
+          <p class="cpb-step-num">Step 2 · Free · 3 hrs</p>
+          <p class="cpb-step-name">Prompt Engineering</p>
+          <p class="cpb-step-cert">Anthropic + DeepLearning.AI: Prompt Engineering for PMs — the single highest-ROI course for immediately improving your daily AI output quality.</p>
+        </div>
+        <div class="cpb-step">
+          <p class="cpb-step-num">Step 3 · Free · 4 hrs</p>
+          <p class="cpb-step-name">Apply to Your Role</p>
+          <p class="cpb-step-cert">Anthropic Academy (Claude workflows) + M365 Copilot Adoption content — hands-on setup of the tools you'll actually use every week.</p>
+        </div>
+        <div class="cpb-step">
+          <p class="cpb-step-num">Step 4 · Paid · Exam</p>
+          <p class="cpb-step-name">Platform Credential</p>
+          <p class="cpb-step-cert">AI-900 (Azure/Microsoft stack) or AWS AI Practitioner (AWS stack) — based on what your organization runs. External validation of your AI literacy.</p>
+        </div>
+        <div class="cpb-step">
+          <p class="cpb-step-num">Step 5 · Strategic</p>
+          <p class="cpb-step-name">Deepen or Specialize</p>
+          <p class="cpb-step-cert">PMI AI+ micro-credential (delivery-focused) · MIT Sloan AI Strategy (executive/portfolio) · Google Cloud Digital Leader (cloud + AI governance).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <strong>PDU note for PMI credential holders:</strong> Every AI course listed in this section qualifies for PDUs toward PMP, PgMP, PfMP, or PMI-ACP renewal. Keep your completion certificates. The PMI AI+ micro-credential and GenAI for PMs learning path earn PDUs directly and are now part of PMI's official continuing education portfolio.
+    </div>
+
+    <div class="narrative-block">
+      <p class="narr-eyebrow">From the Field</p>
+      <p class="narr-text">"The most valuable AI learning I've done hasn't come from formal certification — it's come from applying AI to a live delivery problem and observing what breaks. My recommendation: pick one real problem in your current program, spend a week solving it with AI, document what you learned, and share it with your team. That single cycle teaches more than most 8-hour courses. Then the cert gives you the vocabulary to explain what you already know how to do."</p>
+      <p class="narr-attr">— On learning AI through delivery practice, not just coursework</p>
+    </div>
+  </div>
+  <div class="sec-nav">
+    <button class="sec-nav-btn" onclick="goTo(4)">← Tool Stack</button>
+    <span class="sec-counter">6 of 10</span>
+    <button class="sec-nav-btn" onclick="goTo(6)">AI Maturity Model →</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SEC 6 · MATURITY MODEL
+════════════════════════════════ -->
+<section class="section" id="sec-maturity">
+  <div class="sec-wrap">
+    <p class="sec-num">06 · Self-Assessment</p>
+    <h2 class="sec-h">PM AI Maturity Model</h2>
+    <p class="sec-desc">Where are you today? Assess honestly — Level 1 isn't a failure, it's a starting point. The target for most practitioners is Level 3 within three months of deliberate practice.</p>
+
+    <div class="maturity-row">
+      <div class="ml">1</div>
+      <div><p class="mn">AI-Aware</p><p class="ms">Curious, not yet practicing</p></div>
+      <p class="md">You know AI tools exist and have tried a few things, but haven't integrated AI into any regular PM workflow. You may still be skeptical about practical value — or you know it's valuable but don't know where to start. <strong>Next move: Pick one recurring task and try one prompt this week.</strong></p>
+    </div>
+    <div class="maturity-row">
+      <div class="ml">2</div>
+      <div><p class="mn">AI-Experimenting</p><p class="ms">Occasional use, no system</p></div>
+      <p class="md">You use AI tools occasionally — maybe drafting an email or summarizing a document — but there's no consistency. You don't have saved prompts or a repeatable workflow. Value is sporadic. <strong>Next move: Save 3 prompts that worked. Run them twice a week until they're habit.</strong></p>
+    </div>
+    <div class="maturity-row active">
+      <div class="ml">3</div>
+      <div><p class="mn">AI-Practicing</p><p class="ms">Regular use in specific workflows</p></div>
+      <p class="md">AI is embedded in 2–4 specific PM workflows — you always use AI for status reports and meeting summaries. You have a personal prompt library. You save 3–5 hours per week. <strong>This is the target for most PMs within 3 months.</strong> Next move: Extend to a new domain and start influencing teammates.</p>
+    </div>
+    <div class="maturity-row">
+      <div class="ml">4</div>
+      <div><p class="mn">AI-Integrating</p><p class="ms">AI across the delivery lifecycle</p></div>
+      <p class="md">AI is part of your standard delivery operating model — from planning through retrospective. You're helping teammates adopt, contributing to a shared prompt library, and measuring time saved. You influence how your team works. <strong>Next move: Formalize a team coaching plan and publish your first insight internally.</strong></p>
+    </div>
+    <div class="maturity-row">
+      <div class="ml">5</div>
+      <div><p class="mn">AI-Leading</p><p class="ms">Shaping AI strategy for your org</p></div>
+      <p class="md">You define AI adoption strategy for your PMO or delivery organization. You evaluate new tools, govern responsible use, publish thought leadership, and have built a coaching curriculum. AI gives you a strategic multiplier. <strong>Next move: Turn your internal experience into external positioning.</strong></p>
+    </div>
+  </div>
+  <div class="sec-nav">
+    <button class="sec-nav-btn" onclick="goTo(5)">← Certification Paths</button>
+    <span class="sec-counter">7 of 10</span>
+    <button class="sec-nav-btn" onclick="goTo(7)">Team Coaching →</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SEC 7 · COACHING
+════════════════════════════════ -->
+<section class="section" id="sec-coaching">
+  <div class="sec-wrap">
+    <p class="sec-num">07 · Team Coaching</p>
+    <h2 class="sec-h">Coaching Your Team<br>to AI Fluency</h2>
+    <p class="sec-desc">Three role-specific tracks — because a Scrum Master and a Portfolio Manager need different AI skills. Start with the track that matches your team's most pressing delivery pain.</p>
+
+    <div class="coach-grid">
+      <div class="coach-card">
+        <p class="cc-tier">Tier 1</p>
+        <h3 class="cc-h">Project Managers</h3>
+        <p class="cc-role">Focus: Execution efficiency</p>
+        <ul class="cc-list">
+          <li>AI-assisted WBS and task decomposition</li>
+          <li>Status report drafting with AI in under 15 min</li>
+          <li>RAID log extraction from meeting transcripts</li>
+          <li>Budget narrative drafting with variance context</li>
+          <li>Prompt templates for stakeholder emails</li>
+          <li>Meeting intelligence setup and workflow</li>
+          <li>Responsible AI: what not to share with tools</li>
+        </ul>
+      </div>
+      <div class="coach-card">
+        <p class="cc-tier">Tier 2</p>
+        <h3 class="cc-h">Program & Portfolio Managers</h3>
+        <p class="cc-role">Focus: Governance and insight</p>
+        <ul class="cc-list">
+          <li>AI-generated portfolio health dashboards</li>
+          <li>Predictive risk aggregation across programs</li>
+          <li>Board narrative drafting from financial data</li>
+          <li>Proposal and SOW acceleration with AI</li>
+          <li>Cross-program dependency analysis</li>
+          <li>AI for capacity planning and forecasting</li>
+          <li>Governing AI outputs: what to audit and verify</li>
+        </ul>
+      </div>
+      <div class="coach-card">
+        <p class="cc-tier">Tier 3</p>
+        <h3 class="cc-h">Scrum Masters & Release Managers</h3>
+        <p class="cc-role">Focus: Agile velocity and release quality</p>
+        <ul class="cc-list">
+          <li>PI Planning preparation with AI synthesis</li>
+          <li>User story and acceptance criteria generation</li>
+          <li>Retro synthesis and theme clustering</li>
+          <li>Sprint velocity anomaly detection</li>
+          <li>Release readiness checklist generation</li>
+          <li>Go/No-Go documentation acceleration</li>
+          <li>AI-assisted backlog grooming sessions</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="narrative-block">
+      <p class="narr-eyebrow">From the Field — On Coaching Through AI</p>
+      <p class="narr-text">"I've learned that the fastest path to team adoption is embarrassingly simple: find the meeting your team dreads most, solve exactly that problem with AI in front of them, and let them try it themselves. Not a presentation. Not a policy. A demo on a real problem, followed by 10 minutes of their own experimentation. Adoption follows demonstrated utility — every time. The teams that stall are the ones that got a tool recommendation without a specific workflow to attach it to."</p>
+      <p class="narr-attr">— From experience coaching delivery teams across global enterprise programs with zero attrition on a 14-person team of Tech Managers, POs, and Engagement Managers</p>
+    </div>
+
+    <h3 style="font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin-bottom:16px;margin-top:16px;">The Delivery Lab Format</h3>
+    <p style="font-size:14px;color:var(--muted);font-weight:300;line-height:1.75;max-width:640px;margin-bottom:20px;">The most effective team coaching mechanism is a monthly 90-minute session — not a training class. Here's the structure that works:</p>
+    <div class="three-col">
+      <div class="info-card">
+        <span class="ic-icon">🔍</span>
+        <h3 class="ic-h">30 min: Identify the pain</h3>
+        <p class="ic-p">Start with one real delivery problem your team is currently facing. Not a hypothetical. Something that's on someone's plate right now and eating time. Name the pain before naming the tool.</p>
+      </div>
+      <div class="info-card">
+        <span class="ic-icon">⚡</span>
+        <h3 class="ic-h">30 min: Demo + experiment</h3>
+        <p class="ic-p">Demonstrate an AI solution to that specific problem. Then let team members try it themselves with their own real data. The experimentation step is non-negotiable — passive observation doesn't create habit.</p>
+      </div>
+      <div class="info-card">
+        <span class="ic-icon">📝</span>
+        <h3 class="ic-h">30 min: Document + share</h3>
+        <p class="ic-p">Capture what worked — and what didn't — as a shared prompt or workflow in your team wiki. One Delivery Lab session that produces a reusable prompt is worth more than five presentations about AI potential.</p>
+      </div>
+    </div>
+  </div>
+  <div class="sec-nav">
+    <button class="sec-nav-btn" onclick="goTo(6)">← AI Maturity Model</button>
+    <span class="sec-counter">8 of 10</span>
+    <button class="sec-nav-btn" onclick="goTo(8)">90-Day Plan →</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SEC 8 · 90-DAY PLAN
+════════════════════════════════ -->
+<section class="section" id="sec-roadmap">
+  <div class="sec-wrap">
+    <p class="sec-num">08 · Activation</p>
+    <h2 class="sec-h">Your 90-Day<br>Activation Plan</h2>
+    <p class="sec-desc">A realistic, sequenced plan for an individual PM or a team lead rolling this out. Works alongside existing delivery responsibilities — not instead of them.</p>
+
+    <div class="timeline">
+      <div class="tl-row">
+        <p class="tl-period">Days 1–14</p>
+        <div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-c">
+          <h4 class="tl-h">Foundation: One Tool, One Workflow</h4>
+          <p class="tl-items">
+            → Set up Claude, ChatGPT, or Copilot (whichever you have access to today)<br>
+            → Pick one weekly workflow to AI-augment first — status reporting is the easiest first win<br>
+            → Create your first 3 reusable prompt templates and save them somewhere you'll find them<br>
+            → Set up Fireflies.ai or Otter.ai for one recurring governance or standup meeting<br>
+            → Share your first AI-generated output with your team — be transparent about using it
+          </p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <p class="tl-period">Days 15–30</p>
+        <div class="tl-spine"><div class="tl-dot" style="background:var(--blue)"></div><div class="tl-line"></div></div>
+        <div class="tl-c">
+          <h4 class="tl-h">Expand: Add Three More Workflows</h4>
+          <p class="tl-items">
+            → Add AI to RAID log management and meeting follow-up generation<br>
+            → Try one Copilot session in Excel for budget tracking or resource planning<br>
+            → Build a shared team prompt library — even 10 prompts in Confluence counts<br>
+            → Run a 30-minute show-and-tell with your team: demo what you've found, what saved you time<br>
+            → Measure: how much time did you actually save this month? Be specific.
+          </p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <p class="tl-period">Days 31–60</p>
+        <div class="tl-spine"><div class="tl-dot" style="background:var(--teal)"></div><div class="tl-line"></div></div>
+        <div class="tl-c">
+          <h4 class="tl-h">Systematize: Make It a Team Practice</h4>
+          <p class="tl-items">
+            → Identify your 2 AI Champions — the team members most energized by the tools<br>
+            → Run your first Delivery Lab session (90-min format from Section 07)<br>
+            → Add AI-generated content to one client or executive deliverable<br>
+            → Start your personal prompt library in Claude Projects or a dedicated Confluence page<br>
+            → Begin a relevant certification: Google GenAI path or AWS AI Practitioner (free starts)
+          </p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <p class="tl-period">Days 61–90</p>
+        <div class="tl-spine"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div>
+        <div class="tl-c">
+          <h4 class="tl-h">Lead: Measure, Share, Raise the Bar</h4>
+          <p class="tl-items">
+            → Assess your team's AI maturity using the 5-level model in Section 06<br>
+            → Quantify impact: hours saved, quality improvements, what the team is saying<br>
+            → Publish one internal post or short guide sharing what worked — and what didn't<br>
+            → Set AI-use goals in your next quarterly planning or team OKR cycle<br>
+            → Identify the next capability to build: AI governance, advanced analytics, agentic workflows
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Pace note:</strong> This plan assumes 2–3 hours of structured AI engagement per week alongside your normal delivery workload. Phases 1 and 2 will feel natural quickly. Phase 3 and 4 are where the organizational multiplier kicks in — that's where individual learning becomes team capability and the investment compounds.
+    </div>
+  </div>
+  <div class="sec-nav">
+    <button class="sec-nav-btn" onclick="goTo(7)">← Team Coaching</button>
+    <span class="sec-counter">9 of 10</span>
+    <button class="sec-nav-btn" onclick="goTo(9)">Outcomes →</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SEC 9 · OUTCOMES
+════════════════════════════════ -->
+<section class="section" id="sec-outcomes">
+  <div class="sec-wrap">
+    <p class="sec-num">09 · Outcomes & Closing</p>
+    <h2 class="sec-h">What Good Looks Like</h2>
+    <p class="sec-desc">Benchmark outcomes from delivery teams that have embedded AI into PM workflows. These are realistic ranges from practitioners — not vendor marketing numbers.</p>
+
+    <div class="metrics-g">
+      <div class="mc"><p class="mc-before">~3–4 hrs manual</p><p class="mc-after">&lt;30 min</p><p class="mc-name">Weekly status report cycle time</p></div>
+      <div class="mc"><p class="mc-before">End of sprint</p><p class="mc-after">Real-time</p><p class="mc-name">RAID log currency with meeting AI</p></div>
+      <div class="mc"><p class="mc-before">2–3 hrs</p><p class="mc-after">20 min</p><p class="mc-name">Executive narrative drafting time</p></div>
+      <div class="mc"><p class="mc-before">1–2 days</p><p class="mc-after">2 hrs</p><p class="mc-name">WBS and story decomposition</p></div>
+      <div class="mc"><p class="mc-before">~22% avg slippage</p><p class="mc-after">&lt;8%</p><p class="mc-name">Program slippage with AI risk monitoring</p></div>
+      <div class="mc"><p class="mc-before">0 hrs saved</p><p class="mc-after">4–6 hrs/wk</p><p class="mc-name">Net time recovered per PM per week</p></div>
+    </div>
+
+    <div class="callout">
+      <strong>Important caveat:</strong> These numbers reflect teams that have made AI a <em>deliberate practice</em>, not occasional users. The difference between 30 minutes and 3 hours on a status report is a repeatable workflow — not just having the tool. Build the habit first. The time savings compound automatically once the habit is formed.
+    </div>
+
+    <div class="narrative-block">
+      <p class="narr-eyebrow">Closing Reflection</p>
+      <p class="narr-text">"The PMs who get the most from AI are the ones who treat it like a capable junior analyst — not a magic oracle. You give it context, structure the ask, review the output, and apply your judgment before anything goes to a stakeholder. When you operate that way, AI makes you faster, more thorough, and frankly more creative in how you approach problems. When you skip that discipline — when you send the AI output without reading it carefully — you erode the trust that took years to build. The technology is genuinely transformative. The professional judgment about how to use it is still entirely yours."</p>
+      <p class="narr-attr">— On the right relationship between experienced delivery leaders and AI tools</p>
+    </div>
+
+    <div class="rule"></div>
+    <h3 style="font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin-bottom:16px;">Resources to Keep Going</h3>
+    <div class="three-col">
+      <div class="info-card">
+        <span class="ic-icon">🎓</span>
+        <h3 class="ic-h">Learning Communities</h3>
+        <p class="ic-p">PMI AI+ Community, LinkedIn Learning's AI for PMs series, DeepLearning.AI short courses, Google Cloud Skills Boost, AWS Skill Builder, Anthropic Academy.</p>
+      </div>
+      <div class="info-card">
+        <span class="ic-icon">🔁</span>
+        <h3 class="ic-h">Stay Current</h3>
+        <p class="ic-p">AI moves fast. Subscribe to one AI newsletter (The Rundown AI, TLDR AI, or Stratechery are accessible for non-technical readers). Spend 10 minutes per week — not hours.</p>
+      </div>
+      <div class="info-card">
+        <span class="ic-icon">🤝</span>
+        <h3 class="ic-h">Build in Public</h3>
+        <p class="ic-p">The fastest way to deepen your learning is to share it. Write a short LinkedIn post about one AI workflow that worked. The conversation that follows teaches more than any course.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-footer">
+    <div class="sf-top">
+      <div>
+        <p class="sf-h">AI in Project & Program Management — Practitioner Guide</p>
+        <p class="sf-sub">Built for PMs, Program Managers, Portfolio Managers, Scrum Masters, and Release Managers. Share freely with attribution. Organizations generic and illustrative.</p>
+      </div>
+      <div class="sf-author">
+        <strong>Projit Mookerjee</strong>
+        MBA · MS · SAFe 5 SPC<br>
+        Senior Delivery Leader<br>
+        Insurance · Fintech · Public Sector<br>
+        linkedin.com/in/projit-mookerjee
+      </div>
+    </div>
+    <p class="sf-bottom">2026 Edition · AI-assisted drafting · All delivery narratives reflect direct professional experience · Share with attribution</p>
+  </div>
+
+  <div class="sec-nav">
+    <button class="sec-nav-btn" onclick="goTo(8)">← 90-Day Plan</button>
+    <span class="sec-counter">10 of 10</span>
+    <button class="sec-nav-btn" onclick="goTo(0)">↑ Back to Top</button>
+  </div>
+</section>
+
+</div><!-- /main -->
+
+<script>
+const SECTIONS = [
+  'sec-hero','sec-why','sec-usecases','sec-prompts','sec-tools',
+  'sec-certs','sec-maturity','sec-coaching','sec-roadmap','sec-outcomes'
+];
+let current = 0;
+
+function goTo(idx) {
+  document.querySelector('.section.active')?.classList.remove('active');
+  document.querySelectorAll('.sb-link').forEach((l,i) => l.classList.toggle('active', i===idx));
+  document.getElementById(SECTIONS[idx]).classList.add('active');
+  current = idx;
+  document.getElementById('progress-bar').style.width = ((idx/(SECTIONS.length-1))*100)+'%';
+  document.getElementById('main').scrollTop = 0;
+  window.scrollTo(0,0);
+  if(window.innerWidth < 900) closeSidebar();
+}
+
+function switchTab(btn, panelId) {
+  btn.closest('.sec-wrap').querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  btn.closest('.sec-wrap').querySelectorAll('.ppanel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+function toggleMenu(){
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('overlay');
+  sb.classList.toggle('open');
+  ov.style.display = sb.classList.contains('open') ? 'block' : 'none';
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').style.display='none';
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if(e.key==='ArrowRight'&&current<SECTIONS.length-1) goTo(current+1);
+  if(e.key==='ArrowLeft'&&current>0) goTo(current-1);
+});
+
+// Init
+goTo(0);
+</script>
+</body>
+</html>
