@@ -1,0 +1,3321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PM Prompt Kit — Projit Mookerjee</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;
+  --surface:#ffffff;
+  --surface2:#f0ede8;
+  --border:#e2ddd6;
+  --border2:#ccc8c0;
+  --ink:#1a1916;
+  --ink2:#4a4742;
+  --ink3:#8a8680;
+  --accent:#d4440c;
+  --accent-bg:rgba(212,68,12,0.07);
+  --accent-border:rgba(212,68,12,0.2);
+  --claude:#da7756;
+  --gpt:#19c37d;
+  --saved:#7c6fcd;
+  --tag-bg:#ede9e2;
+  --tag-text:#5a5650;
+}
+html{scroll-behavior:smooth;font-size:15px}
+body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ── TOP BAR ── */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(245,243,239,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  height:52px;display:flex;align-items:center;
+  padding:0 24px;gap:16px;
+}
+.topbar-brand{
+  font-family:'Instrument Serif',serif;
+  font-size:17px;color:var(--ink);
+  white-space:nowrap;flex-shrink:0;
+}
+.topbar-brand span{color:var(--accent);font-style:italic}
+
+/* SEARCH BAR */
+.search-wrap{
+  flex:1;max-width:560px;position:relative;
+}
+.search-icon{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  color:var(--ink3);font-size:14px;pointer-events:none;
+}
+#searchInput{
+  width:100%;height:36px;
+  padding:0 36px 0 36px;
+  border:1px solid var(--border2);
+  background:var(--surface);
+  font-family:'Geist',sans-serif;
+  font-size:13px;color:var(--ink);
+  outline:none;border-radius:2px;
+  transition:border-color 0.15s;
+}
+#searchInput:focus{border-color:var(--accent)}
+#searchInput::placeholder{color:var(--ink3)}
+.search-clear{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;
+  color:var(--ink3);font-size:16px;display:none;
+  padding:2px 4px;
+}
+.search-clear.visible{display:block}
+
+.topbar-right{
+  display:flex;align-items:center;gap:12px;margin-left:auto;flex-shrink:0;
+}
+.kit-btn{
+  display:flex;align-items:center;gap:6px;
+  font-family:'Geist Mono',monospace;font-size:10px;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:6px 12px;border:1px solid var(--border2);
+  background:var(--surface);color:var(--ink2);
+  cursor:pointer;transition:all 0.15s;border-radius:2px;
+}
+.kit-btn:hover{border-color:var(--saved);color:var(--saved)}
+.kit-btn.active{background:var(--saved);color:#fff;border-color:var(--saved)}
+.kit-count{
+  background:var(--accent);color:#fff;
+  border-radius:8px;padding:0 5px;font-size:9px;
+  min-width:16px;text-align:center;display:none;
+}
+.kit-count.visible{display:inline}
+
+.topbar-author{
+  font-size:12px;color:var(--ink3);white-space:nowrap;
+  text-decoration:none;
+}
+.topbar-author:hover{color:var(--accent)}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 52px)}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  border-right:1px solid var(--border);
+  padding:20px 0;
+  position:sticky;top:52px;
+  height:calc(100vh - 52px);
+  overflow-y:auto;
+}
+.sidebar-section{margin-bottom:4px}
+.sidebar-label{
+  font-family:'Geist Mono',monospace;
+  font-size:9px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--ink3);padding:0 16px;margin:16px 0 6px;display:block;
+}
+.sidebar-item{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 16px;cursor:pointer;
+  border-left:2px solid transparent;
+  transition:all 0.12s;text-decoration:none;
+  font-size:13px;color:var(--ink2);
+  border-radius:0;
+}
+.sidebar-item:hover{background:var(--surface2);color:var(--ink)}
+.sidebar-item.active{
+  border-left-color:var(--accent);
+  background:var(--accent-bg);color:var(--ink);font-weight:500;
+}
+.sidebar-icon{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.sidebar-n{
+  margin-left:auto;font-family:'Geist Mono',monospace;
+  font-size:10px;color:var(--ink3);
+  background:var(--surface2);padding:1px 6px;border-radius:2px;
+}
+.sidebar-item.active .sidebar-n{background:var(--accent-bg);color:var(--accent)}
+
+/* ── MAIN ── */
+.main{padding:0;overflow-x:hidden}
+
+/* HERO */
+.hero{
+  padding:40px 40px 32px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface);
+}
+.hero-label{
+  font-family:'Geist Mono',monospace;
+  font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:10px;
+}
+.hero-title{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(28px,3vw,40px);
+  line-height:1.15;margin-bottom:10px;color:var(--ink);
+}
+.hero-title em{font-style:italic;color:var(--accent)}
+.hero-sub{
+  font-size:14px;font-weight:300;color:var(--ink2);
+  max-width:560px;line-height:1.7;margin-bottom:24px;
+}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat-n{
+  font-family:'Instrument Serif',serif;font-size:28px;
+  color:var(--ink);line-height:1;
+}
+.stat-l{
+  font-family:'Geist Mono',monospace;font-size:9px;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink3);
+}
+
+/* FILTER CHIPS */
+.filter-row{
+  padding:12px 40px;border-bottom:1px solid var(--border);
+  display:flex;gap:6px;flex-wrap:wrap;background:var(--bg);
+  position:sticky;top:52px;z-index:50;
+}
+.chip{
+  font-family:'Geist Mono',monospace;font-size:10px;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:5px 12px;border:1px solid var(--border2);
+  background:var(--surface);color:var(--ink3);
+  cursor:pointer;transition:all 0.12s;border-radius:2px;
+}
+.chip:hover{border-color:var(--ink2);color:var(--ink)}
+.chip.active{
+  background:var(--ink);color:var(--bg);border-color:var(--ink);
+}
+
+/* RESULTS HEADER */
+.results-header{
+  padding:16px 40px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.results-count{
+  font-family:'Geist Mono',monospace;font-size:11px;
+  color:var(--ink3);letter-spacing:0.05em;
+}
+.results-sort{
+  font-size:12px;color:var(--ink3);
+  display:flex;align-items:center;gap:8px;
+}
+
+/* PROMPT GRID */
+.prompt-grid{
+  padding:0 40px 60px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:12px;
+}
+
+/* PROMPT CARD */
+.prompt-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:3px;
+  display:flex;flex-direction:column;
+  transition:border-color 0.15s,box-shadow 0.15s;
+  position:relative;overflow:hidden;
+}
+.prompt-card:hover{
+  border-color:var(--border2);
+  box-shadow:0 4px 16px rgba(0,0,0,0.06);
+}
+.prompt-card.saved-card{border-color:var(--saved);border-left:3px solid var(--saved)}
+
+/* card top */
+.card-top{padding:16px 16px 12px}
+.card-tags{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}
+.card-tag{
+  font-family:'Geist Mono',monospace;font-size:9px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:2px 8px;background:var(--tag-bg);color:var(--tag-text);
+  border-radius:2px;
+}
+.card-tag.cat{background:var(--accent-bg);color:var(--accent)}
+.card-title{
+  font-size:14px;font-weight:500;color:var(--ink);
+  line-height:1.4;margin-bottom:6px;
+}
+.card-desc{
+  font-size:12px;font-weight:300;color:var(--ink2);
+  line-height:1.6;
+}
+
+/* PROMPT AREA — collapsed/expanded */
+.card-prompt-toggle{
+  margin:0 16px 12px;
+  font-family:'Geist Mono',monospace;font-size:10px;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--ink3);cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+  border:1px solid var(--border);padding:7px 12px;
+  background:var(--surface2);transition:all 0.12s;
+  border-radius:2px;
+}
+.card-prompt-toggle:hover{border-color:var(--border2);color:var(--ink)}
+.toggle-icon{transition:transform 0.2s;display:inline-block}
+.prompt-card.expanded .toggle-icon{transform:rotate(90deg)}
+
+.card-prompt-area{display:none;padding:0 16px 8px}
+.prompt-card.expanded .card-prompt-area{display:block}
+
+/* EDITABLE FIELDS */
+.field-group{
+  display:flex;flex-direction:column;gap:6px;
+  margin-bottom:12px;
+}
+.field-row{
+  display:flex;align-items:flex-start;gap:8px;
+}
+.field-label{
+  font-family:'Geist Mono',monospace;font-size:9px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--accent);width:100px;flex-shrink:0;
+  padding-top:8px;
+}
+.field-input{
+  flex:1;border:1px solid var(--border);
+  background:var(--surface2);
+  font-family:'Geist',sans-serif;font-size:12px;
+  color:var(--ink);padding:6px 10px;
+  outline:none;border-radius:2px;
+  transition:border-color 0.12s;
+  resize:vertical;min-height:32px;
+}
+.field-input:focus{border-color:var(--accent);background:var(--surface)}
+.field-input::placeholder{color:var(--ink3)}
+
+/* PROMPT PREVIEW */
+.prompt-preview-label{
+  font-family:'Geist Mono',monospace;font-size:9px;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:6px;
+}
+.prompt-preview{
+  background:var(--surface2);border:1px solid var(--border);
+  padding:12px;font-family:'Geist Mono',monospace;
+  font-size:11px;line-height:1.65;color:var(--ink2);
+  white-space:pre-wrap;border-radius:2px;
+  max-height:200px;overflow-y:auto;
+  margin-bottom:12px;
+}
+.prompt-preview .highlight{color:var(--accent);font-weight:500}
+
+/* ACTIONS */
+.card-actions{
+  display:flex;gap:6px;padding:12px 16px;
+  border-top:1px solid var(--border);
+  background:var(--surface2);
+  margin-top:auto;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'Geist Mono',monospace;font-size:10px;
+  letter-spacing:0.06em;text-transform:uppercase;
+  padding:7px 12px;border-radius:2px;
+  cursor:pointer;transition:all 0.15s;
+  text-decoration:none;border:1px solid transparent;
+  font-weight:500;flex-shrink:0;
+}
+.btn-copy{
+  background:var(--ink);color:var(--bg);
+  flex:1;justify-content:center;
+}
+.btn-copy:hover{background:#333}
+.btn-copy.success{background:#2d9e6b}
+.btn-claude{
+  background:#fff8f5;color:var(--claude);
+  border-color:rgba(218,119,86,0.3);
+}
+.btn-claude:hover{background:var(--claude);color:#fff;border-color:var(--claude)}
+.btn-gpt{
+  background:#f0fdf7;color:var(--gpt);
+  border-color:rgba(25,195,125,0.3);
+}
+.btn-gpt:hover{background:var(--gpt);color:#fff;border-color:var(--gpt)}
+.btn-save{
+  background:var(--surface);color:var(--ink3);
+  border-color:var(--border);padding:7px 10px;
+}
+.btn-save:hover{border-color:var(--saved);color:var(--saved)}
+.btn-save.saved{background:#f3f1ff;color:var(--saved);border-color:var(--saved)}
+
+/* EMPTY STATE */
+.empty-state{
+  padding:80px 40px;text-align:center;
+  display:none;
+}
+.empty-state.visible{display:block}
+.empty-icon{font-size:32px;margin-bottom:16px}
+.empty-title{
+  font-family:'Instrument Serif',serif;
+  font-size:22px;color:var(--ink);margin-bottom:8px;
+}
+.empty-sub{font-size:13px;color:var(--ink3);font-weight:300}
+
+/* KIT PANEL */
+.kit-panel{
+  display:none;
+  padding:32px 40px;
+}
+.kit-panel.visible{display:block}
+.kit-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;
+}
+.kit-title{
+  font-family:'Instrument Serif',serif;
+  font-size:26px;color:var(--ink);
+}
+.kit-clear{
+  font-size:12px;color:var(--ink3);cursor:pointer;
+  background:none;border:none;font-family:'Geist',sans-serif;
+}
+.kit-clear:hover{color:var(--accent)}
+.kit-empty{
+  padding:60px 0;text-align:center;
+  font-size:14px;color:var(--ink3);font-weight:300;
+}
+
+/* SEARCH RESULTS HIGHLIGHT */
+.prompt-card.hidden{display:none}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:999;
+  background:var(--ink);color:var(--bg);
+  padding:10px 18px;font-size:12px;
+  font-family:'Geist Mono',monospace;letter-spacing:0.05em;
+  border-radius:3px;opacity:0;transform:translateY(8px);
+  transition:all 0.2s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* NO RESULTS MESSAGE */
+.no-results{
+  grid-column:1/-1;
+  padding:60px 0;text-align:center;
+}
+.no-results h3{
+  font-family:'Instrument Serif',serif;
+  font-size:22px;margin-bottom:8px;color:var(--ink);
+}
+.no-results p{font-size:13px;color:var(--ink3);font-weight:300}
+
+/* DIFFICULTY BADGE */
+.difficulty{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:'Geist Mono',monospace;font-size:9px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:2px 8px;border-radius:2px;
+}
+.diff-free{background:#e8f5e9;color:#2e7d32;}
+.diff-pro{background:#fff3e0;color:#e65100;}
+.diff-enterprise{background:#ede7f6;color:#4527a0;}
+.diff-api{background:#e3f2fd;color:#1565c0;}
+
+/* PROMPT CHAIN */
+.card-chain{
+  padding:0 16px 12px;
+  display:flex;flex-wrap:wrap;gap:5px;align-items:center;
+}
+.chain-label{
+  font-family:'Geist Mono',monospace;font-size:9px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--ink3);margin-right:2px;
+}
+.chain-chip{
+  font-family:'Geist Mono',monospace;font-size:9px;
+  letter-spacing:0.06em;padding:3px 9px;
+  border:1px solid var(--border2);color:var(--ink2);
+  background:var(--surface2);cursor:pointer;
+  border-radius:2px;transition:all 0.12s;
+}
+.chain-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
+
+/* RESPONSIVE */
+@media(max-width:800px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .filter-row{padding:10px 16px;top:52px}
+  .hero{padding:24px 16px 20px}
+  .results-header{padding:12px 16px 8px}
+  .prompt-grid{padding:0 16px 80px;grid-template-columns:1fr}
+  .kit-panel{padding:20px 16px}
+  .topbar{padding:0 12px}
+  .topbar-author{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-brand">PM Prompt <span>Kit</span></div>
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input type="text" id="searchInput" placeholder="Search by situation, task, or keyword..." autocomplete="off">
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+  </div>
+  <div class="topbar-right">
+    <button class="kit-btn" id="kitBtn" onclick="toggleKit()">
+      ◈ My Kit <span class="kit-count" id="kitCount">0</span>
+    </button>
+    <a href="https://www.linkedin.com/in/projit-mookerjee/" target="_blank" class="topbar-author">Projit Mookerjee →</a>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <span class="sidebar-label">Browse</span>
+      <div class="sidebar-item active" onclick="filterCat('all')" data-cat="all">
+        <span class="sidebar-icon">◎</span> All Prompts
+        <span class="sidebar-n" id="count-all">80</span>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Delivery</span>
+      <div class="sidebar-item" onclick="filterCat('planning')" data-cat="planning">
+        <span class="sidebar-icon">📋</span> Planning &amp; WBS
+        <span class="sidebar-n">6</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('budget')" data-cat="budget">
+        <span class="sidebar-icon">💰</span> Budget &amp; Cost
+        <span class="sidebar-n">5</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('status')" data-cat="status">
+        <span class="sidebar-icon">📊</span> Status &amp; Reporting
+        <span class="sidebar-n">6</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('risk')" data-cat="risk">
+        <span class="sidebar-icon">⚠️</span> Risk &amp; RAID
+        <span class="sidebar-n">5</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('meetings')" data-cat="meetings">
+        <span class="sidebar-icon">🎙️</span> Team &amp; Meetings
+        <span class="sidebar-n">5</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('agile')" data-cat="agile">
+        <span class="sidebar-icon">🔄</span> Agile &amp; Release
+        <span class="sidebar-n">6</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('cutover')" data-cat="cutover">
+        <span class="sidebar-icon">🚀</span> SaaS Cutover
+        <span class="sidebar-n">5</span>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Leadership</span>
+      <div class="sidebar-item" onclick="filterCat('execcomms')" data-cat="execcomms">
+        <span class="sidebar-icon">📣</span> Exec Comms
+        <span class="sidebar-n">6</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('aistrategy')" data-cat="aistrategy">
+        <span class="sidebar-icon">🤖</span> AI Strategy
+        <span class="sidebar-n">6</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('thought')" data-cat="thought">
+        <span class="sidebar-icon">✍️</span> Thought Leadership
+        <span class="sidebar-n">6</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('meta')" data-cat="meta">
+        <span class="sidebar-icon">⚙️</span> Prompt Engineering
+        <span class="sidebar-n">6</span>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Advanced AI</span>
+      <div class="sidebar-item" onclick="filterCat('agentic')" data-cat="agentic">
+        <span class="sidebar-icon">⚡</span> Agentic Workflows
+        <span class="sidebar-n">6</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('projects')" data-cat="projects">
+        <span class="sidebar-icon">◈</span> Claude Projects
+        <span class="sidebar-n">6</span>
+      </div>
+      <div class="sidebar-item" onclick="filterCat('mcp')" data-cat="mcp">
+        <span class="sidebar-icon">🔌</span> MCP Integrations
+        <span class="sidebar-n">6</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="mainContent">
+
+    <!-- HERO -->
+    <div class="hero" id="heroSection">
+      <div class="hero-label">For Technology &amp; Delivery Leaders</div>
+      <h1 class="hero-title">80 prompts.<br>Fill, copy, <em>launch.</em></h1>
+      <p class="hero-sub">Search by situation. Fill in your context. Copy the ready prompt or send it straight to Claude or ChatGPT. Built for daily use — not inspiration.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-n">80</span><span class="stat-l">Prompts</span></div>
+        <div class="stat"><span class="stat-n">14</span><span class="stat-l">Categories</span></div>
+        <div class="stat"><span class="stat-n">4–6h</span><span class="stat-l">Saved / week</span></div>
+      </div>
+    </div>
+
+    <!-- FILTER CHIPS -->
+    <div class="filter-row" id="filterRow">
+      <div class="chip active" onclick="filterTag('all')" data-tag="all">All</div>
+      <div class="chip" onclick="filterTag('quick')" data-tag="quick">⚡ Quick wins</div>
+      <div class="chip" onclick="filterTag('executive')" data-tag="executive">Executive-facing</div>
+      <div class="chip" onclick="filterTag('client')" data-tag="client">Client-facing</div>
+      <div class="chip" onclick="filterTag('governance')" data-tag="governance">Governance</div>
+      <div class="chip" onclick="filterTag('agile')" data-tag="agile">Agile teams</div>
+      <div class="chip" onclick="filterTag('ai')" data-tag="ai">AI &amp; strategy</div>
+      <div class="chip" onclick="filterTag('writing')" data-tag="writing">Writing &amp; comms</div>
+      <div class="chip" onclick="filterTag('agentic')" data-tag="agentic">⚡ Agentic</div>
+      <div class="chip" onclick="filterTag('mcp')" data-tag="mcp">🔌 MCP / Live data</div>
+    </div>
+
+    <!-- RESULTS HEADER -->
+    <div class="results-header" id="resultsHeader">
+      <span class="results-count" id="resultsCount">Showing all 62 prompts</span>
+    </div>
+
+    <!-- KIT PANEL -->
+    <div class="kit-panel" id="kitPanel">
+      <div class="kit-header">
+        <h2 class="kit-title">My Kit</h2>
+        <button class="kit-clear" onclick="clearKit()">Clear all</button>
+      </div>
+      <div id="kitGrid" class="prompt-grid" style="padding:0;"></div>
+      <div class="kit-empty" id="kitEmpty">No saved prompts yet. Hit ◈ on any prompt card to add it here.</div>
+    </div>
+
+    <!-- PROMPT GRID -->
+    <div class="prompt-grid" id="promptGrid"></div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">◎</div>
+      <div class="empty-title">No prompts match that search</div>
+      <div class="empty-sub">Try different keywords — situation, task type, or tool name</div>
+    </div>
+
+  </main>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA — PROMPT LIBRARY
+// ═══════════════════════════════════════════
+const PROMPTS = [
+  // ── PLANNING ──
+  {
+    id:'p1', cat:'planning', tags:['governance','quick'], difficulty:'Free',
+    chains:['r2','s1'],
+    title:'Generate a WBS for an enterprise migration',
+    desc:'First-draft work breakdown structure with risk flags and external dependencies marked.',
+    tool:'Claude · ChatGPT',
+    fields:[
+      {key:'PROGRAM',label:'Program name',placeholder:'e.g. Guidewire PolicyCenter cloud migration'},
+      {key:'CLIENT',label:'Client / org',placeholder:'e.g. Mid-size P&C insurer, 200 staff'},
+      {key:'PLATFORM',label:'Platform',placeholder:'e.g. Guidewire, Sapiens, Duck Creek'},
+      {key:'TIMELINE',label:'Timeline',placeholder:'e.g. 12 months'},
+      {key:'WORKSTREAMS',label:'Key workstreams',placeholder:'e.g. Data migration, integration, UAT, training, cutover'},
+      {key:'CONSTRAINTS',label:'Constraints',placeholder:'e.g. No downtime during Q4 renewal season'},
+    ],
+    template:`You are a senior IT program manager with deep experience in cloud migrations for regulated industries.
+
+Create a detailed Work Breakdown Structure for:
+- Program: [PROGRAM]
+- Client: [CLIENT]
+- Platform: [PLATFORM]
+- Timeline: [TIMELINE]
+- Key workstreams: [WORKSTREAMS]
+- Constraints: [CONSTRAINTS]
+
+Format as a numbered hierarchy with Level 1, Level 2, and Level 3 tasks. Flag high-risk tasks with [RISK] and tasks with external dependencies with [EXT DEP].`,
+    tip:'Paste your SOW into Claude first, then run this — output becomes context-specific, not generic.'
+  },
+  {
+    id:'p2', cat:'planning', tags:['agile','quick'],
+    title:'Decompose an epic into sprint-ready user stories',
+    desc:'6–8 stories with acceptance criteria, size estimates, and dependencies from a vague epic description.',
+    tool:'Claude · Jira AI',
+    fields:[
+      {key:'EPIC',label:'Epic title & description',placeholder:'e.g. Migrate claims intake portal to cloud-native architecture'},
+      {key:'PLATFORM',label:'Platform / system',placeholder:'e.g. Sapiens Digital Suite'},
+      {key:'USERS',label:'User types',placeholder:'e.g. Claims adjuster, underwriter, admin'},
+      {key:'CONSTRAINTS',label:'Technical constraints',placeholder:'e.g. Must integrate with legacy policy system via REST API'},
+    ],
+    template:`Break this epic into 6–8 sprint-ready user stories with full acceptance criteria:
+
+Epic: "[EPIC]"
+
+Context:
+- Platform: [PLATFORM]
+- User types: [USERS]
+- Constraints: [CONSTRAINTS]
+
+For each story:
+As a [user], I want [goal] so that [benefit].
+
+Acceptance Criteria:
+- [Criterion 1]
+- [Criterion 2]
+
+Story size: [S/M/L]
+Dependencies: [any]`,
+    tip:'In Jira, use Atlassian Intelligence "Summarize epic" to generate child issues inline — no copy-paste needed.'
+  },
+  {
+    id:'p3', cat:'planning', tags:['governance'],
+    title:'Build a RACI matrix from a program description',
+    desc:'Full responsibility matrix with gap flags where accountability is missing.',
+    tool:'Claude · ChatGPT',
+    fields:[
+      {key:'PROGRAM',label:'Program name',placeholder:'e.g. Workers Comp SaaS Migration'},
+      {key:'WORKSTREAMS',label:'Key workstreams',placeholder:'e.g. Data migration, integration, UAT, training'},
+      {key:'ROLES',label:'Roles in program',placeholder:'e.g. Program Director, Client PM, Tech Lead, QA Lead, BA, Vendor, Steering Committee'},
+    ],
+    template:`Create a RACI matrix for the following program:
+
+Program: [PROGRAM]
+Key workstreams: [WORKSTREAMS]
+Roles: [ROLES]
+
+For each major activity, assign R (Responsible), A (Accountable), C (Consulted), I (Informed).
+
+Format as a clean table. Flag any activity where no one is Accountable as [GAP].`,
+    tip:'The [GAP] flag is the most valuable output — unassigned accountability for rollback decisions and vendor escalations causes most delivery crises.'
+  },
+  {
+    id:'p4', cat:'planning', tags:['governance','executive'],
+    title:'Capacity plan from team availability data',
+    desc:'Month-by-month capacity vs. demand analysis with gap flags and mitigation recommendations.',
+    tool:'Claude · Copilot in Excel',
+    fields:[
+      {key:'TIMELINE',label:'Program timeline',placeholder:'e.g. 9 months, Jan–Sep'},
+      {key:'TEAM',label:'Team composition',placeholder:'e.g. 2 Tech Leads, 4 BAs, 3 QA, 1 DevOps, 2 PMs'},
+      {key:'CONSTRAINTS',label:'Known constraints',placeholder:'e.g. Sarah unavailable Feb, Dev Lead at 50% shared with Program B'},
+      {key:'PEAK',label:'Peak delivery period',placeholder:'e.g. March–April UAT phase'},
+    ],
+    template:`Create a capacity plan for a [TIMELINE] program.
+
+Team: [TEAM]
+
+Known constraints:
+[CONSTRAINTS]
+
+Peak delivery period: [PEAK]
+
+Produce a capacity vs. demand analysis by month:
+1. Available FTE capacity per month
+2. Estimated demand by workstream
+3. Capacity gaps (months where demand exceeds supply)
+4. Recommended mitigation for each gap`,
+    tip:'Paste your delivery plan alongside this prompt. Specific demand inputs produce credible gap analysis — which is what you need when presenting a resourcing escalation.'
+  },
+  {
+    id:'p5', cat:'planning', tags:['client','governance'],
+    title:'Write a Statement of Work from scope notes',
+    desc:'Structured SOW sections including scope, exclusions, assumptions, client responsibilities, and milestones.',
+    tool:'Claude',
+    fields:[
+      {key:'NOTES',label:'Your scope notes',placeholder:'Paste your raw notes, bullets, or email threads here'},
+    ],
+    template:`You are a senior consulting engagement manager drafting a Statement of Work.
+
+Using these scope notes, write:
+1. Scope of Services (what's included — numbered, specific)
+2. Out of Scope (explicit exclusions)
+3. Assumptions (what we're assuming to be true)
+4. Client Responsibilities
+5. Deliverables and Milestones table (Deliverable | Format | Due Date | Owner)
+
+Tone: Professional, precise, contractually clear. No vague language.
+
+Scope notes:
+[NOTES]`,
+    tip:'The Out of Scope and Assumptions sections are where this earns its value — AI surfaces exclusions your notes implied but didn\'t state. Always review before use.'
+  },
+  {
+    id:'p6', cat:'planning', tags:['governance'],
+    title:'Pre-mortem: surface risks before the project starts',
+    desc:'Imagine the program failed. What went wrong? Surfaces risks your team hasn\'t named yet.',
+    tool:'Claude · ChatGPT',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. SaaS platform migration for Workers Comp insurer'},
+      {key:'TIMELINE',label:'Timeline',placeholder:'e.g. 9 months'},
+      {key:'BUDGET',label:'Budget',placeholder:'e.g. $3.8M'},
+      {key:'TEAM',label:'Team',placeholder:'e.g. 18 FTEs + 2 vendors'},
+      {key:'ACTIVITIES',label:'Key activities',placeholder:'e.g. Data migration, system integration, UAT, training, cutover'},
+    ],
+    template:`You are a seasoned program risk advisor. Apply the pre-mortem technique.
+
+Imagine it is the end of this program and it has failed — delivered late, over budget, or not adopted.
+
+Program: [PROGRAM]
+Timeline: [TIMELINE] | Budget: [BUDGET] | Team: [TEAM]
+Key activities: [ACTIVITIES]
+
+Identify the top 8 risks that caused the failure. For each:
+1. Risk description (specific, not generic)
+2. Why PMs commonly miss this risk
+3. Recommended mitigation (specific action)
+4. Leading indicator to monitor weekly`,
+    tip:'The pre-mortem framing unlocks more honest risks than "identify risks" does. People predict failure better than they predict risk. Run this with your team, not just solo.'
+  },
+
+  // ── BUDGET ──
+  {
+    id:'b1', cat:'budget', tags:['executive','quick'],
+    title:'Executive budget variance narrative',
+    desc:'3-paragraph steering committee narrative that states variance, explains root cause, and describes corrective actions.',
+    tool:'Claude · Copilot in Word',
+    fields:[
+      {key:'BUDGET',label:'Approved budget',placeholder:'e.g. $4.2M'},
+      {key:'ACTUAL',label:'Spend to date',placeholder:'e.g. $1.95M (Month 5)'},
+      {key:'PLANNED',label:'Planned spend to date',placeholder:'e.g. $1.72M'},
+      {key:'VARIANCE',label:'Variance',placeholder:'e.g. +$230K, 13.4% over plan'},
+      {key:'CAUSES',label:'Root causes',placeholder:'e.g. Additional UAT cycles, 2-week contractor extension'},
+      {key:'ACTIONS',label:'Corrective actions',placeholder:'e.g. Scope freeze, contractor off-boarded week 18'},
+      {key:'AUDIENCE',label:'Audience',placeholder:'e.g. Board and executive sponsor'},
+    ],
+    template:`You are a program manager preparing a budget variance narrative for a steering committee.
+
+Financial data:
+- Approved Budget: [BUDGET]
+- Spend to Date: [ACTUAL]
+- Planned Spend to Date: [PLANNED]
+- Variance: [VARIANCE]
+- Root causes: [CAUSES]
+- Corrective actions: [ACTIONS]
+
+Write a 3-paragraph executive narrative:
+1. State the variance clearly without triggering alarm
+2. Explain root causes with business context
+3. Describe corrective actions and revised forecast
+
+Audience: [AUDIENCE]
+Tone: Professional, confident, factual. No defensive language.`,
+    tip:'Save this as a Claude Project prompt. Each month update only the numbers — consistent structure builds credibility with steering committees over time.'
+  },
+  {
+    id:'b2', cat:'budget', tags:['governance','quick'],
+    title:'EAC model and burn rate forecast',
+    desc:'Earned value analysis with natural-language burn rate summary and projected completion date.',
+    tool:'Copilot in Excel · Claude',
+    fields:[
+      {key:'DATA',label:'Financial data',placeholder:'Paste your monthly spend data here (Month, Planned, Actual, Headcount)'},
+    ],
+    template:`My spreadsheet has: Month, Budget Planned, Actual Spend, Headcount.
+
+Add:
+1. EAC column using: EAC = Actual + (BAC - EV) / CPI where CPI = EV / Actual
+2. Burn Rate column (monthly spend rate)
+3. Forecast to Complete column
+4. Months Remaining at current burn rate
+5. A line chart: Planned vs Actual vs Forecast
+6. A 2-sentence plain-English burn status summary at the top
+
+Data:
+[DATA]`,
+    tip:'Connect to Power BI and use Copilot to ask "Which months had highest variance?" — instant analytics without building dashboards.'
+  },
+  {
+    id:'b3', cat:'budget', tags:['executive','governance'],
+    title:'Budget change request for a scope change',
+    desc:'Structured change request document with executive summary, justification, and cost breakdown ready for approval.',
+    tool:'Claude',
+    fields:[
+      {key:'CHANGE',label:'Change description',placeholder:'e.g. Additional integration work for legacy policy system API'},
+      {key:'AMOUNT',label:'Additional cost',placeholder:'e.g. $180K'},
+      {key:'CAUSE',label:'Root cause',placeholder:'e.g. Requirement gap identified during technical discovery in Month 3'},
+      {key:'IMPACT',label:'Impact if not approved',placeholder:'e.g. Go-live delayed 6 weeks, regulatory deadline missed'},
+      {key:'ALTERNATIVES',label:'Alternatives considered',placeholder:'e.g. Descope reporting module, extend timeline'},
+      {key:'AUDIENCE',label:'Decision maker',placeholder:'e.g. Executive Sponsor'},
+      {key:'DATE',label:'Decision needed by',placeholder:'e.g. March 14'},
+    ],
+    template:`You are a program manager preparing a budget change request for executive approval.
+
+Change: [CHANGE]
+Additional cost requested: [AMOUNT]
+Root cause: [CAUSE]
+Impact if not approved: [IMPACT]
+Alternatives considered: [ALTERNATIVES]
+
+Write a structured change request:
+1. Executive summary (3 sentences: problem, solution, ask)
+2. Change description and justification
+3. Cost breakdown (high-level)
+4. Risk of not proceeding
+5. Recommendation and ask
+
+Audience: [AUDIENCE]. Decision needed by [DATE].`,
+    tip:'"Risk of not proceeding" is what gets change requests approved. Sponsors fund solutions to problems — quantify the cost of inaction in business terms.'
+  },
+  {
+    id:'b4', cat:'budget', tags:['executive'],
+    title:'Interpret a financial report and flag anomalies',
+    desc:'Plain-English financial health summary with top anomalies, burn trends, and the question the steering committee will ask.',
+    tool:'Claude · ChatGPT',
+    fields:[
+      {key:'DATA',label:'Financial report data',placeholder:'Paste your financial data, variance report, or spend breakdown here'},
+      {key:'AUDIENCE',label:'Audience',placeholder:'e.g. Steering committee, CFO'},
+    ],
+    template:`Review this project financial report and provide:
+
+1. Plain-English summary of current financial health (3 sentences)
+2. Top 3 anomalies or concerning trends with explanation
+3. Workstreams burning faster than planned
+4. Projected end date at current burn rate
+5. One question the steering committee will likely ask, and a suggested answer
+
+Audience: [AUDIENCE]
+
+Financial data:
+[DATA]`,
+    tip:'The anticipated steering question at the end surfaces the difficult question you haven\'t prepared for — so you\'re not caught off guard in the room.'
+  },
+  {
+    id:'b5', cat:'budget', tags:['governance','client'],
+    title:'Vendor cost comparison for a procurement decision',
+    desc:'Total cost of ownership comparison across vendors with risk flags and weighted recommendation.',
+    tool:'Claude · Copilot in Excel',
+    fields:[
+      {key:'PROGRAM',label:'Program name',placeholder:'e.g. Claims platform replacement'},
+      {key:'VENDORS',label:'Vendor proposals',placeholder:'Paste vendor proposal summaries or key pricing data here'},
+      {key:'WEIGHTS',label:'Selection criteria weights',placeholder:'e.g. Cost 30%, Technical capability 35%, Track record 25%, Risk 10%'},
+    ],
+    template:`You are supporting a procurement decision for [PROGRAM].
+
+Vendor proposals:
+[VENDORS]
+
+Create a structured comparison:
+1. Total cost of ownership (Year 1, Year 3, Year 5) per vendor
+2. Included vs. excluded costs per vendor
+3. Risk factors in each proposal
+4. Value beyond price (capabilities, references, fit)
+5. Weighted recommendation based on: [WEIGHTS]`,
+    tip:'Ask AI to specifically flag cost categories absent from proposals — this is where vendor comparisons go wrong. "What cost categories are typical for this type of contract that I don\'t see?" is a valuable follow-up.'
+  },
+
+  // ── STATUS ──
+  {
+    id:'s1', cat:'status', tags:['quick','client'], difficulty:'Free',
+    chains:['e1','r5'],
+    title:'Weekly status report from Jira sprint data',
+    desc:'RAG-rated weekly status with accomplishments, blockers, next week priorities, and decisions needed.',
+    tool:'Claude · Atlassian Intelligence',
+    fields:[
+      {key:'SPRINT',label:'Sprint / week',placeholder:'e.g. Sprint 12, Week ending May 9'},
+      {key:'VELOCITY',label:'Velocity',placeholder:'e.g. 34 pts completed, 40 planned'},
+      {key:'COMPLETED',label:'Completed this week',placeholder:'e.g. AUTH-112 (auth module), DATA-089 (pipeline phase 1)'},
+      {key:'BLOCKED',label:'Blockers',placeholder:'e.g. DATA-092 blocked — awaiting vendor API keys from Acme'},
+      {key:'NEXT',label:'Next week priorities',placeholder:'e.g. INT-048, UAT-001 kickoff, resolve API blocker'},
+      {key:'AUDIENCE',label:'Audience',placeholder:'e.g. Project sponsor and client PM'},
+    ],
+    template:`You are a project manager creating a weekly status report.
+
+Sprint: [SPRINT]
+Velocity: [VELOCITY]
+Completed: [COMPLETED]
+Blockers: [BLOCKED]
+Next week: [NEXT]
+
+Generate a status report:
+- Overall RAG status with 1-line justification
+- Accomplishments this week (3 bullets)
+- Risks and Issues (flag blockers explicitly)
+- Next week priorities (3 bullets)
+- Decisions needed (if any)
+
+Audience: [AUDIENCE]. Max 1 page.`,
+    tip:'Automate data gathering: set a Jira filter to email you a sprint summary every Friday. Paste into this prompt. Entire cycle: under 10 minutes.'
+  },
+  {
+    id:'s2', cat:'status', tags:['executive','governance'],
+    title:'Monthly program board narrative',
+    desc:'4-paragraph board-level program narrative with explicit ask from leadership.',
+    tool:'Claude · Copilot in Word',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. Digital Core Modernization'},
+      {key:'PHASE',label:'Phase',placeholder:'e.g. Phase 2 of 3'},
+      {key:'MONTH',label:'Month',placeholder:'e.g. May 2026'},
+      {key:'SCHEDULE',label:'Schedule status',placeholder:'e.g. On track — UAT complete, go-live tracking to June 14'},
+      {key:'BUDGET',label:'Budget status',placeholder:'e.g. Amber — 4% over plan, within contingency'},
+      {key:'MILESTONE_DONE',label:'Milestone achieved',placeholder:'e.g. UAT sign-off completed May 2'},
+      {key:'MILESTONE_RISK',label:'Milestone at risk',placeholder:'e.g. Integration testing — vendor dependency outstanding'},
+      {key:'TOPRISK',label:'Top risk',placeholder:'e.g. Vendor API certification delay, 2-week potential impact'},
+      {key:'ASK',label:'Ask from board',placeholder:'e.g. Approve contingency draw-down of $180K, or "information only"'},
+    ],
+    template:`Write a monthly program narrative for board-level consumption.
+
+Program: [PROGRAM] | Phase: [PHASE] | Month: [MONTH]
+
+Schedule: [SCHEDULE]
+Budget: [BUDGET]
+Milestone achieved: [MILESTONE_DONE]
+Milestone at risk: [MILESTONE_RISK]
+Top risk: [TOPRISK]
+Board ask: [ASK]
+
+Write 4 paragraphs:
+1. Program health and overall position
+2. Progress achieved this month
+3. Risks and decisions
+4. Next 30 days and specific ask from the Board
+
+Tone: Confident, factual, no jargon.`,
+    tip:'"No action required — informing only" is also a valid ask. Naming it explicitly is itself a governance signal. Boards trust PMs who are clear about what they need.'
+  },
+  {
+    id:'s3', cat:'status', tags:['governance','executive'],
+    title:'Portfolio health summary across multiple programs',
+    desc:'Aggregated RAG table, cross-program risk view, and top decisions needed at portfolio level.',
+    tool:'Claude · Power BI Copilot',
+    fields:[
+      {key:'PROGRAMS',label:'Program status data',placeholder:'Program 1: [Name] — [RAG] — [1-line status]\nProgram 2: [Name] — [RAG] — [1-line status]'},
+    ],
+    template:`Create a portfolio health summary from this program status data:
+
+[PROGRAMS]
+
+Produce:
+1. Portfolio RAG table with justification column
+2. Aggregated risks that span multiple programs
+3. Resource conflicts or shared dependencies
+4. Top 3 portfolio-level decisions needed this month
+5. One paragraph executive summary of portfolio health`,
+    tip:'The cross-program risk section is usually missing because each PM only sees their own program. Run this monthly — it surfaces shared dependencies before they become escalations.'
+  },
+  {
+    id:'s4', cat:'status', tags:['client','executive'],
+    title:'Program delay communication for stakeholders',
+    desc:'Direct, accountable delay notification that leads with the delay, explains root cause, and gives a clear revised date.',
+    tool:'Claude',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. Sapiens Coresuite Go-Live'},
+      {key:'ORIGINAL',label:'Original go-live',placeholder:'e.g. June 14'},
+      {key:'NEW',label:'New projected date',placeholder:'e.g. July 5'},
+      {key:'DELAY',label:'Delay',placeholder:'e.g. 3 weeks'},
+      {key:'CAUSE',label:'Root cause',placeholder:'e.g. Vendor API certification not completed by contractual deadline'},
+      {key:'DONE',label:'Actions already taken',placeholder:'e.g. Escalated to vendor VP, activated contingency integration approach'},
+      {key:'REMAINING',label:'Remaining blockers',placeholder:'e.g. Awaiting vendor certification sign-off, expected June 20'},
+    ],
+    template:`You are a delivery director communicating a program delay to senior stakeholders.
+
+Program: [PROGRAM]
+Original go-live: [ORIGINAL] → New date: [NEW] (delay: [DELAY])
+Root cause: [CAUSE]
+Actions already taken: [DONE]
+Remaining blockers: [REMAINING]
+
+Draft a stakeholder communication that:
+1. States the delay directly in the first sentence
+2. Explains root cause with context
+3. Outlines actions already taken
+4. Gives a clear revised date with confidence level
+5. States what stakeholders need to do (if anything)
+
+Tone: Direct, accountable, forward-looking. Not defensive.`,
+    tip:'Leading with the delay in sentence one removes the "burying the lede" problem. Stakeholders notice when bad news is soft-pedalled — it reads as evasion.'
+  },
+  {
+    id:'s5', cat:'status', tags:['client','quick'],
+    title:'Client-facing KPI dashboard narrative',
+    desc:'3-paragraph performance narrative covering overall position, what\'s exceeding target, and what\'s below target with improvement actions.',
+    tool:'Claude · Power BI',
+    fields:[
+      {key:'KPIS',label:'KPI data',placeholder:'e.g. On-time delivery: 94% (target 95%), Defect escape: 1.2% (target <2%), SLA compliance: 98.5% (target 99%)'},
+      {key:'AUDIENCE',label:'Client audience',placeholder:'e.g. Client CTO and delivery director'},
+    ],
+    template:`Generate a narrative summary for a client-facing KPI dashboard.
+
+KPI data:
+[KPIS]
+
+Write a 3-paragraph narrative:
+1. Overall performance position and trend
+2. Areas exceeding target and why
+3. Areas below target, root causes, and specific improvement actions with dates
+
+Audience: [AUDIENCE]. Tone: Transparent, data-led, improvement-focused.`,
+    tip:'Naming specific actions with dates for below-target KPIs turns reporting into accountability. "We are working on it" signals no plan. Clients notice the difference even when they don\'t say so.'
+  },
+  {
+    id:'s6', cat:'status', tags:['governance'],
+    title:'Lessons learned report at program close',
+    desc:'Structured lessons learned with root causes (not just descriptions), recommendations, and institutional knowledge to capture.',
+    tool:'Claude',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. WCB Saskatchewan Coresuite Migration'},
+      {key:'TIMELINE',label:'Duration',placeholder:'e.g. 18 months, Jan 2025 – Jun 2026'},
+      {key:'BUDGET',label:'Budget',placeholder:'e.g. $3.2M approved → $3.4M final'},
+      {key:'SCHEDULE',label:'Schedule outcome',placeholder:'e.g. Original go-live May 30 → actual June 14'},
+      {key:'INPUT',label:'Retrospective notes / risk log',placeholder:'Paste retro notes, key incidents, or team feedback here'},
+    ],
+    template:`Write a lessons learned report at the close of a major program.
+
+Program: [PROGRAM] | Duration: [TIMELINE]
+Budget: [BUDGET] | Schedule: [SCHEDULE]
+
+Using these inputs:
+[INPUT]
+
+Produce:
+1. What went well — with root cause (why did it work?)
+2. What didn't go well — with root cause (not just description)
+3. What we would do differently
+4. Recommendations for future programs
+5. Knowledge to institutionalize (process, template, or governance change)`,
+    tip:'Root cause is the differentiator. "Data was messy" doesn\'t prevent recurrence. "We trusted documentation rather than running our own profiling" creates a process change.'
+  },
+
+  // ── RISK ──
+  {
+    id:'r1', cat:'risk', tags:['quick','governance'],
+    title:'Extract RAID log from a meeting transcript',
+    desc:'Structured Risks, Assumptions, Issues, and Dependencies with owners, impact ratings, and UNOWNED flags.',
+    tool:'Claude · Otter.ai · Fireflies',
+    fields:[
+      {key:'TRANSCRIPT',label:'Meeting notes / transcript',placeholder:'Paste your meeting transcript or notes here'},
+    ],
+    template:`Extract a structured RAID log from these meeting notes.
+
+Categories: Risks, Assumptions, Issues, Dependencies
+
+For each item:
+- ID (R001, A001, I001, D001)
+- Description (1 sentence, specific)
+- Owner (name or role)
+- Impact (H/M/L)
+- Due Date (if mentioned)
+- Status (Open/Monitoring/Closed)
+
+Flag any item where no owner was assigned as [UNOWNED].
+
+Meeting notes:
+[TRANSCRIPT]`,
+    tip:'Set Fireflies or Otter to auto-join all project meetings. Compile transcripts weekly and run this once. RAID log stays current with zero manual effort.'
+  },
+  {
+    id:'r2', cat:'risk', tags:['governance','quick'],
+    title:'Pre-mortem: risks your team hasn\'t named',
+    desc:'8 specific risks from a program failure scenario — each with root cause, mitigation, and a leading indicator to watch.',
+    tool:'Claude · ChatGPT',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. SaaS platform migration for Workers Comp insurer'},
+      {key:'INDUSTRY',label:'Industry',placeholder:'e.g. Insurance — regulated environment'},
+      {key:'PLATFORM',label:'Platform',placeholder:'e.g. Sapiens Digital Suite'},
+      {key:'TIMELINE',label:'Timeline',placeholder:'e.g. 9 months'},
+      {key:'BUDGET',label:'Budget',placeholder:'e.g. $3.8M'},
+      {key:'TEAM',label:'Team',placeholder:'e.g. 18 FTEs, 2 vendors (KPMG, Microsoft)'},
+    ],
+    template:`You are a seasoned program risk advisor. Apply the pre-mortem technique.
+
+Imagine the program has failed — late, over budget, or not adopted.
+
+Program: [PROGRAM] | Industry: [INDUSTRY] | Platform: [PLATFORM]
+Timeline: [TIMELINE] | Budget: [BUDGET] | Team: [TEAM]
+
+Identify the top 8 risks that caused the failure:
+1. Risk description (specific, not generic)
+2. Why PMs commonly miss this risk
+3. Recommended mitigation (specific action, not generic advice)
+4. Leading indicator to monitor weekly`,
+    tip:'Run this with your team — ask them to add to the AI\'s list rather than start from scratch. The pre-mortem framing consistently surfaces more honest risks than "identify risks" does.'
+  },
+  {
+    id:'r3', cat:'risk', tags:['governance'],
+    title:'4-strategy risk mitigation plan for a specific risk',
+    desc:'Avoid, mitigate, transfer, and accept strategies for any risk — with contingency triggers and owner assignment.',
+    tool:'Claude',
+    fields:[
+      {key:'RISK',label:'Risk description',placeholder:'e.g. Vendor API certification delayed — potential 3-week go-live impact'},
+      {key:'CONTEXT',label:'Program context',placeholder:'e.g. Integration-critical dependency, no alternative path identified'},
+      {key:'IMPACT',label:'Impact if realized',placeholder:'e.g. 3-week schedule delay, $80K additional cost'},
+      {key:'LIKELIHOOD',label:'Likelihood',placeholder:'e.g. High — vendor has missed two prior milestones'},
+    ],
+    template:`Develop a risk mitigation plan for this risk:
+
+Risk: [RISK]
+Context: [CONTEXT]
+Impact if realized: [IMPACT]
+Likelihood: [LIKELIHOOD]
+
+Provide:
+1. Avoid strategy (can we eliminate the risk entirely?)
+2. Mitigate strategy (reduce likelihood or impact — specific actions)
+3. Transfer strategy (shift risk to vendor or client contractually)
+4. Accept strategy (if risk materializes, what's the response plan?)
+5. Contingency trigger (what event activates the response?)
+6. Owner and review cadence`,
+    tip:'Most risk registers stop at "mitigation" without distinguishing reducing likelihood vs. impact — which require different actions. This framework forces both conversations.'
+  },
+  {
+    id:'r4', cat:'risk', tags:['governance','executive'],
+    title:'Stress-test a project plan for schedule risk',
+    desc:'Hidden assumption analysis per milestone, top 3 schedule risk points, confidence rating, and buffer recommendations.',
+    tool:'Claude',
+    fields:[
+      {key:'PLAN',label:'Project plan / milestones',placeholder:'Paste your milestone table or plan summary here'},
+    ],
+    template:`Review this project plan and stress-test it for schedule risk.
+
+[PLAN]
+
+For each milestone:
+1. What assumptions are embedded that could fail?
+2. What external dependencies could slip this milestone?
+3. What is the schedule impact if this milestone is 2 weeks late?
+4. Is there buffer between this milestone and the next critical path item?
+
+Then provide:
+- Top 3 schedule risk points in the plan
+- Overall confidence rating (H/M/L) in the current schedule
+- Where to add buffer and how much`,
+    tip:'Run this before every major governance review, not just at kickoff. Schedules drift — the risk profile of Week 10 looks different from Week 6 than it did from Week 1.'
+  },
+  {
+    id:'r5', cat:'risk', tags:['governance','executive'],
+    title:'Risk register update for a governance review',
+    desc:'Escalated risks, resolved items, new risks, and top 3 requiring steering committee attention — delta-focused.',
+    tool:'Claude',
+    fields:[
+      {key:'CURRENT',label:'Current risk register',placeholder:'Paste your existing risk register data here'},
+      {key:'UPDATES',label:'New information since last review',placeholder:'e.g. R004 escalated — vendor confirmed 3-week delay. R002 resolved — QA resource secured May 3.'},
+    ],
+    template:`Update this risk register for the upcoming governance review.
+
+Current register:
+[CURRENT]
+
+New information since last review:
+[UPDATES]
+
+Produce:
+1. Risks that have escalated since last review (with reason)
+2. Risks resolved since last review (close with rationale)
+3. New risks to add
+4. Updated heat map summary (H/M/L by likelihood × impact)
+5. Top 3 risks requiring immediate steering committee attention`,
+    tip:'"Escalated since last review" is what steering committees actually want — they don\'t have time to read the full register. Lead with what changed.'
+  },
+
+  // ── MEETINGS ──
+  {
+    id:'m1', cat:'meetings', tags:['quick','governance'],
+    title:'Decisions, actions, and open questions from a transcript',
+    desc:'Structured post-meeting extract with decisions, action items (owner + date), open questions, escalations, and a 3-sentence summary.',
+    tool:'Claude · Copilot for Teams · Fireflies',
+    fields:[
+      {key:'TRANSCRIPT',label:'Meeting transcript',placeholder:'Paste your Otter, Fireflies, or Teams transcript here'},
+    ],
+    template:`From this meeting transcript, extract and organize:
+
+1. KEY DECISIONS MADE (what was decided, who decided)
+2. ACTION ITEMS (Owner | Due Date | Description | Priority H/M/L)
+3. OPEN QUESTIONS (unresolved — needs follow-up by whom)
+4. ESCALATIONS raised in the meeting
+5. PARKING LOT (items deferred to a future discussion)
+6. 3-sentence meeting summary for those who couldn't attend
+
+Transcript:
+[TRANSCRIPT]`,
+    tip:'Microsoft Teams Copilot generates this automatically in the Meeting Recap tab within minutes of the call ending — if transcription is enabled. Set it up once and never take manual notes again.'
+  },
+  {
+    id:'m2', cat:'meetings', tags:['governance'],
+    title:'Coaching conversation guide for a performance issue',
+    desc:'Structured 1:1 guide with curiosity-led opening, diagnostic questions, a tool to offer, and measurable commitments.',
+    tool:'Claude',
+    fields:[
+      {key:'ROLE',label:'Team member role',placeholder:'e.g. Junior Project Manager'},
+      {key:'ISSUE',label:'Performance issue',placeholder:'e.g. Delays sending status updates, avoids escalating blockers'},
+      {key:'CONTEXT',label:'Context / history',placeholder:'e.g. Pattern over 3 sprints, mentioned it once informally'},
+      {key:'GOAL',label:'Behavior change needed',placeholder:'e.g. Status sent by 4pm Friday, blockers escalated within 24 hours'},
+    ],
+    template:`You are a delivery director coaching a team member on a specific performance gap.
+
+Role: [ROLE]
+Issue: [ISSUE]
+Context: [CONTEXT]
+Goal: [GOAL]
+
+Draft a structured 1:1 coaching guide:
+1. Opening — curiosity-led, not judgment-led (2–3 openers to choose from)
+2. Diagnostic questions (3 questions to understand root cause)
+3. A tool or framework to offer (not just advice)
+4. Two specific, measurable commitments for the next 2 weeks
+5. How you'll follow up
+
+Tone: Direct but supportive. Human, not HR-scripted.`,
+    tip:'Use AI to prepare the framework, not to script the conversation. The diagnostic questions are the most valuable output — they surface root cause, not symptoms.'
+  },
+  {
+    id:'m3', cat:'meetings', tags:['executive','client'],
+    title:'Structured steering committee agenda',
+    desc:'Time-boxed agenda with each item flagged as Decision, Discussion, or Information — the format that prevents meetings from drifting.',
+    tool:'Claude',
+    fields:[
+      {key:'DURATION',label:'Meeting duration',placeholder:'e.g. 60 minutes'},
+      {key:'PURPOSE',label:'Meeting purpose',placeholder:'e.g. Monthly program review with go-live approval vote'},
+      {key:'ATTENDEES',label:'Attendees',placeholder:'e.g. Executive Sponsor, Client CTO, Program Director, QA Lead'},
+      {key:'TOPICS',label:'Key topics',placeholder:'e.g. Budget variance (Decision), Risk register update (Decision), UAT results (Information)'},
+    ],
+    template:`Create a structured agenda for a [DURATION] steering committee meeting.
+
+Purpose: [PURPOSE]
+Attendees: [ATTENDEES]
+Key topics: [TOPICS]
+
+Format each agenda item with:
+- Topic
+- Presenter
+- Time allocation
+- Purpose (Decision / Discussion / Information)
+- Pre-read required (Y/N — what)
+
+Include: opening context-setter, time for Q&A, and closing action recap.`,
+    tip:'Flagging each item as Decision, Discussion, or Information is the most underused governance technique. It tells attendees how to show up — and prevents open-ended conversation when a decision is what\'s needed.'
+  },
+  {
+    id:'m4', cat:'meetings', tags:['client','writing'],
+    title:'Team communication after a difficult program event',
+    desc:'Honest, stabilizing team message that acknowledges what happened, names what\'s uncertain, and signals direction.',
+    tool:'Claude',
+    fields:[
+      {key:'EVENT',label:'What happened',placeholder:'e.g. Failed go-live attempt Saturday — rolled back at 2am, root cause under investigation'},
+      {key:'IMPACT',label:'Impact on team',placeholder:'e.g. Weekend work, visible failure to client, team morale low'},
+      {key:'DECIDED',label:'What has been decided',placeholder:'e.g. New go-live window: June 28. Root cause investigation starts Monday.'},
+      {key:'UNCERTAIN',label:'What\'s still uncertain',placeholder:'e.g. Whether timeline can be held, impact on Q3 contract terms'},
+      {key:'TEAM',label:'Team type',placeholder:'e.g. 12-person delivery team, mixed geographies'},
+    ],
+    template:`Draft a team communication following a difficult program event.
+
+Event: [EVENT]
+Team impact: [IMPACT]
+What has been decided: [DECIDED]
+What's still uncertain: [UNCERTAIN]
+Team: [TEAM]
+
+The message should:
+1. Acknowledge what happened directly in the first sentence
+2. Be honest about what you know and don't know
+3. Give clear next steps
+4. End with a signal of stability and direction — not false positivity
+
+Tone: Honest and stabilizing.`,
+    tip:'"What we don\'t know yet" is the section most leaders skip — which is why trust erodes after difficult events. Teams handle uncertainty; they can\'t handle the feeling that leadership is managing information rather than sharing it.'
+  },
+  {
+    id:'m5', cat:'meetings', tags:['governance'],
+    title:'Detect team sentiment and engagement patterns',
+    desc:'Team health observation with top 2 things to address, what to reinforce, and one question to ask the team directly.',
+    tool:'Claude',
+    fields:[
+      {key:'NOTES',label:'Meeting notes / retro inputs',placeholder:'Paste notes from recent team meetings, standups, or retrospective inputs here — can span multiple weeks'},
+    ],
+    template:`Analyze these team meeting notes for patterns in sentiment and engagement.
+
+[NOTES]
+
+Look for:
+1. Recurring themes of frustration or friction
+2. Topics where engagement drops
+3. Language signals of disengagement or burnout risk
+4. Topics generating energy and momentum
+
+Provide:
+- A 3-sentence team health observation (honest, not fluffy)
+- Top 2 things to address as a leader
+- One thing to reinforce that's working
+- One question to ask the team directly`,
+    tip:'This is a signal detector, not a diagnosis. Use it to know what conversations to have — not as a substitute for having them. Verify before acting on any observation.'
+  },
+
+  // ── AGILE ──
+  {
+    id:'a1', cat:'agile', tags:['quick','agile'],
+    title:'Sprint retrospective synthesis',
+    desc:'Top themes from went well / didn\'t go well, 3 concrete action items with success metrics, and an honest team health observation.',
+    tool:'Claude · Miro AI · Atlassian Intelligence',
+    fields:[
+      {key:'INPUTS',label:'Retrospective inputs',placeholder:'Paste sticky note content, Miro export, or team notes here'},
+      {key:'TEAMS',label:'Number of teams / people',placeholder:'e.g. 3 teams, 18 contributors'},
+    ],
+    template:`Synthesize these retrospective inputs from [TEAMS].
+
+Format: Went well / Didn't go well / Action items
+
+Inputs:
+[INPUTS]
+
+Produce:
+1. Top 3 themes from "went well" — with root cause of why it worked
+2. Top 3 themes from "didn't go well" — root cause, not symptom
+3. 3 concrete action items with:
+   - Owner (by role)
+   - Success metric
+   - Review date
+4. One honest team health observation — not fluffy`,
+    tip:'Miro AI can cluster sticky notes automatically. Export clusters as text, then run this prompt for deeper synthesis and action planning.'
+  },
+  {
+    id:'a2', cat:'agile', tags:['governance','agile'],
+    title:'Go/No-Go release checklist',
+    desc:'Comprehensive release checklist with Hard Stop flags — technical, business, rollback, comms, support, and compliance.',
+    tool:'Claude · Jira · ServiceNow',
+    fields:[
+      {key:'PROGRAM',label:'Program / release',placeholder:'e.g. Sapiens Coresuite v2.4 production release'},
+      {key:'GOLIVE',label:'Go-live date and time',placeholder:'e.g. Saturday June 28, 8pm ET'},
+      {key:'ENV',label:'Environment',placeholder:'e.g. Regulated insurance environment, 3,200 end users'},
+      {key:'WINDOW',label:'Cutover window',placeholder:'e.g. Overnight 8pm–6am, must complete before Monday business open'},
+    ],
+    template:`Create a Go/No-Go release checklist.
+
+Release: [PROGRAM]
+Go-live: [GOLIVE]
+Environment: [ENV]
+Cutover window: [WINDOW]
+
+Cover: Technical readiness, business readiness, rollback plan, communications, support readiness, compliance/regulatory.
+
+For each item:
+- Checklist item
+- Owner (role)
+- Verification method
+- Hard stop? (Yes = blocks go-live / No = advisory)`,
+    tip:'Save as a reusable Confluence template. The HARD STOP designation forces the conversation before go-live — not during it. Most go-live failures proceed with unresolved HARD STOPs that "everyone knew about" but no one escalated.'
+  },
+  {
+    id:'a3', cat:'agile', tags:['agile','governance'],
+    title:'PI Planning objectives and risks for an ART',
+    desc:'Draft PI objectives with business value rationale, cross-team dependencies, program risks, and a suggested PI Planning agenda.',
+    tool:'Claude · Jira · Miro',
+    fields:[
+      {key:'PROGRAM',label:'Program / ART name',placeholder:'e.g. Digital Claims Platform ART'},
+      {key:'DATES',label:'PI dates',placeholder:'e.g. 10 weeks, June 2 – August 8'},
+      {key:'TEAMS',label:'Teams',placeholder:'e.g. 4 teams — Claims API, Frontend, Integration, Platform'},
+      {key:'FEATURES',label:'Key features this PI',placeholder:'e.g. Intelligent document processing, claims triage automation, audit trail enhancement'},
+      {key:'DEPENDENCIES',label:'Known dependencies',placeholder:'e.g. Auth service from Platform team needed by Sprint 3'},
+      {key:'RISKS',label:'Risks entering PI',placeholder:'e.g. Vendor test environment availability, team capacity at 80% during UAT'},
+    ],
+    template:`Prepare PI Planning content for a SAFe Agile Release Train.
+
+Program: [PROGRAM] | PI: [DATES]
+Teams: [TEAMS]
+Features: [FEATURES]
+Known dependencies: [DEPENDENCIES]
+Risks entering PI: [RISKS]
+
+Generate:
+1. Draft PI Objectives (5–7) with business value rationale and Committed/Stretch designation
+2. Team-level capacity considerations
+3. Cross-team dependency map
+4. Program risks for Day 1 breakout discussion
+5. Suggested PI Planning agenda with time allocations`,
+    tip:'Share draft objectives with team leads the week before PI Planning — teams that arrive with context rather than building from zero produce significantly better plans.'
+  },
+  {
+    id:'a4', cat:'agile', tags:['agile','quick'],
+    title:'User stories and acceptance criteria from a feature',
+    desc:'Sprint-ready stories with testable AC, edge cases for regulated environments, and a Definition of Done checklist.',
+    tool:'Claude · Atlassian Intelligence',
+    fields:[
+      {key:'FEATURE',label:'Feature name and description',placeholder:'e.g. Intelligent document processing for claims intake — automatically extract claimant data from uploaded PDFs'},
+      {key:'PLATFORM',label:'Platform / system',placeholder:'e.g. Sapiens Digital Suite'},
+      {key:'USERS',label:'User types',placeholder:'e.g. Claims adjuster, intake coordinator'},
+      {key:'CONSTRAINTS',label:'Technical / regulatory constraints',placeholder:'e.g. PIPEDA compliance, data must not leave Canadian servers, OCR confidence threshold >95%'},
+    ],
+    template:`Generate user stories and acceptance criteria for this feature:
+
+Feature: [FEATURE]
+Platform: [PLATFORM]
+User types: [USERS]
+Constraints: [CONSTRAINTS]
+
+For each story:
+- User story in standard format
+- 3–5 acceptance criteria (specific and testable)
+- Edge cases to consider (especially for regulated scenarios)
+- Estimated size [S/M/L]
+- Definition of Done (2–3 items)`,
+    tip:'The edge cases section is where this prompt pays back disproportionately in regulated environments. Insurance and public sector failure modes aren\'t obvious from the happy path — and they\'re exactly what auditors look for.'
+  },
+  {
+    id:'a5', cat:'agile', tags:['agile'],
+    title:'Sprint velocity trend analysis and anomaly detection',
+    desc:'Trend direction, anomaly explanation, sustainable velocity estimate, projected delivery date, and predictability recommendations.',
+    tool:'Claude · Jira · ChatGPT',
+    fields:[
+      {key:'DATA',label:'Velocity data',placeholder:'Sprint 1: planned 40, actual 38\nSprint 2: planned 40, actual 34\nSprint 3: planned 40, actual 42\n...'},
+      {key:'CHANGES',label:'Team changes / events',placeholder:'e.g. Sprint 5: holiday week. Sprint 7: senior BA on leave. Sprint 10: mid-sprint scope change.'},
+    ],
+    template:`Analyze this sprint velocity data and identify patterns and anomalies.
+
+Velocity data:
+[DATA]
+
+Team changes / events during this period:
+[CHANGES]
+
+Provide:
+1. Velocity trend (improving / stable / declining — with evidence)
+2. Anomaly sprints — what happened and likely cause
+3. Sustainable velocity for planning (based on last 6 sprints)
+4. Predicted delivery date for current backlog at this velocity
+5. Recommendations to improve predictability`,
+    tip:'Velocity spikes are as important as drops — they often indicate measurement issues (carryover counted in the wrong sprint) rather than genuine productivity jumps. Investigate both directions.'
+  },
+  {
+    id:'a6', cat:'agile', tags:['client','quick'],
+    title:'Release notes from a ticket list',
+    desc:'Client-facing release notes that translate ticket IDs into user-impact language — covering new features, fixes, and known issues.',
+    tool:'Claude · Atlassian Intelligence',
+    fields:[
+      {key:'VERSION',label:'Release version / name',placeholder:'e.g. Coresuite v2.4 — May 2026'},
+      {key:'DATE',label:'Release date',placeholder:'e.g. June 28, 2026'},
+      {key:'AUDIENCE',label:'Audience',placeholder:'e.g. Client end users — claims adjusters and intake coordinators'},
+      {key:'CHANGES',label:'Changes delivered',placeholder:'Paste Jira tickets, feature descriptions, or bug fix list here'},
+    ],
+    template:`Draft release notes for the following release.
+
+Release: [VERSION] | Date: [DATE]
+Audience: [AUDIENCE]
+
+Changes:
+[CHANGES]
+
+Format:
+1. Release summary (2 sentences)
+2. New features (what it does, why it matters to the user — no ticket IDs)
+3. Enhancements to existing functionality
+4. Bug fixes (describe in user terms, not ticket IDs)
+5. Known issues or limitations
+6. Upgrade / migration notes (if applicable)`,
+    tip:'"Fixed INT-044" means nothing to a client. "Fixed an issue where claims submitted after midnight were not appearing in the next-day queue" gives them context to verify the fix. Translate every ticket.'
+  },
+
+  // ── CUTOVER ──
+  {
+    id:'c1', cat:'cutover', tags:['governance'],
+    title:'Cutover runbook with time-boxed sequences',
+    desc:'Full cutover runbook with T-minus checks, execution steps, validation checkpoints, rollback decision window, and first-business-day checks.',
+    tool:'Claude',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. WCB Saskatchewan Coresuite Go-Live'},
+      {key:'GOLIVE',label:'Go-live date and time',placeholder:'e.g. Saturday June 28, 8:00pm ET'},
+      {key:'WINDOW',label:'Cutover window',placeholder:'e.g. 10 hours'},
+      {key:'MIGRATION',label:'Migration path',placeholder:'e.g. Legacy WCBSystem → Sapiens Coresuite + Digital Suite'},
+      {key:'ROLLBACK',label:'Rollback trigger condition',placeholder:'e.g. Smoke test fails more than 3 critical paths, or data record count mismatch >0.1%'},
+    ],
+    template:`Create a detailed cutover runbook for this go-live:
+
+Program: [PROGRAM]
+Go-live: [GOLIVE] | Window: [WINDOW]
+Migration: [MIGRATION]
+Rollback trigger: [ROLLBACK]
+
+Generate a time-boxed cutover sequence:
+- Pre-cutover verification (T-24h, T-4h, T-1h)
+- Cutover execution steps (by owner, with duration)
+- Validation checkpoints after each major step
+- Rollback decision window and process
+- Post-cutover stabilization steps
+- First business day readiness checks
+
+Flag CRITICAL PATH steps with [CP] and rollback triggers with [ROLLBACK TRIGGER].`,
+    tip:'The rollback decision window is the most important thing this prompt generates. Everyone must know — before the window opens — exactly what the trigger is and who calls it. Remove ambiguity from the highest-pressure moment.'
+  },
+  {
+    id:'c2', cat:'cutover', tags:['client','governance'],
+    title:'Go-live communication plan for all stakeholder groups',
+    desc:'Full comms plan spanning pre-go-live through hypercare close, with trigger timing, channel, owner, and two-way requirements per group.',
+    tool:'Claude',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. WCB Saskatchewan Coresuite migration'},
+      {key:'GOLIVE',label:'Go-live date',placeholder:'e.g. June 28, 2026'},
+      {key:'GROUPS',label:'Stakeholder groups',placeholder:'e.g. Exec sponsor, client end users (employers/workers/providers), IT team, vendor, internal leadership'},
+      {key:'MESSAGES',label:'Key messages',placeholder:'e.g. What changes, what stays the same, how to get support, who to contact'},
+    ],
+    template:`Create a go-live communication plan covering all stakeholder groups.
+
+Program: [PROGRAM] | Go-live: [GOLIVE]
+Stakeholder groups: [GROUPS]
+Key messages: [MESSAGES]
+
+For each group:
+1. Communication triggers (T-2 weeks, go-live day, T+1, T+3, hypercare close)
+2. Channel (email, call, Slack, formal letter)
+3. Message owner
+4. Key content (3 bullets per touchpoint)
+5. Two-way requirement (do they need to confirm or respond?)`,
+    tip:'The T+1 and T+3 communications are the ones most programs skip. A single check-in email on day 3 of hypercare generates goodwill disproportionate to the effort it takes to send.'
+  },
+  {
+    id:'c3', cat:'cutover', tags:['governance','quick'],
+    title:'Hypercare daily incident triage and summary',
+    desc:'Issue count by severity, P1/P2 status, pattern detection, SLA risk flags, and a stability assessment for whether to extend or close hypercare.',
+    tool:'Claude · ServiceNow · Jira',
+    fields:[
+      {key:'ISSUES',label:'Issue log / ticket list',placeholder:'Paste your hypercare issue log, ticket list, or support email summary here'},
+      {key:'DAY',label:'Day in hypercare',placeholder:'e.g. Day 3'},
+    ],
+    template:`Triage this hypercare issue log and produce a daily summary. Day: [DAY]
+
+[ISSUES]
+
+Produce:
+1. Issue count by severity (P1/P2/P3)
+2. P1/P2 status — description, owner, ETA
+3. Pattern analysis — any issues pointing to a systemic root cause?
+4. Issues resolved since yesterday
+5. Issues at risk of breaching SLA
+6. Stability assessment — stable enough to exit hypercare, or extend?
+
+Audience: Executive sponsor and client leadership.`,
+    tip:'Pattern detection is the highest-value output. Three P3 tickets with the same root cause are a P1 hiding in plain sight. Run this daily through hypercare — systemic issues surface before they escalate to client incidents.'
+  },
+  {
+    id:'c4', cat:'cutover', tags:['client','governance'],
+    title:'Hypercare status report for client leadership',
+    desc:'RAG-rated hypercare report covering issue summary, top open items, next 48-hour plan, and exit criteria tracking.',
+    tool:'Claude',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. WCB Saskatchewan Coresuite'},
+      {key:'DAY',label:'Hypercare day',placeholder:'e.g. Day 4 of 10'},
+      {key:'ISSUES',label:'Issue data',placeholder:'e.g. P1: 0, P2: 2 (1 open, 1 resolved), P3: 6 (3 open, 3 resolved)'},
+      {key:'TOP',label:'Top open issues',placeholder:'e.g. Document upload failures — root cause identified, fix deploying Thursday'},
+      {key:'NEXT',label:'Next 48h actions',placeholder:'e.g. Deploy document upload fix, complete Group B user onboarding, review exit criteria with client PM'},
+    ],
+    template:`Write a hypercare status report for client leadership.
+
+Program: [PROGRAM] | Day: [DAY]
+
+Issue data: [ISSUES]
+Top open issues: [TOP]
+Next 48h actions: [NEXT]
+
+Write a 1-page report:
+1. Hypercare health assessment (RAG + 1-line justification)
+2. Since go-live summary
+3. Outstanding issues with resolution plan
+4. Next 48-hour action plan
+5. Exit criteria status (on track to close hypercare by [date]?)`,
+    tip:'The exit criteria status is what clients actually want to know: when does this period of uncertainty end? Tracking criteria publicly gives both sides a shared definition of "stable" — and prevents the renegotiation that happens when one side thinks it\'s over.'
+  },
+  {
+    id:'c5', cat:'cutover', tags:['client','executive'],
+    title:'Program closure report and success summary',
+    desc:'Formal program closure document with objectives vs. outcomes table, financial summary, lessons, and transition statement.',
+    tool:'Claude · Copilot in Word',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. WCB Saskatchewan Coresuite Migration'},
+      {key:'CLIENT',label:'Client',placeholder:'e.g. WCB Saskatchewan'},
+      {key:'DATES',label:'Program dates',placeholder:'e.g. January 2025 – June 2026'},
+      {key:'BUDGET',label:'Budget outcome',placeholder:'e.g. $3.2M approved → $3.4M final (within contingency)'},
+      {key:'SCHEDULE',label:'Schedule outcome',placeholder:'e.g. Original go-live May 30 → actual June 28'},
+      {key:'METRICS',label:'Key metrics achieved',placeholder:'e.g. 98.5% SLA compliance in hypercare, 94% user adoption by Day 10'},
+    ],
+    template:`Write a program closure report to formally close this engagement.
+
+Program: [PROGRAM] | Client: [CLIENT] | Dates: [DATES]
+Budget: [BUDGET] | Schedule: [SCHEDULE]
+Key metrics: [METRICS]
+
+Produce:
+1. Executive summary (what was delivered and what was achieved)
+2. Objectives vs. outcomes table
+3. Financial summary
+4. Top 3 lessons for future programs
+5. Thank you and formal transition statement
+
+Tone: Professional, celebratory where earned, honest where needed.`,
+    tip:'A well-written closure report becomes the reference document for the renewal conversation and the case study for future proposals. Invest 20 minutes here — the return is disproportionate.'
+  },
+
+  // ── EXEC COMMS ──
+  {
+    id:'e1', cat:'execcomms', tags:['executive','quick'], difficulty:'Free',
+    chains:['e2','e6'],
+    title:'Executive escalation brief (SBAR format)',
+    desc:'Single-page escalation with Situation, Background, Assessment, and one specific ask — designed to make the decision easy.',
+    tool:'Claude',
+    fields:[
+      {key:'SITUATION',label:'The issue (2 sentences)',placeholder:'e.g. Vendor API certification is delayed 3 weeks, which will push our June 28 go-live to July 19 unless executive intervention accelerates the vendor\'s timeline.'},
+      {key:'BACKGROUND',label:'Context',placeholder:'e.g. The API certification is contractually required before go-live. We flagged risk in Month 2. Vendor has missed two prior milestones. We\'ve exhausted operational escalation paths.'},
+      {key:'TRIED',label:'What\'s been tried',placeholder:'e.g. Three escalation calls with vendor PM, formal written notice issued, SLA breach notification sent'},
+      {key:'ASK',label:'Specific ask from exec',placeholder:'e.g. Direct vendor CTO call to compress certification timeline from 3 weeks to 10 days'},
+      {key:'DEADLINE',label:'Decision deadline',placeholder:'e.g. By May 16 — after this date the July 19 date becomes fixed'},
+      {key:'OPTIONS',label:'Options with implications',placeholder:'e.g. A: Exec call — potential 10-day compression. B: Accept delay — July 19. C: Descope integration — reduces value but meets June 28.'},
+    ],
+    template:`Draft an executive escalation brief using SBAR structure.
+
+SITUATION: [SITUATION]
+BACKGROUND: [BACKGROUND]
+What has been tried: [TRIED]
+Ask: [ASK]
+Decision deadline: [DEADLINE]
+Options: [OPTIONS]
+
+Format as a single-page brief:
+- Situation (2 sentences)
+- Background (4–6 sentences)
+- Assessment (recommendation)
+- Request (one specific ask, with deadline and consequence of delay)`,
+    tip:'If your escalation doesn\'t have a single specific ask, it\'s not an escalation — it\'s an update. The SBAR structure forces the ask into the last line where it can\'t be buried.'
+  },
+  {
+    id:'e2', cat:'execcomms', tags:['executive','governance'],
+    title:'Amber program narrative that maintains confidence',
+    desc:'Board-level amber narrative that quantifies the risk, names what\'s NOT at risk, and ends with the right ask.',
+    tool:'Claude',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. Sapiens Digital Suite Implementation'},
+      {key:'CAUSE',label:'Amber reason',placeholder:'e.g. Integration testing phase running 2 weeks behind plan due to vendor environment delays'},
+      {key:'ATRISK',label:'What\'s actually at risk',placeholder:'e.g. Go-live date — currently tracking to July 5, 2 weeks later than June 21 target'},
+      {key:'NOTRISK',label:'What\'s NOT at risk',placeholder:'e.g. Budget (within contingency), user readiness (training complete), data migration (complete and validated)'},
+      {key:'ACTIONS',label:'Actions already underway',placeholder:'e.g. Activated parallel integration path, vendor SLA breach notice issued, daily war room established'},
+      {key:'ASK',label:'Ask from board',placeholder:'e.g. Approve revised timeline or "information only — no action required"'},
+    ],
+    template:`Write a board-level amber narrative for this program.
+
+Program: [PROGRAM]
+Amber reason: [CAUSE]
+What's at risk: [ATRISK]
+What's NOT at risk: [NOTRISK]
+Actions underway: [ACTIONS]
+Board ask: [ASK]
+
+The narrative must:
+- Lead with the amber status directly
+- Quantify the risk in days and dollars
+- Explicitly name what is still on track
+- Demonstrate the team has a plan
+- End with a specific ask or explicit "information only"
+
+Audience: Board / Executive committee. Tone: Accountable, controlled, forward-looking.`,
+    tip:'"What is NOT at risk" is the paragraph most amber narratives omit. Without it, amber on one workstream sounds like the whole program is in trouble. Precision prevents overreaction.'
+  },
+  {
+    id:'e3', cat:'execcomms', tags:['executive'],
+    title:'Technology investment business case for C-suite',
+    desc:'Structured business case with ROI, payback period, cost of inaction, and a clear recommendation for exec approval.',
+    tool:'Claude',
+    fields:[
+      {key:'INVESTMENT',label:'Investment',placeholder:'e.g. Azure AI document processing for claims intake'},
+      {key:'COST',label:'Proposed cost',placeholder:'e.g. $280K Year 1, $120K ongoing'},
+      {key:'PROBLEM',label:'Business problem',placeholder:'e.g. Manual claims intake costs 45 minutes per claim × 8,000 claims/year = 6,000 FTE hours annually'},
+      {key:'BENEFITS',label:'Expected benefits',placeholder:'e.g. 70% reduction in manual data entry, 40% faster intake, 95%+ data accuracy vs. current 87%'},
+      {key:'ALTERNATIVES',label:'Alternatives considered',placeholder:'e.g. Additional headcount ($180K/year ongoing), RPA solution (higher cost, lower accuracy)'},
+      {key:'AUDIENCE',label:'Decision maker',placeholder:'e.g. CFO and CTO'},
+    ],
+    template:`Build a technology investment business case for executive approval.
+
+Investment: [INVESTMENT]
+Cost: [COST]
+Business problem and cost of current state: [PROBLEM]
+Expected benefits: [BENEFITS]
+Alternatives considered: [ALTERNATIVES]
+
+Structure:
+1. Executive summary (3 sentences: problem, solution, ROI)
+2. Current state and cost of inaction
+3. Proposed investment and expected outcomes
+4. Financial analysis (ROI, payback period)
+5. Implementation approach and key risks
+6. Recommendation and decision request
+
+Audience: [AUDIENCE]`,
+    tip:'Cost of inaction is what gets business cases approved. Executives don\'t fund technology — they fund solutions to problems they can quantify. If you can\'t name the cost of staying still, you haven\'t made the case for moving.'
+  },
+  {
+    id:'e4', cat:'execcomms', tags:['client','executive'],
+    title:'Difficult client communication after a delivery failure',
+    desc:'Direct, accountable client communication that leads with the issue, explains without defensiveness, and commits to specific next steps.',
+    tool:'Claude',
+    fields:[
+      {key:'WHAT',label:'What happened',placeholder:'e.g. Saturday night go-live attempt was rolled back at 2:17am after data validation failure'},
+      {key:'IMPACT',label:'Client impact',placeholder:'e.g. System unavailable for planned Monday business open, 200+ end users notified of delay'},
+      {key:'CAUSE',label:'Root cause (if known)',placeholder:'e.g. Data migration script failure on records created after final freeze — missed in staging validation'},
+      {key:'DONE',label:'Actions already taken',placeholder:'e.g. Rollback completed by 3am, root cause confirmed by 7am, fix developed and tested'},
+      {key:'NEXT',label:'Next steps',placeholder:'e.g. New go-live window June 28, additional validation protocol added, all-hands war room July 2'},
+    ],
+    template:`Draft a client communication following a delivery failure.
+
+What happened: [WHAT]
+Client impact: [IMPACT]
+Root cause: [CAUSE]
+Actions taken: [DONE]
+Next steps: [NEXT]
+
+The communication must:
+1. State what happened directly in the first sentence
+2. No passive voice or ambiguous language
+3. Specific actions and owners — no vague reassurances
+4. Clear timeline for next update
+5. Offer to discuss directly
+
+Tone: Accountable, professional. Never "mistakes were made."`,
+    tip:'Review every commitment and timeline in the output before sending — AI will write an accountable-sounding communication, but you must verify that every specific commitment is one you can actually meet.'
+  },
+  {
+    id:'e5', cat:'execcomms', tags:['executive','writing'],
+    title:'Executive-to-executive outreach',
+    desc:'Brief, specific outreach that earns a response — with a concrete reference, clear value, and one ask.',
+    tool:'Claude',
+    fields:[
+      {key:'SENDER',label:'Your role',placeholder:'e.g. Director, Client Engagement & Digital Delivery'},
+      {key:'RECIPIENT',label:'Their role and name',placeholder:'e.g. VP Technology, [Client Name]'},
+      {key:'RELATIONSHIP',label:'Current relationship',placeholder:'e.g. Existing client, currently in Year 2 of engagement'},
+      {key:'CONTEXT',label:'Why reaching out now',placeholder:'e.g. New AI capabilities relevant to their upcoming renewal and 2027 roadmap'},
+      {key:'REFERENCE',label:'Specific reference',placeholder:'e.g. Their recent announcement of digital claims transformation initiative'},
+      {key:'ASK',label:'Call to action',placeholder:'e.g. 20-minute call to share what we\'re building'},
+    ],
+    template:`Draft an executive-to-executive outreach from [SENDER] to [RECIPIENT].
+
+Relationship: [RELATIONSHIP]
+Reason for outreach: [CONTEXT]
+Specific reference: [REFERENCE]
+Ask: [ASK]
+
+The message should:
+- Reference something specific and relevant (not generic)
+- Make the value of a conversation clear in 2 sentences
+- Have one specific call to action
+- Be brief — executive attention is earned, not assumed
+- Not read like a template
+
+Tone: Warm but direct.`,
+    tip:'"I noticed your team just announced [initiative]" signals you did work before asking for their time. Generic exec outreach is noise. Specific outreach gets responses.'
+  },
+  {
+    id:'e6', cat:'execcomms', tags:['executive'],
+    title:'Talking points for a difficult executive conversation',
+    desc:'Opening frame, 3 key points with data, anticipated objections with responses, and a closing ask before you leave the room.',
+    tool:'Claude',
+    fields:[
+      {key:'TYPE',label:'Conversation type',placeholder:'e.g. Scope pushback / Resource request / Bad news delivery / Renegotiation'},
+      {key:'CONTEXT',label:'Situation',placeholder:'e.g. Need additional $180K approved for integration rework — sponsor has previously resisted scope changes'},
+      {key:'POSITION',label:'Your position',placeholder:'e.g. The additional cost is necessary — without it, go-live is delayed 6 weeks and client SLA is breached'},
+      {key:'PUSHBACK',label:'Expected pushback',placeholder:'e.g. "We can do this with existing budget" / "Can we just push the timeline?"'},
+      {key:'NONNEG',label:'Non-negotiables',placeholder:'e.g. Cannot descope the integration — it is contractually required'},
+    ],
+    template:`Prepare talking points for a difficult executive conversation.
+
+Type: [TYPE]
+Situation: [CONTEXT]
+Your position: [POSITION]
+Expected pushback: [PUSHBACK]
+Non-negotiables: [NONNEG]
+
+Provide:
+1. Opening statement (2 sentences — direct, sets the frame)
+2. 3 key points with 1 supporting data point each
+3. Anticipated objections and how to respond (2–3 exchanges)
+4. What to do if the conversation goes off-track
+5. Closing ask — what to get agreement on before the meeting ends`,
+    tip:'Preparing for objections is where most leaders under-invest. You know what the other person will say. Write it down and prepare a specific response. Composure in difficult conversations is rehearsed, not natural.'
+  },
+
+  // ── AI STRATEGY ──
+  {
+    id:'ai1', cat:'aistrategy', tags:['ai','executive'],
+    title:'GenAI use case roadmap for an enterprise client',
+    desc:'Phased AI roadmap with quick wins, core build, and advanced capabilities — each use case with value, complexity, and success metric.',
+    tool:'Claude',
+    fields:[
+      {key:'CLIENT',label:'Client / org',placeholder:'e.g. Mid-size P&C insurer, 800 employees'},
+      {key:'INDUSTRY',label:'Industry',placeholder:'e.g. Insurance — regulated, provincial jurisdiction'},
+      {key:'SYSTEMS',label:'Current technology',placeholder:'e.g. Sapiens Coresuite, Salesforce, Microsoft 365'},
+      {key:'PAIN',label:'Key pain points',placeholder:'e.g. Manual claims intake, slow underwriting, report generation taking 3+ hours'},
+      {key:'RISK',label:'Risk tolerance',placeholder:'e.g. Conservative — regulated environment, exec cautious on AI'},
+    ],
+    template:`Build a GenAI use case roadmap for an enterprise client.
+
+Client: [CLIENT] | Industry: [INDUSTRY]
+Current technology: [SYSTEMS]
+Key pain points: [PAIN]
+Risk tolerance: [RISK]
+
+Produce a phased roadmap:
+1. Quick wins (0–6 months): Low complexity, high visibility
+2. Core build (6–18 months): Strategic, require integration
+3. Advanced (18+ months): Differentiated AI capabilities
+
+For each use case:
+- Name and description
+- Business value (quantified where possible)
+- Technical complexity (L/M/H)
+- Data requirements
+- Risk considerations
+- Success metric`,
+    tip:'Quick wins that require new data infrastructure or model training will not deliver in 6 months. Document processing, report drafting, and meeting intelligence are the three highest-ROI quick wins in almost any industry — they require no new data and minimal governance.'
+  },
+  {
+    id:'ai2', cat:'aistrategy', tags:['ai','governance'],
+    title:'Responsible AI governance framework',
+    desc:'Principles, use case classification, governance process, oversight requirements, and incident response — suitable for board and regulator audiences.',
+    tool:'Claude',
+    fields:[
+      {key:'ORG',label:'Organization type',placeholder:'e.g. Provincial Workers Compensation Board — regulated public sector'},
+      {key:'USECASES',label:'AI use cases in scope',placeholder:'e.g. Document processing, claims triage recommendations, fraud detection'},
+      {key:'REGS',label:'Regulatory context',placeholder:'e.g. PIPEDA, provincial privacy legislation, OSFI guidelines on AI'},
+      {key:'RISKS',label:'Key risk areas',placeholder:'e.g. Bias in claims decisions, explainability requirements, data residency'},
+    ],
+    template:`Draft a Responsible AI governance framework.
+
+Organization: [ORG]
+AI use cases: [USECASES]
+Regulatory context: [REGS]
+Key risk areas: [RISKS]
+
+Cover:
+1. AI Principles (5–6 organizational commitments)
+2. Use case classification (low/medium/high risk — with criteria)
+3. Governance process (who approves what)
+4. Human oversight requirements by risk level
+5. Incident response for AI failures
+6. Audit and monitoring cadence
+
+Format: Suitable for board and regulator audiences.`,
+    tip:'In insurance and financial services, OSFI and state regulators are looking for evidence that AI in underwriting and claims has human oversight, explainability, and bias testing. A framework that doesn\'t address these specifically will not survive regulatory scrutiny.'
+  },
+  {
+    id:'ai3', cat:'aistrategy', tags:['ai','executive'],
+    title:'AI investment business case and ROI model',
+    desc:'3-year cost-benefit model with payback period, sensitivity analysis, and non-financial benefits narrative for executive approval.',
+    tool:'Claude · Copilot in Excel',
+    fields:[
+      {key:'USECASE',label:'AI use case',placeholder:'e.g. Intelligent document processing for claims intake'},
+      {key:'ORG',label:'Organization',placeholder:'e.g. 800-person P&C insurer'},
+      {key:'CURRENT',label:'Current state cost',placeholder:'e.g. 45 min per claim × 8,000 claims/year = 6,000 FTE hours = $420K annually'},
+      {key:'SOLUTION',label:'Proposed solution',placeholder:'e.g. Azure AI Document Intelligence + custom claims extraction model'},
+      {key:'IMPLCOST',label:'Implementation cost',placeholder:'e.g. $280K Year 1 (implementation + integration)'},
+      {key:'ONGOING',label:'Ongoing cost',placeholder:'e.g. $95K/year (licences + maintenance)'},
+      {key:'BENEFITS',label:'Expected benefits',placeholder:'e.g. 70% reduction in manual data entry, 40% faster intake cycle time, 95% data accuracy'},
+    ],
+    template:`Build an AI investment business case and ROI model.
+
+Use case: [USECASE] | Organization: [ORG]
+Current state cost: [CURRENT]
+Solution: [SOLUTION]
+Implementation cost: [IMPLCOST]
+Ongoing cost: [ONGOING]
+Expected benefits: [BENEFITS]
+
+Build:
+1. 3-year cost-benefit model (Year 1, 2, 3)
+2. Payback period
+3. Sensitivity analysis (best/base/worst case)
+4. Non-financial benefits narrative
+5. Executive summary with recommendation`,
+    tip:'Present a worst-case scenario that still shows positive ROI — it\'s more persuasive than an unqualified best-case projection. Credibility over optimism in AI business cases.'
+  },
+  {
+    id:'ai4', cat:'aistrategy', tags:['ai','governance'],
+    title:'AI readiness assessment across people, process, technology',
+    desc:'Scored assessment across 5 dimensions with gap analysis, priority actions, and an overall readiness classification.',
+    tool:'Claude',
+    fields:[
+      {key:'ORG',label:'Organization',placeholder:'e.g. Regional insurance carrier, 600 staff, 3 offices'},
+      {key:'CURRENT',label:'Current AI state',placeholder:'e.g. Microsoft Copilot piloted by 20 users, no formal AI strategy or governance'},
+      {key:'DATA',label:'Data infrastructure',placeholder:'e.g. Claims data in legacy system, some in Azure, policy data on-prem — no unified data layer'},
+      {key:'REGS',label:'Regulatory context',placeholder:'e.g. Provincial regulator, PIPEDA, data residency requirements'},
+      {key:'CONSTRAINTS',label:'Key constraints',placeholder:'e.g. Limited budget (<$500K), no in-house ML capability, legacy core system'},
+    ],
+    template:`Conduct an AI readiness assessment.
+
+Organization: [ORG]
+Current AI state: [CURRENT]
+Data infrastructure: [DATA]
+Regulatory context: [REGS]
+Key constraints: [CONSTRAINTS]
+
+Assess across 5 dimensions:
+1. Data readiness (quality, accessibility, governance)
+2. Technology infrastructure
+3. Talent and capability
+4. Governance and risk management
+5. Leadership and culture
+
+For each dimension:
+- Score (1–5)
+- Key gaps
+- Priority actions
+- Timeline to readiness
+
+Overall readiness: Foundation / Developing / Ready / Advanced`,
+    tip:'Most organizations are 1–2 on data readiness and governance, and 3–4 on infrastructure and leadership aspiration. The gap between "we want to do AI" and "we can safely do AI at scale" is almost always data governance and talent.'
+  },
+  {
+    id:'ai5', cat:'aistrategy', tags:['ai','governance'],
+    title:'AI adoption change management plan',
+    desc:'Stakeholder map, targeted messaging, training approach, change champions strategy, and resistance playbook for the top 3 objections.',
+    tool:'Claude',
+    fields:[
+      {key:'TEAM',label:'Team type and size',placeholder:'e.g. 14-person delivery team — PMs, BAs, tech leads, QA'},
+      {key:'TOOLS',label:'AI tools being introduced',placeholder:'e.g. Claude for drafting, Fireflies for meetings, Copilot in Excel'},
+      {key:'RESISTANCE',label:'Resistance concerns',placeholder:'e.g. Job security concerns, distrust of AI accuracy, skills gap in prompt writing'},
+      {key:'TIMELINE',label:'Adoption timeline',placeholder:'e.g. 90 days to reach Level 3 maturity (2–4 workflows per team member)'},
+    ],
+    template:`Create a change management plan for AI adoption.
+
+Team: [TEAM]
+Tools being introduced: [TOOLS]
+Resistance concerns: [RESISTANCE]
+Timeline: [TIMELINE]
+
+Produce:
+1. Stakeholder map (supporters, neutrals, resistors by role)
+2. Key messages for each group
+3. Training approach (specific to tools and roles — not generic)
+4. Change champions strategy
+5. Success metrics for adoption
+6. Resistance playbook — top 3 objections and specific responses`,
+    tip:'The resistance playbook is what leaders skip. When a team member says "this will replace me" in a team meeting, a vague reassurance makes it worse. A specific, honest answer about what changes and what doesn\'t builds more trust than any training session.'
+  },
+  {
+    id:'ai6', cat:'aistrategy', tags:['ai','executive'],
+    title:'AI Center of Excellence operating model',
+    desc:'Mission, org model recommendation, core capabilities, key roles, governance process, and 90-day stand-up roadmap.',
+    tool:'Claude',
+    fields:[
+      {key:'ORG',label:'Organization size and type',placeholder:'e.g. Mid-size insurance carrier, 600 staff, 3 business units'},
+      {key:'CURRENT',label:'Current AI state',placeholder:'e.g. Ad-hoc Copilot usage, no governance, 2 AI pilots in flight'},
+      {key:'SPONSOR',label:'Executive sponsor',placeholder:'e.g. CTO'},
+      {key:'BUDGET',label:'Approximate budget',placeholder:'e.g. $400K Year 1 or "undefined — looking for a model to pitch"'},
+    ],
+    template:`Design an AI Center of Excellence operating model.
+
+Organization: [ORG]
+Current AI state: [CURRENT]
+Executive sponsor: [SPONSOR]
+Budget: [BUDGET]
+
+Design the CoE covering:
+1. Mission and mandate (what the CoE owns vs. supports)
+2. Organizational model recommendation (hub/spoke vs. embedded vs. centralized)
+3. Core capabilities the CoE must have
+4. Key roles and responsibilities
+5. Governance and use case intake process
+6. Success metrics for the CoE itself
+7. 90-day stand-up roadmap`,
+    tip:'The most common CoE failure mode is over-centralization — all decisions funnel to a small team that becomes a bottleneck. The hub-and-spoke model with embedded champions per business unit distributes execution while centralizing standards. Design for scale from the start.'
+  },
+
+  // ── THOUGHT LEADERSHIP ──
+  {
+    id:'t1', cat:'thought', tags:['writing','quick'],
+    title:'LinkedIn article from a professional experience',
+    desc:'700–900 word article with scroll-stopping hook, your specific point of view, practical application, and a closing perspective — not a call to action.',
+    tool:'Claude',
+    fields:[
+      {key:'TOPIC',label:'Topic / experience',placeholder:'e.g. Why pre-mortems surface better risks than risk registers do'},
+      {key:'POV',label:'Your specific point of view',placeholder:'e.g. People predict failure better than they predict risk — the framing change is what unlocks honesty'},
+      {key:'AUDIENCE',label:'Target reader',placeholder:'e.g. Program managers and delivery leaders in technology'},
+      {key:'TAKEAWAY',label:'One thing readers walk away with',placeholder:'e.g. Run a pre-mortem before every major program — the question "what went wrong?" gets more honest answers than "what are the risks?"'},
+    ],
+    template:`Draft a LinkedIn article.
+
+Topic: [TOPIC]
+My POV: [POV]
+Target reader: [AUDIENCE]
+Key takeaway: [TAKEAWAY]
+
+Structure:
+- Hook (first 2 sentences must stop the scroll — declarative, not a question)
+- Context (why this topic matters now)
+- The insight or framework (the substance — your specific take)
+- Practical application (what the reader can do — specific, not "think about this")
+- Closing thought (a perspective, not a call to action)
+
+Length: 700–900 words. Tone: Direct, specific, professional but human. No AI-sounding language.`,
+    tip:'Best instruction for the hook: "Write the opening as a declarative statement that most people in this field would disagree with." Intellectual challenge drives engagement — not summaries.'
+  },
+  {
+    id:'t2', cat:'thought', tags:['writing'],
+    title:'12-week LinkedIn content calendar',
+    desc:'Week-by-week publishing plan with content type, specific angle, key insight, hook suggestion, and effort rating per post.',
+    tool:'Claude',
+    fields:[
+      {key:'BACKGROUND',label:'Your background and expertise',placeholder:'e.g. 14 years in technology delivery and AI advisory across insurance and fintech'},
+      {key:'THEMES',label:'Core themes (3 max)',placeholder:'e.g. AI in delivery, program governance, career in technology leadership'},
+      {key:'CADENCE',label:'Publishing cadence',placeholder:'e.g. 2 posts per week'},
+      {key:'AUDIENCE',label:'Target audience',placeholder:'e.g. PMs, delivery leaders, insurance technology executives'},
+      {key:'GOAL',label:'Goal',placeholder:'e.g. Thought leadership positioning and inbound for advisory and fractional work'},
+    ],
+    template:`Build a 12-week LinkedIn content calendar.
+
+Author: [BACKGROUND]
+Core themes: [THEMES]
+Cadence: [CADENCE]
+Audience: [AUDIENCE]
+Goal: [GOAL]
+
+For each week:
+- Content type (Article / Short post / Framework / Hot take / Experience story)
+- Topic or angle (specific — not a category)
+- Key insight to land
+- Hook suggestion
+- Estimated effort (High / Medium / Quick)`,
+    tip:'Mixing effort levels (Quick: 15 min, Medium: 1 hr, High: 3 hrs) is what makes a content calendar sustainable. Quick posts keep your presence active while you build the longer pieces.'
+  },
+  {
+    id:'t3', cat:'thought', tags:['writing','ai'],
+    title:'Turn a professional experience into a named framework',
+    desc:'Framework name, structure with named components, visual description, and a LinkedIn hook for when you publish it.',
+    tool:'Claude',
+    fields:[
+      {key:'EXPERIENCE',label:'The experience',placeholder:'e.g. I run pre-mortems before every major program kickoff — asking "imagine the program failed, what went wrong?" surfaces risks that standard risk registers never capture'},
+      {key:'INSIGHT',label:'What it taught you that others don\'t know',placeholder:'e.g. People predict failure more honestly than they predict risk. The question framing is what changes the output.'},
+      {key:'AUDIENCE',label:'Who this is useful for',placeholder:'e.g. Program managers, delivery leaders, anyone running high-stakes technology programs'},
+    ],
+    template:`Turn this professional experience into a named, publishable framework.
+
+Experience: [EXPERIENCE]
+Non-obvious insight: [INSIGHT]
+Who this helps: [AUDIENCE]
+
+Build:
+1. Framework name (memorable, specific, not generic)
+2. Framework structure (steps, components, or dimensions — with names for each)
+3. One-paragraph explanation of each component
+4. Visual description (how would this be drawn?)
+5. LinkedIn hook for when you publish it`,
+    tip:'Named frameworks are the highest-leverage thought leadership output — searchable, shareable, attributed. The name is the asset. Specific beats generic: "The Pre-Mortem Stack" is memorable; "The Delivery Excellence Model" is not.'
+  },
+  {
+    id:'t4', cat:'thought', tags:['writing','executive'],
+    title:'Whitepaper or advisory brief on an industry topic',
+    desc:'Professional whitepaper with a stated argument, evidence-based sections, and a clear implication for decision-makers.',
+    tool:'Claude',
+    fields:[
+      {key:'TOPIC',label:'Topic (specific angle)',placeholder:'e.g. Why 80% of insurance AI programs fail at the data layer before they start'},
+      {key:'POV',label:'Your point of view',placeholder:'e.g. Organizations treat AI as a technology problem when it\'s a data governance problem — the investment sequence is backwards'},
+      {key:'AUDIENCE',label:'Target audience',placeholder:'e.g. CIOs and CTOs at mid-size insurance carriers'},
+      {key:'ARGUMENTS',label:'Main arguments (3–5)',placeholder:'e.g. 1. AI maturity outpaces data maturity in most insurers. 2. Quick wins require no new data. 3. Governance frameworks must precede deployment.'},
+    ],
+    template:`Draft a professional whitepaper or advisory brief.
+
+Topic: [TOPIC]
+My position: [POV]
+Audience: [AUDIENCE]
+Arguments: [ARGUMENTS]
+
+Structure:
+1. Executive summary (problem, position, implication — 3 sentences)
+2. The problem (market context — specific, not generic)
+3. What's not working (current approaches and their limits)
+4. A better approach (your framework or recommendation)
+5. Implications (what leaders should do — specific actions)
+6. Conclusion (confident, directional, not a summary repeat)`,
+    tip:'The subtitle that states the argument is what separates a whitepaper that gets read from one that gets filed. "AI in Insurance Claims" is a title. "Why 80% of Insurance AI Programs Fail at the Data Layer Before They Start" is an argument.'
+  },
+  {
+    id:'t5', cat:'thought', tags:['writing','quick'],
+    title:'Repurpose one piece of content into 5 formats',
+    desc:'LinkedIn post, tweet thread, executive email, conference talk outline, and podcast pitch — from a single source piece.',
+    tool:'Claude',
+    fields:[
+      {key:'CONTENT',label:'Original content',placeholder:'Paste your article, framework, whitepaper section, or talk transcript here'},
+      {key:'AUDIENCE',label:'Target audience for email',placeholder:'e.g. CTOs and VPs at insurance carriers'},
+    ],
+    template:`Repurpose this content into 5 formats.
+
+Original:
+[CONTENT]
+
+Produce:
+1. LinkedIn short post (200–250 words) — leading with the sharpest insight
+2. 5-item carousel or thread (one key point per slide/tweet)
+3. Executive email to [AUDIENCE] — 3 sentences: what changed, why it matters to them, one implication
+4. Conference talk outline (30 minutes — title, arc, 4 sections with timings)
+5. Podcast pitch (1 paragraph: who I am, what I'd bring, why their audience benefits)
+
+For each format: preserve the core insight, adapt for the medium.`,
+    tip:'Write the long-form piece first, then extract. Never write the short-form first — you\'ll leave the depth behind and have nothing worth repurposing.'
+  },
+  {
+    id:'t6', cat:'thought', tags:['writing'],
+    title:'Professional bio in 4 formats',
+    desc:'LinkedIn About, speaker bio, one-sentence intro, and investor/advisory bio — each written for its specific context.',
+    tool:'Claude',
+    fields:[
+      {key:'BACKGROUND',label:'Career background',placeholder:'Paste your CV summary or career narrative here'},
+      {key:'THEMES',label:'Key themes to emphasize',placeholder:'e.g. AI advisory, delivery leadership, insurance domain expertise, SaaS transformation'},
+    ],
+    template:`Write professional bios in 4 formats.
+
+Background: [BACKGROUND]
+Themes to emphasize: [THEMES]
+
+Formats:
+1. LinkedIn About (200–250 words, first person — not a CV, a narrative)
+2. Speaker bio for conference / webinar (100 words, third person)
+3. One-sentence intro bio (25 words — for email signatures and quick intros)
+4. Investor / advisory intro (75 words, third person, achievement-led)
+
+Each bio should feel written for that specific context — not a shortened version of the same text.`,
+    tip:'The one-sentence bio is the most underused asset. Having a precise 25-word version you\'ve actually crafted means your strongest positioning is ready when it matters — a conference badge, a Zoom intro, a podcast introduction.'
+  },
+
+  // ── META ──
+  {
+    id:'me1', cat:'meta', tags:['ai','quick'], difficulty:'Pro',
+    chains:['me2','me3'],
+    title:'Claude Project system prompt for a program',
+    desc:'Persistent system prompt that sets program context, tone preferences, and what Claude should never assume — ready to paste into a Claude Project.',
+    tool:'Claude Projects',
+    fields:[
+      {key:'PROGRAM',label:'Program name',placeholder:'e.g. WCB Saskatchewan Coresuite Migration'},
+      {key:'CLIENT',label:'Client',placeholder:'e.g. WCB Saskatchewan — provincial Workers Compensation Board'},
+      {key:'PLATFORM',label:'Platform',placeholder:'e.g. Sapiens Coresuite + Digital Suite (Employer, Worker, Provider journeys)'},
+      {key:'PHASE',label:'Current phase',placeholder:'e.g. Phase 2 of 3 — integration and UAT'},
+      {key:'SENSITIVE',label:'What Claude should never assume or include',placeholder:'e.g. Never include specific client names in generated client comms. Never cite dollar amounts not explicitly provided.'},
+      {key:'TASKS',label:'Common tasks this project handles',placeholder:'e.g. Status reports, risk log updates, client communications, steering committee narratives'},
+    ],
+    template:`Write a Claude Project system prompt for this program context.
+
+Program: [PROGRAM]
+Client: [CLIENT]
+Platform: [PLATFORM]
+Phase: [PHASE]
+Sensitivities: [SENSITIVE]
+Common tasks: [TASKS]
+
+The system prompt should:
+- Set program context Claude always applies
+- Define tone and format preferences for this engagement
+- State what Claude should never do or assume
+- Specify how to handle uncertainty (ask vs. flag vs. proceed)`,
+    tip:'One Claude Project per active program — not one for everything. Scoped context produces scoped answers. The discipline of keeping projects separate is itself a governance practice.'
+  },
+  {
+    id:'me2', cat:'meta', tags:['ai'],
+    title:'Team prompt library (Confluence-ready)',
+    desc:'7-prompt reusable library for your delivery team — with placeholders, expected output, and time saved per prompt. Paste directly into Confluence.',
+    tool:'Claude · Confluence',
+    fields:[
+      {key:'TEAM',label:'Team type',placeholder:'e.g. Mixed delivery team — PMs, Scrum Masters, BAs'},
+      {key:'INDUSTRY',label:'Industry',placeholder:'e.g. Insurance SaaS — regulated environment'},
+      {key:'TOOLS',label:'Primary tools',placeholder:'e.g. Jira, Confluence, Microsoft Teams, ServiceNow'},
+      {key:'SINKS',label:'Biggest time sinks',placeholder:'e.g. Weekly status reporting, meeting follow-ups, RAID log updates, release notes'},
+    ],
+    template:`Generate a structured prompt library for my delivery team.
+
+Team: [TEAM] | Industry: [INDUSTRY]
+Primary tools: [TOOLS]
+Biggest time sinks: [SINKS]
+
+For each of our top 7 recurring tasks, provide:
+- Task name and when to use it
+- Full prompt with [PLACEHOLDER] fields
+- Expected output in 1 sentence
+- Time saved (manual time vs. with prompt)
+
+Format for direct paste into a Confluence page as a living team library.`,
+    tip:'The time saved line next to each prompt is what drives adoption. "2.5 hrs → 15 min" next to the status report prompt changes behavior. Abstract claims about AI productivity don\'t move people — specific demonstrated savings do.'
+  },
+  {
+    id:'me3', cat:'meta', tags:['ai','governance'],
+    title:'Cross-document gap analysis from program artifacts',
+    desc:'Answers grounded only in uploaded documents — with explicit gap flags, inconsistency detection, and named missing documents.',
+    tool:'Claude Projects (Pro / Enterprise)',
+    fields:[
+      {key:'DOCS',label:'Uploaded documents',placeholder:'e.g. Program charter v2.1, RAID log (May 9), Governance Framework v1.3, RACI Matrix'},
+      {key:'QUESTIONS',label:'Your questions',placeholder:'e.g. Which risks in the RAID log are currently unowned? Are there dependencies in the charter that don\'t appear in the RAID log?'},
+    ],
+    template:`I've uploaded these documents to this Claude Project:
+[DOCS]
+
+Answer these questions using ONLY the uploaded documents:
+[QUESTIONS]
+
+Rules:
+- If something isn't covered, say so explicitly — do not infer or assume
+- Flag any inconsistencies between documents
+- Cite which document each answer comes from
+- Name any missing document that would be needed to fully answer a question
+
+Format as a structured gap analysis I can share with the PMO.`,
+    tip:'"Do not infer or assume" is the most important instruction. AI will fill gaps with plausible inferences unless explicitly told not to. In regulated environments, a plausible inference presented as fact is more dangerous than an acknowledged gap.'
+  },
+  {
+    id:'me4', cat:'meta', tags:['ai','quick'],
+    title:'Improve a weak prompt for better output',
+    desc:'Diagnoses why your prompt isn\'t working, rewrites it, and explains each change — building your prompt engineering skills as it goes.',
+    tool:'Claude · ChatGPT',
+    fields:[
+      {key:'PROMPT',label:'Your original prompt',placeholder:'Paste the prompt that isn\'t producing the output you need'},
+      {key:'PROBLEM',label:'What\'s wrong with the output',placeholder:'e.g. Too generic, wrong format, missing the executive tone, doesn\'t include the specifics I gave it'},
+      {key:'GOAL',label:'What good output looks like',placeholder:'e.g. A 3-paragraph narrative in professional tone, leading with the RAG status, under 300 words'},
+    ],
+    template:`I have a prompt that isn't producing the output I need.
+
+Original prompt:
+[PROMPT]
+
+What's wrong with the output: [PROBLEM]
+What good output looks like: [GOAL]
+
+Rewrite my prompt to produce the output I need. Then explain what you changed and why — I want to understand the principle behind each change so I can apply it myself.`,
+    tip:'The five most impactful prompt fixes: (1) role assignment, (2) explicit output format, (3) audience specification, (4) "what NOT to do" instruction, (5) length constraint. Most weak prompts are missing 3 or more of these.'
+  },
+  {
+    id:'me5', cat:'meta', tags:['ai'],
+    title:'Personal AI workflow audit — where am I leaving time on the table?',
+    desc:'Ranked audit of your weekly work by AI applicability, with specific approach, time saving estimate, and implementation effort per activity.',
+    tool:'Claude',
+    fields:[
+      {key:'ROLE',label:'Your role',placeholder:'e.g. Director, Client Engagement & Digital Delivery'},
+      {key:'WEEK',label:'Typical weekly activities with hours',placeholder:'e.g. Status reporting: 3 hrs, Meeting follow-ups: 1.5 hrs, Budget narratives: 1 hr, Client emails: 2 hrs, Risk log updates: 1 hr'},
+      {key:'CURRENT',label:'Current AI usage',placeholder:'e.g. Occasionally use Claude for drafting, no systematic workflow'},
+    ],
+    template:`Audit my work week to identify where AI could save the most time.
+
+My role: [ROLE]
+
+Weekly activities:
+[WEEK]
+
+Current AI usage: [CURRENT]
+
+For each activity:
+1. AI applicability (High / Medium / Low / None)
+2. Specific AI approach (tool + prompt type)
+3. Estimated time saving per week
+4. Implementation effort (Quick / Medium / Project)
+
+Rank by: time saving × low effort = quick wins first.`,
+    tip:'Run this audit at the start of every quarter. As AI maturity grows, what was "medium effort" becomes a quick win, and new high-value opportunities appear. The audit is a habit, not a one-time exercise.'
+  },
+  {
+    id:'me6', cat:'meta', tags:['ai','governance'],
+    title:'Team AI maturity assessment and 90-day activation plan',
+    desc:'5-level maturity model, quick assessment questions, 90-day phased activation roadmap, and adoption success metrics.',
+    tool:'Claude',
+    fields:[
+      {key:'TEAM',label:'Team type and size',placeholder:'e.g. 12-person delivery team — 4 PMs, 3 BAs, 2 QA, 2 tech leads, 1 Scrum Master'},
+      {key:'CURRENT',label:'Current AI state',placeholder:'e.g. 3 team members use Claude occasionally, no shared prompts, no systematic workflow'},
+      {key:'TARGET',label:'Target state in 90 days',placeholder:'e.g. All PMs using AI for status reports and meeting follow-ups, shared prompt library in Confluence, measurable time savings tracked'},
+      {key:'CONSTRAINTS',label:'Constraints',placeholder:'e.g. No dedicated training time, mixed technical appetite, tool access to Claude and Copilot only'},
+    ],
+    template:`Design a team AI maturity assessment and 90-day activation plan.
+
+Team: [TEAM]
+Current state: [CURRENT]
+Target in 90 days: [TARGET]
+Constraints: [CONSTRAINTS]
+
+Produce:
+1. 5-level maturity model specific to this team's work
+2. Quick assessment (5 questions) to place each member on the model
+3. 90-day activation roadmap by phase (not by individual)
+4. Coaching approach: demonstrate, don't mandate
+5. Success metrics: how will you know adoption has happened?`,
+    tip:'Run the 5-question assessment as a 1:1 conversation, not a form. Answers tell you not just the maturity level but the attitude — enthusiastic Level 2 vs. skeptical Level 2 need completely different approaches.'
+  },
+
+  // ── AGENTIC WORKFLOWS ──
+  {
+    id:'ag1', cat:'agentic', tags:['agentic','quick'], difficulty:'Pro',
+    chains:['ag2','me1'],
+    title:'Design a multi-step agentic workflow for a delivery task',
+    desc:'Breaks a complex delivery task into a sequenced chain of AI steps — each with a clear input, output, and handoff to the next.',
+    tool:'Claude · Claude Projects',
+    fields:[
+      {key:'TASK',label:'End goal',placeholder:'e.g. Produce a complete weekly governance pack — status report, risk update, and exec narrative — from raw Jira and meeting data'},
+      {key:'INPUTS',label:'Available inputs',placeholder:'e.g. Jira sprint export (CSV), Fireflies meeting transcript, last week\'s risk register'},
+      {key:'AUDIENCE',label:'Final audience',placeholder:'e.g. Steering committee and executive sponsor'},
+    ],
+    template:`Design a multi-step agentic workflow to accomplish the following end goal.
+
+End goal: [TASK]
+Available inputs: [INPUTS]
+Final audience: [AUDIENCE]
+
+For each step in the workflow:
+1. Step name and description
+2. Input (what this step receives)
+3. Prompt or instruction for this step
+4. Output (what this step produces)
+5. Handoff (what the next step receives)
+6. Human checkpoint needed? (Y/N — when should a human review before continuing)
+
+Then provide:
+- The complete step sequence as a numbered chain
+- Estimated total time with AI vs. without
+- Where the workflow is most likely to need human correction`,
+    tip:'The human checkpoint question is what separates a safe agentic workflow from a risky one. Any step that produces something going directly to a client or exec should have a review gate. Design the checkpoints before you automate.'
+  },
+  {
+    id:'ag2', cat:'agentic', tags:['agentic','governance'], difficulty:'Pro',
+    chains:['ag3','me3'],
+    title:'Build a weekly reporting pipeline from data to narrative',
+    desc:'Full agentic chain: raw data in → formatted status report out, with intermediate steps for extraction, analysis, and narrative generation.',
+    tool:'Claude Projects · Claude API',
+    fields:[
+      {key:'DATASOURCES',label:'Data sources',placeholder:'e.g. Jira sprint summary, Fireflies transcript, budget spreadsheet'},
+      {key:'REPORTTYPE',label:'Report type',placeholder:'e.g. Weekly steering committee status pack'},
+      {key:'FORMAT',label:'Output format',placeholder:'e.g. RAG summary + 3-bullet accomplishments + risk table + exec narrative, max 2 pages'},
+    ],
+    template:`Design an agentic reporting pipeline that takes raw data and produces a formatted report.
+
+Data sources: [DATASOURCES]
+Report type: [REPORTTYPE]
+Output format: [FORMAT]
+
+Design the pipeline as sequential steps:
+
+STEP 1 — DATA EXTRACTION
+Prompt: Extract structured data from each source. For each source, what fields to pull and how to handle gaps.
+
+STEP 2 — STATUS ANALYSIS
+Prompt: Given extracted data, determine RAG status with justification. Flag anomalies.
+
+STEP 3 — NARRATIVE GENERATION
+Prompt: Write the narrative sections using the structured analysis from Step 2.
+
+STEP 4 — FORMAT & ASSEMBLE
+Prompt: Combine all sections into the final format.
+
+STEP 5 — QUALITY CHECK
+Prompt: Review the assembled report. Flag any numbers that don't add up, any missing sections, or any language that is ambiguous.
+
+For each step: specify the exact prompt, expected output, and whether human review is needed before proceeding.`,
+    tip:'Run this pipeline once manually before automating it. Each step will reveal edge cases — missing data, ambiguous statuses, formatting gaps — that are far easier to handle before they\'re baked into an automated flow.'
+  },
+  {
+    id:'ag3', cat:'agentic', tags:['agentic','ai'], difficulty:'Pro',
+    chains:['ag4','ag1'],
+    title:'Create a RAID log agent that monitors and escalates automatically',
+    desc:'Prompt chain that continuously extracts, deduplicates, and escalates RAID items from meeting transcripts across a program.',
+    tool:'Claude Projects · Fireflies · Jira',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. WCB Saskatchewan Coresuite Migration'},
+      {key:'THRESHOLD',label:'Escalation threshold',placeholder:'e.g. Any H-impact unowned risk, any issue open >5 days, any dependency with no due date'},
+      {key:'OWNER',label:'Escalation recipient',placeholder:'e.g. Program Director and Client PM'},
+    ],
+    template:`Design a RAID monitoring agent for [PROGRAM].
+
+The agent runs weekly and performs these steps in sequence:
+
+STEP 1 — INGEST
+Collect all meeting transcripts from the past 7 days. Sources: [list tools — Fireflies, Teams, etc.]
+Prompt: Extract all potential RAID items from each transcript. Include speaker attribution where possible.
+
+STEP 2 — DEDUPLICATE & MERGE
+Compare new items against existing RAID register.
+Prompt: For each new item — is this a new issue or an update to an existing one? Merge updates, flag new items.
+
+STEP 3 — QUALITY CHECK
+Prompt: For each open RAID item, flag: unowned, no due date, no mitigation, impact rating missing. Output a gap list.
+
+STEP 4 — ESCALATION FILTER
+Escalation threshold: [THRESHOLD]
+Prompt: Which items meet the escalation threshold? List them with owner, impact, and days open.
+
+STEP 5 — DRAFT ESCALATION
+Prompt: Write a concise escalation summary for [OWNER]. For each flagged item: what it is, why it's being escalated, what decision or action is needed.
+
+Output the full agent design as a runnable prompt chain.`,
+    tip:'Start with Steps 1–3 running manually. Once you trust the extraction and deduplication quality, add the escalation steps. Never automate the escalation step until you\'ve validated the quality of what it would escalate.'
+  },
+  {
+    id:'ag4', cat:'agentic', tags:['agentic','client'], difficulty:'Pro',
+    chains:['ag5','c3'],
+    title:'Design a go-live command centre agent',
+    desc:'Agentic workflow for the cutover window — monitoring issue feeds, triaging severity, drafting updates, and flagging rollback triggers in sequence.',
+    tool:'Claude Projects · ServiceNow · Jira',
+    fields:[
+      {key:'PROGRAM',label:'Program and platform',placeholder:'e.g. Sapiens Coresuite go-live — Saturday 8pm ET'},
+      {key:'FEEDS',label:'Issue feeds available',placeholder:'e.g. ServiceNow incident queue, Jira bugs, Slack #go-live channel'},
+      {key:'ROLLBACK',label:'Rollback trigger definition',placeholder:'e.g. More than 3 P1 incidents or data validation failure >0.1%'},
+      {key:'CADENCE',label:'Update cadence',placeholder:'e.g. Every 30 minutes during cutover window, every 2 hours during hypercare'},
+    ],
+    template:`Design a go-live command centre agentic workflow.
+
+Program: [PROGRAM]
+Issue feeds: [FEEDS]
+Rollback trigger: [ROLLBACK]
+Update cadence: [CADENCE]
+
+The agent runs continuously during the cutover window and performs:
+
+STEP 1 — ISSUE TRIAGE (every 30 min)
+Prompt: From current incident queue, classify each open item by severity. Flag anything meeting: [ROLLBACK]. Output: structured triage list with severity, owner, ETA.
+
+STEP 2 — PATTERN DETECTION
+Prompt: Are multiple incidents sharing a common root cause? If 3+ items relate to the same system component, flag as potential systemic issue.
+
+STEP 3 — ROLLBACK ASSESSMENT
+Prompt: Based on current triage, evaluate against rollback trigger criteria. Output: GO / HOLD / ROLLBACK recommendation with rationale.
+
+STEP 4 — STAKEHOLDER UPDATE DRAFT
+Prompt: Write a [CADENCE] update for exec sponsor and client PM. Include: incident count by severity, open P1s, current GO/HOLD status, next review time.
+
+STEP 5 — ESCALATION TRIGGER
+If Step 3 output is ROLLBACK: immediately draft rollback notification for all stakeholders.
+
+Design each step with the exact prompt, inputs, outputs, and human approval gate.`,
+    tip:'Step 3\'s GO/HOLD/ROLLBACK output should always go to a human before any action. The agent\'s value is speed of synthesis — not speed of decision. The on-call director makes the call. The agent makes the picture clear enough to make it fast.'
+  },
+  {
+    id:'ag5', cat:'agentic', tags:['agentic','writing'], difficulty:'Pro',
+    chains:['ag6','t5'],
+    title:'Build a content publishing agent for LinkedIn thought leadership',
+    desc:'Agentic chain that takes a raw professional experience, extracts the insight, drafts the article, checks quality, and prepares 3 repurposed formats.',
+    tool:'Claude Projects',
+    fields:[
+      {key:'EXPERIENCE',label:'Raw experience or observation',placeholder:'e.g. Notes from a difficult client escalation, a program post-mortem, a framework I\'ve been using'},
+      {key:'AUDIENCE',label:'Target LinkedIn audience',placeholder:'e.g. Program managers and delivery leaders in technology and insurance'},
+      {key:'FORMATS',label:'Repurpose into',placeholder:'e.g. Short LinkedIn post, carousel outline, executive email teaser'},
+    ],
+    template:`Design a content publishing agentic workflow.
+
+Input: [EXPERIENCE]
+Audience: [AUDIENCE]
+Output formats: [FORMATS]
+
+STEP 1 — INSIGHT EXTRACTION
+Prompt: Read the raw input. What is the single most transferable insight here? What would a senior practitioner in this field not already know? State it in one sentence.
+
+STEP 2 — ARTICLE DRAFT
+Prompt: Using the insight from Step 1, draft a 700–900 word LinkedIn article. Hook must be a declarative statement that challenges an assumption. No AI-sounding language. No em dashes. End with a perspective, not a call to action.
+
+STEP 3 — QUALITY CHECK
+Prompt: Review the draft. Flag: any generic phrases, any advice that every PM would already know, any section that could be cut without losing meaning. Rewrite flagged sections.
+
+STEP 4 — REPURPOSE
+Prompt: From the polished article, create: [FORMATS]. Each format must preserve the core insight and be adapted for its medium — not just shortened.
+
+STEP 5 — PUBLISH READINESS CHECK
+Prompt: Is this article specific enough to build professional credibility? Does it reveal something the author actually knows from experience — or does it read like summarised advice? Rate 1–5 and explain.
+
+Output: polished article + repurposed formats + publish readiness score.`,
+    tip:'The quality check step (Step 3) is where AI-generated content usually fails. Asking the model to critique its own output before you see it surfaces the generic phrases and borrowed advice that erode professional credibility. Always run it.'
+  },
+  {
+    id:'ag6', cat:'agentic', tags:['agentic','governance'], difficulty:'Enterprise',
+    chains:['ag1','mcp1'],
+    title:'Design an AI governance audit agent for a regulated program',
+    desc:'Agentic workflow that reviews program artifacts for compliance gaps, missing documentation, and governance obligations in regulated environments.',
+    tool:'Claude Projects · Claude Enterprise',
+    fields:[
+      {key:'PROGRAM',label:'Program and industry',placeholder:'e.g. Insurance SaaS implementation — PIPEDA, provincial privacy legislation'},
+      {key:'ARTIFACTS',label:'Artifacts available',placeholder:'e.g. Program charter, RAID log, data processing agreement, change log, test evidence'},
+      {key:'OBLIGATIONS',label:'Governance obligations',placeholder:'e.g. Data residency confirmed, audit trail verified, change control documented, UAT sign-off obtained'},
+    ],
+    template:`Design a governance audit agentic workflow for a regulated program.
+
+Program: [PROGRAM]
+Artifacts available: [ARTIFACTS]
+Governance obligations: [OBLIGATIONS]
+
+STEP 1 — ARTIFACT INVENTORY
+Prompt: List all uploaded artifacts. For each: what it is, version, date, and which governance obligation it relates to.
+
+STEP 2 — OBLIGATION MAPPING
+Prompt: For each governance obligation listed, identify: which artifact(s) provide evidence, whether the evidence is complete, and any obligation with no artifact mapped to it.
+
+STEP 3 — GAP IDENTIFICATION
+Prompt: Produce a gap report listing: obligations with no evidence, artifacts that are out of date, and any inconsistencies between documents. Flag each gap as CRITICAL / MODERATE / MINOR.
+
+STEP 4 — REMEDIATION PLAN
+Prompt: For each CRITICAL gap, draft a specific remediation action with: what needs to be produced, who should produce it, and a suggested timeline.
+
+STEP 5 — AUDIT SUMMARY
+Prompt: Write a 1-page governance audit summary suitable for the compliance officer and program director. Include: overall compliance posture, critical gaps requiring immediate action, and completeness score.
+
+Never infer or assume compliance from partial evidence. If a gap exists, it must be named.`,
+    tip:'The "never infer compliance" instruction is the most important line in this workflow. In regulated environments, an AI that assumes documentation exists because the process implies it would is actively dangerous. Explicit gaps are safer than confident inferences.'
+  },
+
+  // ── CLAUDE PROJECTS ──
+  {
+    id:'cp1', cat:'projects', tags:['ai','quick'], difficulty:'Pro',
+    chains:['cp2','me1'],
+    title:'Set up a Claude Project for a specific client engagement',
+    desc:'Full Project setup — system prompt, document strategy, naming conventions, and the 3 documents to upload on day one.',
+    tool:'Claude Projects (Pro)',
+    fields:[
+      {key:'CLIENT',label:'Client name',placeholder:'e.g. WCB Saskatchewan'},
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. Coresuite + Digital Suite implementation'},
+      {key:'PHASE',label:'Current phase',placeholder:'e.g. Phase 2 — Integration and UAT'},
+      {key:'TEAM',label:'Who uses this Project',placeholder:'e.g. Just me / me and my delivery lead / full team of 6'},
+      {key:'TASKS',label:'Weekly tasks this Project will handle',placeholder:'e.g. Status reports, risk updates, client emails, meeting follow-ups, steering narratives'},
+    ],
+    template:`Set up a Claude Project for this client engagement.
+
+Client: [CLIENT] | Program: [PROGRAM] | Phase: [PHASE]
+Users: [TEAM]
+Primary tasks: [TASKS]
+
+Produce:
+1. SYSTEM PROMPT — the persistent instructions to paste into the Project settings. Include: program context, client sensitivities, tone preferences, format requirements, and what Claude should never assume or fabricate.
+
+2. DOCUMENT UPLOAD STRATEGY — the 3–5 documents to upload on day one for best results. For each: what it is, why it improves output quality, and how to keep it current.
+
+3. NAMING CONVENTION — how to name conversations inside this Project so they're easy to find and reference.
+
+4. PROMPT TEMPLATES — 3 starter prompts calibrated to this specific program context that the team should save immediately.
+
+5. MAINTENANCE CADENCE — how often to update the system prompt and documents as the program evolves.`,
+    tip:'The document upload strategy is where most Project setups fail — people upload too much or the wrong things. Three well-chosen, current documents outperform ten stale ones. The RACI, active risk register, and current milestone plan are almost always the right starting three.'
+  },
+  {
+    id:'cp2', cat:'projects', tags:['ai','governance'], difficulty:'Pro',
+    chains:['cp3','me2'],
+    title:'Build a team-shared Claude Project with governance rules',
+    desc:'Project design for a delivery team — shared context, usage conventions, what goes in vs. what stays out, and quality standards for AI outputs.',
+    tool:'Claude Projects (Pro / Team)',
+    fields:[
+      {key:'TEAM',label:'Team size and roles',placeholder:'e.g. 8 people — 3 PMs, 2 BAs, 2 QA, 1 Scrum Master'},
+      {key:'USECASE',label:'Primary use cases',placeholder:'e.g. Status reporting, RAID updates, release notes, retrospective synthesis'},
+      {key:'SENSITIVE',label:'Sensitive information to exclude',placeholder:'e.g. No client PII, no salary or headcount data, no unreleased contractual terms'},
+    ],
+    template:`Design a team-shared Claude Project setup.
+
+Team: [TEAM]
+Use cases: [USECASE]
+Sensitive exclusions: [SENSITIVE]
+
+Produce:
+1. SHARED SYSTEM PROMPT — program context that benefits the whole team. What to include, what to leave out.
+
+2. TEAM USAGE CONVENTIONS — what each role uses the Project for, naming conventions for conversations, and how to flag when a conversation should not be in the shared Project.
+
+3. QUALITY STANDARDS — how the team should review AI outputs before using them. What to always check, what to never use without human review.
+
+4. INFORMATION GOVERNANCE — what types of content must never go into a Claude Project conversation. Clear rules, not vague guidance.
+
+5. ONBOARDING CHECKLIST — 5 steps to get a new team member using the Project correctly in their first week.`,
+    tip:'Information governance rule number one for shared Projects: if you wouldn\'t put it in a shared Confluence page, don\'t put it in a shared Claude Project. The same information sensitivity rules apply — the medium is different, the standard isn\'t.'
+  },
+  {
+    id:'cp3', cat:'projects', tags:['ai','client'], difficulty:'Pro',
+    chains:['cp4','me3'],
+    title:'Use a Claude Project to answer questions from uploaded program documents',
+    desc:'Structured prompt for document-grounded Q&A — with explicit rules against inference and a gap-reporting requirement.',
+    tool:'Claude Projects (Pro)',
+    fields:[
+      {key:'DOCS',label:'Documents uploaded to this Project',placeholder:'e.g. Program charter v2, RAID log May 9, Governance framework v1.3, RACI matrix, delivery plan'},
+      {key:'QUESTIONS',label:'Questions to answer',placeholder:'e.g. Which risks have no owner? Are there dependencies in the charter not in the RAID log? Who has no tasks in Phase 2?'},
+    ],
+    template:`Answer the following questions using only the documents in this Project.
+
+Documents available:
+[DOCS]
+
+Questions:
+[QUESTIONS]
+
+Rules for every answer:
+- Cite the specific document and section for each answer
+- If the answer is not in the documents, say "Not found in available documents" — do not infer
+- If documents contradict each other, flag the inconsistency explicitly
+- If a question requires a document that is not uploaded, name the missing document
+
+Output format: structured Q&A with source citations, followed by a gap summary listing all "not found" items and any inconsistencies detected.`,
+    tip:'Add "do not infer" to every document-grounded prompt in Claude Projects. The model will fill gaps with plausible reasoning unless explicitly instructed not to. In governance and regulated delivery contexts, a documented gap is safer than a confident inference.'
+  },
+  {
+    id:'cp4', cat:'projects', tags:['ai','governance'], difficulty:'Pro',
+    chains:['cp5','cp1'],
+    title:'Maintain a living program context document in a Claude Project',
+    desc:'Structured template for the one document that makes every Claude Project output dramatically better — a current, scannable program context brief.',
+    tool:'Claude Projects (Pro)',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. WCB Saskatchewan Coresuite Migration'},
+      {key:'CLIENT',label:'Client',placeholder:'e.g. WCB Saskatchewan — provincial Workers Compensation Board, ~1,200 staff'},
+      {key:'PHASE',label:'Current phase and status',placeholder:'e.g. Phase 2 of 3 — Integration and UAT. Currently Amber — vendor API dependency outstanding.'},
+      {key:'STAKEHOLDERS',label:'Key stakeholders',placeholder:'e.g. [Name] — Exec Sponsor (decisions), [Name] — Client PM (day-to-day), [Name] — Vendor PM (Sapiens)'},
+      {key:'SENSITIVITIES',label:'Communications sensitivities',placeholder:'e.g. Client CTO sensitive about delay messaging. Never reference the August incident in client comms.'},
+    ],
+    template:`Create a living program context document for my Claude Project.
+
+Program: [PROGRAM]
+Client: [CLIENT]
+Current phase: [PHASE]
+Key stakeholders: [STAKEHOLDERS]
+Communications sensitivities: [SENSITIVITIES]
+
+Format this as a structured context brief with these sections:
+1. PROGRAM SNAPSHOT — name, client, platform, phase, current RAG status, go-live target
+2. STAKEHOLDER MAP — role, name, what they care about, communication preference
+3. COMMUNICATIONS SENSITIVITIES — what to never say, what to always include, tone by audience
+4. CURRENT PRIORITIES — top 3 things the program is focused on right now
+5. ACTIVE RISKS — top 3 open risks in brief (ID, description, owner, status)
+6. WHAT GOOD OUTPUTS LOOK LIKE — 3 examples of the format/tone Claude should match for this engagement
+
+Include a VERSION LINE at the top: "Last updated: [DATE] | Update this document whenever phase, RAG status, or key stakeholders change."`,
+    tip:'This is the document that makes everything else better. A well-maintained context brief means you never have to re-explain program background in a prompt. Every output is calibrated to the current state. Keep it under 600 words and update it weekly.'
+  },
+  {
+    id:'cp5', cat:'projects', tags:['ai','writing'], difficulty:'Pro',
+    chains:['cp6','e2'],
+    title:'Use a Claude Project as a consistent client communication tone engine',
+    desc:'Project setup that learns your communication style for a specific client and maintains that voice across every email, narrative, and update.',
+    tool:'Claude Projects (Pro)',
+    fields:[
+      {key:'CLIENT',label:'Client name',placeholder:'e.g. WCB Saskatchewan'},
+      {key:'RELATIONSHIP',label:'Relationship and history',placeholder:'e.g. 18-month engagement, senior relationship, currently navigating a delay conversation'},
+      {key:'TONE',label:'Tone for this client',placeholder:'e.g. Direct but warm. Never alarming. Always solution-forward. Client CTO prefers data before narrative.'},
+      {key:'AVOID',label:'Things to never include',placeholder:'e.g. Never mention the August rollback. Avoid passive voice. Never use "unfortunately".'},
+      {key:'SAMPLES',label:'Paste 1–2 emails that landed well',placeholder:'Paste actual email examples that got a positive response from this client'},
+    ],
+    template:`Set up a Claude Project to maintain consistent communication tone for a specific client.
+
+Client: [CLIENT]
+Relationship: [RELATIONSHIP]
+Tone: [TONE]
+Always avoid: [AVOID]
+
+Sample communications that worked well:
+[SAMPLES]
+
+Produce:
+1. TONE BRIEF — a concise description of this client's communication preferences that Claude can use as a persistent reference
+2. SYSTEM PROMPT ADDITION — specific instructions to add to this Project's system prompt that encode the tone, avoidances, and style
+3. BEFORE/AFTER EXAMPLES — 2 examples showing how a generic PM email becomes a calibrated communication for this specific client
+4. TONE CHECK PROMPT — a prompt the team can use to verify that any draft communication matches this client's standards before sending`,
+    tip:'The sample communications are the most valuable input here. Paste 2–3 emails that got a strong response — Claude will extract the pattern of what works for this client more accurately than any description you write yourself.'
+  },
+  {
+    id:'cp6', cat:'projects', tags:['ai','governance'], difficulty:'Enterprise',
+    chains:['cp1','ag6'],
+    title:'Design a multi-project Claude workspace for a program portfolio',
+    desc:'Architecture for managing multiple active programs in Claude Projects — separation strategy, shared vs. program-specific context, and cross-project governance.',
+    tool:'Claude Projects (Enterprise)',
+    fields:[
+      {key:'PROGRAMS',label:'Active programs',placeholder:'e.g. WCB Saskatchewan (Phase 2), Intact Financial (Phase 1), Internal PMO transformation'},
+      {key:'TEAM',label:'Team members across programs',placeholder:'e.g. 14 staff — some on single programs, 3 across multiple'},
+      {key:'SHARED',label:'Shared content across programs',placeholder:'e.g. Prompt library, governance templates, team coding standards'},
+    ],
+    template:`Design a multi-project Claude workspace architecture for a program portfolio.
+
+Active programs: [PROGRAMS]
+Team: [TEAM]
+Shared content: [SHARED]
+
+Produce:
+1. PROJECT ARCHITECTURE — which Claude Projects to create, what each owns, and what the separation principle is (one per client vs. one per domain vs. one per phase)
+
+2. SHARED vs. PROGRAM-SPECIFIC CONTEXT — what goes in a shared reference Project vs. what must stay program-specific. How to avoid cross-contamination.
+
+3. ACCESS AND GOVERNANCE — who has access to what, how to handle sensitive client information, and what never goes into any Claude Project.
+
+4. NAMING AND NAVIGATION CONVENTIONS — how to name Projects and conversations so the whole team can find things across 10+ active workspaces.
+
+5. MAINTENANCE OPERATING MODEL — who owns each Project's system prompt, how often it gets updated, and what triggers an update.`,
+    tip:'The separation principle is the most important architectural decision. One Project per client engagement is usually right — it prevents context bleed between clients and keeps outputs grounded in the right program. Shared prompt libraries work best in their own standalone Project with no sensitive content.'
+  },
+
+  // ── MCP INTEGRATIONS ──
+  {
+    id:'mcp1', cat:'mcp', tags:['mcp','ai'], difficulty:'Pro',
+    chains:['mcp2','ag1'],
+    title:'Connect Claude to Jira via MCP — live sprint data to narrative',
+    desc:'Prompt designed for Claude with Jira MCP connected — pulls real sprint data, produces status report without copy-paste.',
+    tool:'Claude + Jira MCP',
+    fields:[
+      {key:'PROJECT',label:'Jira project key',placeholder:'e.g. CORESUITE or WCB'},
+      {key:'SPRINT',label:'Sprint name or number',placeholder:'e.g. Sprint 12 or current active sprint'},
+      {key:'AUDIENCE',label:'Report audience',placeholder:'e.g. Steering committee and client PM'},
+      {key:'FORMAT',label:'Output format',placeholder:'e.g. RAG status + accomplishments + blockers + next week priorities, max 1 page'},
+    ],
+    template:`Using the Jira MCP connection, retrieve the following data and produce a status report.
+
+Jira project: [PROJECT]
+Sprint: [SPRINT]
+
+Data to retrieve:
+- Issues completed this sprint (summary and type)
+- Issues in progress (summary, assignee, any blocked flag)
+- Issues not started that were planned for this sprint
+- Bugs created this sprint by priority (P1/P2/P3)
+- Sprint velocity: planned vs. completed story points
+
+Using the retrieved data, produce a [FORMAT] status report.
+
+Audience: [AUDIENCE]
+Include: RAG status with 1-line justification, accomplishments (3 bullets), risks and blockers (named specifically), next sprint priorities.
+
+Do not fabricate any data. If a field is not available from Jira, note it as "not available in Jira data."`,
+    tip:'The "do not fabricate" instruction is essential when working with live MCP data. Claude will sometimes infer plausible values for missing fields if not explicitly told not to. In a governance context, a gap is better than a confident guess.'
+  },
+  {
+    id:'mcp2', cat:'mcp', tags:['mcp','quick'], difficulty:'Pro',
+    chains:['mcp3','s1'],
+    title:'Use Gmail MCP to draft responses to client emails with program context',
+    desc:'Connects to Gmail, reads incoming client email, cross-references program context in Claude Project, and drafts a calibrated response.',
+    tool:'Claude + Gmail MCP',
+    fields:[
+      {key:'EMAILCONTEXT',label:'Client email subject or situation',placeholder:'e.g. Client PM asking about the status of the API integration milestone and whether go-live is still on track'},
+      {key:'FACTS',label:'Actual facts to use in response',placeholder:'e.g. Integration is 80% complete, on track for June 21 testing, no current blocker'},
+      {key:'TONE',label:'Tone for this client',placeholder:'e.g. Confident and direct — this client responds poorly to hedging'},
+    ],
+    template:`Using the Gmail MCP, retrieve the most recent email from [client] on the subject of [EMAILCONTEXT].
+
+Read the email carefully. Then draft a response that:
+1. Directly answers the specific question asked — not a general update
+2. Uses only these facts: [FACTS]
+3. Does not speculate or add information not provided
+4. Tone: [TONE]
+5. Length: as short as possible while fully answering the question
+
+Do not invent facts. If the email asks something that the provided facts don't cover, note this explicitly so I can add the missing information before sending.
+
+After the draft, provide:
+- A 1-sentence summary of what the client is actually asking (in case I misread the intent)
+- One flag if the draft contains anything that could be misinterpreted`,
+    tip:'The "1-sentence summary of what the client is actually asking" is the most useful output from this prompt. Clients often ask one question while actually meaning another. Having Claude surface its interpretation lets you catch misalignment before the email is sent.'
+  },
+  {
+    id:'mcp3', cat:'mcp', tags:['mcp','governance'], difficulty:'Pro',
+    chains:['mcp4','r1'],
+    title:'Pull Google Drive program documents and run a gap analysis',
+    desc:'Uses Google Drive MCP to retrieve specified program documents and runs a structured governance gap analysis against them.',
+    tool:'Claude + Google Drive MCP',
+    fields:[
+      {key:'DOCS',label:'Document names or folders to retrieve',placeholder:'e.g. "Program Charter", "RAID Log May 2026", "Governance Framework" from the WCB Saskatchewan folder'},
+      {key:'QUESTIONS',label:'Gap analysis questions',placeholder:'e.g. Which risks have no owner? Are there any dependencies in the charter not tracked in the RAID log? Is the governance framework current?'},
+    ],
+    template:`Using the Google Drive MCP, retrieve the following documents:
+[DOCS]
+
+Once retrieved, perform a structured gap analysis:
+
+QUESTIONS TO ANSWER:
+[QUESTIONS]
+
+Rules:
+- Answer each question using only the retrieved document content
+- Cite document name and section for each answer
+- If information is not found, state "Not found in [document name]" — do not infer
+- Flag any document that appears out of date (version number, date, or content suggests it predates current program phase)
+- Identify any inconsistencies between documents
+
+Output: structured Q&A with citations, followed by a gap summary and a list of documents that need updating.`,
+    tip:'Ask Claude to flag documents that appear out of date — not just gaps in content. A governance framework that hasn\'t been updated since Phase 1 is a risk even if its contents were once correct. Version date awareness is part of governance quality.'
+  },
+  {
+    id:'mcp4', cat:'mcp', tags:['mcp','ai'], difficulty:'Enterprise',
+    chains:['mcp5','ag3'],
+    title:'Build a live risk monitoring workflow using Jira and Slack MCP',
+    desc:'Connects to Jira for issue data and Slack for team signals, synthesizes a weekly risk picture, and drafts a stakeholder update automatically.',
+    tool:'Claude + Jira MCP + Slack MCP',
+    fields:[
+      {key:'JIRAPROJECT',label:'Jira project',placeholder:'e.g. CORESUITE'},
+      {key:'SLACKCHANNEL',label:'Slack channel(s) to monitor',placeholder:'e.g. #coresuite-delivery, #coresuite-risks'},
+      {key:'RISKTHRESHOLD',label:'Risk escalation threshold',placeholder:'e.g. Any P1 bug open >48hrs, any RAID item unowned >7 days, any blocker mentioned 3+ times in Slack'},
+      {key:'RECIPIENT',label:'Update recipient',placeholder:'e.g. Program Director and Client PM'},
+    ],
+    template:`Using Jira MCP and Slack MCP, run a live risk monitoring workflow.
+
+Jira project: [JIRAPROJECT]
+Slack channels: [SLACKCHANNEL]
+Escalation threshold: [RISKTHRESHOLD]
+
+STEP 1 — JIRA DATA PULL
+Retrieve: all open P1/P2 bugs, all issues flagged as blocked, all issues past their due date, sprint burndown status.
+
+STEP 2 — SLACK SIGNAL SCAN
+From the last 7 days of messages in [SLACKCHANNEL], identify: repeated mentions of blockers or issues, any escalation language, any topics generating high message volume.
+
+STEP 3 — SYNTHESIS
+Cross-reference Jira issues with Slack signals. Are there Slack-mentioned problems not yet in Jira? Are there Jira issues generating Slack discussion that suggests higher severity than their logged priority?
+
+STEP 4 — ESCALATION FILTER
+Apply threshold: [RISKTHRESHOLD]. Which items meet escalation criteria?
+
+STEP 5 — DRAFT UPDATE
+Write a weekly risk summary for [RECIPIENT]. Include: top 3 risks from Jira+Slack synthesis, escalation items requiring decision, one recommended action per escalation item.`,
+    tip:'The cross-reference between Jira and Slack (Step 3) is where this prompt generates its real value. Issues that are generating heavy Slack discussion but still logged as P3 in Jira are your actual P1s. The gap between what\'s tracked and what\'s being talked about is where delivery risk lives.'
+  },
+  {
+    id:'mcp5', cat:'mcp', tags:['mcp','client'], difficulty:'Enterprise',
+    chains:['mcp6','s2'],
+    title:'Generate a board pack from live data across multiple MCP sources',
+    desc:'Pulls live data from Jira, Google Drive, and Gmail to assemble a complete monthly board pack — milestone status, financials, risks, and executive narrative.',
+    tool:'Claude + Jira + Google Drive + Gmail MCP',
+    fields:[
+      {key:'PROGRAM',label:'Program',placeholder:'e.g. WCB Saskatchewan Coresuite Migration'},
+      {key:'MONTH',label:'Reporting month',placeholder:'e.g. May 2026'},
+      {key:'JIRA',label:'Jira project key',placeholder:'e.g. CORESUITE'},
+      {key:'DRIVEFOLDER',label:'Google Drive folder',placeholder:'e.g. "WCB Saskatchewan / Board Reports"'},
+    ],
+    template:`Assemble a monthly board pack for [PROGRAM] — [MONTH].
+
+Using live MCP connections:
+
+FROM JIRA ([JIRA]):
+- Current sprint status and velocity
+- Milestones completed this month vs. planned
+- Open P1/P2 issues and blockers
+- Overall schedule confidence based on burndown
+
+FROM GOOGLE DRIVE ([DRIVEFOLDER]):
+- Budget actuals from latest financial report
+- Previous month's board pack (for comparison)
+- Current risk register
+
+FROM GMAIL:
+- Any client communications this month flagging concerns or requesting decisions
+- Any escalations received or sent
+
+SYNTHESIZE INTO:
+1. Executive summary (3 sentences: health, progress, ask)
+2. Milestone status table (planned vs. actual, RAG)
+3. Budget summary (planned vs. actual, variance explanation)
+4. Top 3 risks (from register + any signals from Jira/Gmail)
+5. Decisions required from the Board this month
+6. Next month outlook
+
+Do not fabricate data. Where data is unavailable from the sources, mark as "manual input required."`,
+    tip:'"Manual input required" is the most important output marker in any MCP-driven workflow. A board pack assembled from live data is only as credible as its sources. Explicit gaps that need human completion are a feature, not a failure — they prevent confident errors.'
+  },
+  {
+    id:'mcp6', cat:'mcp', tags:['mcp','agile'], difficulty:'Pro',
+    chains:['mcp1','a2'],
+    title:'Use Jira MCP to automate sprint retrospective data collection',
+    desc:'Pulls sprint completion data, velocity trends, and bug metrics from Jira to pre-populate the factual foundation of a retrospective before the session.',
+    tool:'Claude + Jira MCP',
+    fields:[
+      {key:'PROJECT',label:'Jira project',placeholder:'e.g. CORESUITE'},
+      {key:'SPRINT',label:'Sprint just completed',placeholder:'e.g. Sprint 12'},
+      {key:'TEAM',label:'Team size',placeholder:'e.g. 8 people across 2 squads'},
+    ],
+    template:`Using the Jira MCP, retrieve retrospective data for [PROJECT] — [SPRINT].
+
+Pull the following:
+- Planned vs. completed story points
+- Issues carried over from previous sprint (incomplete)
+- Issues added mid-sprint (scope change indicator)
+- Bugs created during sprint by priority
+- Deployment count and any failed deployments
+- Issues blocked during sprint and for how long
+- Team members with significantly more or fewer completions than average
+
+Using this data, prepare:
+1. SPRINT FACTS — objective data points the team should know before the retro starts
+2. PATTERNS TO DISCUSS — 3 data-driven observations that warrant conversation (e.g. high mid-sprint additions, recurring blockers)
+3. QUESTIONS TO ASK — 3 specific retrospective questions grounded in this sprint's actual data (not generic retro questions)
+4. WHAT THE DATA DOESN'T SHOW — gaps where team sentiment and experience matter more than metrics
+
+This is pre-work for the human-led retrospective — it surfaces the facts, not the feelings.`,
+    tip:'The "what the data doesn\'t show" section is what makes this prompt genuinely useful rather than just a metrics dump. Retrospective quality comes from the conversation, not the data. This prompt sets the factual foundation so the team can focus their time on what Jira can\'t see.'
+  },
+];
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let savedIds = new Set(JSON.parse(localStorage.getItem('pmkit_saved') || '[]'));
+let currentCat = 'all';
+let currentTag = 'all';
+let searchQuery = '';
+let showingKit = false;
+
+function jumpToCard(id) {
+  // Switch to correct category, then scroll to card
+  const p = PROMPTS.find(x=>x.id===id);
+  if (!p) return;
+  currentCat = p.cat;
+  currentTag = 'all';
+  showingKit = false;
+  document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.toggle('active', el.dataset.cat===p.cat));
+  document.getElementById('kitPanel').classList.remove('visible');
+  document.getElementById('promptGrid').style.display='grid';
+  document.getElementById('resultsHeader').style.display='flex';
+  renderGrid();
+  setTimeout(()=>{
+    const card = document.getElementById('card-'+id);
+    if (card) { card.scrollIntoView({behavior:'smooth',block:'center'}); card.classList.add('expanded'); }
+  }, 80);
+}
+
+// ═══════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════
+function renderCard(p, inKit=false) {
+  const isSaved = savedIds.has(p.id);
+  const fieldsHtml = p.fields.map(f => `
+    <div class="field-row">
+      <span class="field-label">${f.label}</span>
+      <textarea class="field-input" rows="1"
+        data-key="${f.key}"
+        placeholder="${f.placeholder}"
+        oninput="updatePreview('${p.id}', this)">${''}</textarea>
+    </div>`).join('');
+
+  const previewText = buildPrompt(p, {});
+
+  return `
+<div class="prompt-card${isSaved?' saved-card':''}" id="card-${p.id}${inKit?'-kit':''}">
+  <div class="card-top">
+    <div class="card-tags">
+      <span class="card-tag cat">${catLabel(p.cat)}</span>
+      ${p.tags.map(t=>`<span class="card-tag">${t}</span>`).join('')}
+      ${diffBadge(p.difficulty)}
+    </div>
+    <div class="card-title">${p.title}</div>
+    <div class="card-desc">${p.desc}</div>
+  </div>
+  ${chainHtml(p.chains, inKit)}
+  <div class="card-prompt-toggle" onclick="toggleExpand('${p.id}${inKit?'-kit':''}', this)">
+    <span class="toggle-icon">▶</span> Fill &amp; use this prompt
+  </div>
+  <div class="card-prompt-area">
+    <div class="field-group">${fieldsHtml}</div>
+    <div class="prompt-preview-label">READY PROMPT</div>
+    <div class="prompt-preview" id="preview-${p.id}${inKit?'-kit':''}">${escHtml(previewText)}</div>
+    ${p.tip ? `<div style="font-size:11px;color:var(--ink3);line-height:1.6;margin-bottom:12px;padding:8px 10px;background:var(--surface2);border-left:2px solid var(--border2)">💡 ${p.tip}</div>` : ''}
+  </div>
+  <div class="card-actions">
+    <button class="btn btn-copy" onclick="copyPrompt('${p.id}${inKit?'-kit':''}', this)">⊕ Copy</button>
+    <a class="btn btn-claude" href="#" onclick="launchClaude('${p.id}${inKit?'-kit':''}');return false;" title="Open in Claude">Claude</a>
+    <a class="btn btn-gpt" href="#" onclick="launchGPT('${p.id}${inKit?'-kit':''}');return false;" title="Open in ChatGPT">GPT</a>
+    <button class="btn btn-save${isSaved?' saved':''}" onclick="toggleSave('${p.id}', this)" title="${isSaved?'Remove from kit':'Save to My Kit'}">
+      ${isSaved?'◈ Saved':'◇ Kit'}
+    </button>
+  </div>
+</div>`;
+}
+
+function catLabel(cat) {
+  const map = {
+    planning:'Planning',budget:'Budget',status:'Status',risk:'Risk',
+    meetings:'Meetings',agile:'Agile',cutover:'Cutover',execcomms:'Exec Comms',
+    aistrategy:'AI Strategy',thought:'Publishing',meta:'Prompt Eng.',
+    agentic:'Agentic',projects:'Claude Projects',mcp:'MCP'
+  };
+  return map[cat]||cat;
+}
+
+function diffBadge(level) {
+  if (!level) return '';
+  const cfg = {
+    'Free':   ['diff-free','Free'],
+    'Pro':    ['diff-pro','Pro'],
+    'Enterprise':['diff-enterprise','Enterprise'],
+    'API':    ['diff-api','API key'],
+  };
+  const [cls, label] = cfg[level] || ['diff-free', level];
+  return `<span class="difficulty ${cls}">${label}</span>`;
+}
+
+function chainHtml(chains, inKit) {
+  if (!chains || chains.length === 0) return '';
+  const chips = chains.map(id => {
+    const target = PROMPTS.find(p=>p.id===id);
+    if (!target) return '';
+    return `<span class="chain-chip" onclick="jumpToCard('${id}')" title="${target.title}">→ ${target.title.length > 32 ? target.title.slice(0,32)+'…' : target.title}</span>`;
+  }).join('');
+  return `<div class="card-chain"><span class="chain-label">Use next:</span>${chips}</div>`;
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function buildPrompt(p, vals) {
+  let t = p.template;
+  p.fields.forEach(f => {
+    const v = (vals[f.key]||'').trim() || f.placeholder;
+    t = t.replaceAll('['+f.key+']', v);
+  });
+  return t;
+}
+
+function getVals(cardId) {
+  const card = document.getElementById('card-'+cardId);
+  if (!card) return {};
+  const vals = {};
+  card.querySelectorAll('.field-input').forEach(el => {
+    vals[el.dataset.key] = el.value.trim();
+  });
+  return vals;
+}
+
+function getPromptById(id) {
+  const baseId = id.replace('-kit','');
+  return PROMPTS.find(p=>p.id===baseId);
+}
+
+// ═══════════════════════════════════════════
+// FILTER & SEARCH
+// ═══════════════════════════════════════════
+function getFiltered() {
+  return PROMPTS.filter(p => {
+    const matchCat = currentCat==='all' || p.cat===currentCat;
+    const matchTag = currentTag==="all" || p.tags.includes(currentTag) || (currentTag==="agentic" && p.cat==="agentic") || (currentTag==="mcp" && p.cat==="mcp");
+    const q = searchQuery.toLowerCase();
+    const matchSearch = !q ||
+      p.title.toLowerCase().includes(q) ||
+      p.desc.toLowerCase().includes(q) ||
+      p.cat.toLowerCase().includes(q) ||
+      p.tags.some(t=>t.includes(q)) ||
+      (p.tip && p.tip.toLowerCase().includes(q)) || (p.difficulty && p.difficulty.toLowerCase().includes(q));
+    return matchCat && matchTag && matchSearch;
+  });
+}
+
+function renderGrid() {
+  if (showingKit) return;
+  const grid = document.getElementById('promptGrid');
+  const filtered = getFiltered();
+  const countEl = document.getElementById('resultsCount');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    document.getElementById('emptyState').classList.add('visible');
+  } else {
+    document.getElementById('emptyState').classList.remove('visible');
+    grid.innerHTML = filtered.map(p=>renderCard(p)).join('');
+  }
+
+  countEl.textContent = currentCat==='all' && currentTag==='all' && !searchQuery
+    ? `Showing all ${PROMPTS.length} prompts`
+    : `${filtered.length} of ${PROMPTS.length} prompts`;
+}
+
+function filterCat(cat) {
+  currentCat = cat;
+  currentTag = 'all';
+  showingKit = false;
+  // update chips
+  document.querySelectorAll('.chip').forEach(c=>{
+    c.classList.toggle('active', c.dataset.tag==='all');
+  });
+  // update sidebar
+  document.querySelectorAll('.sidebar-item').forEach(el=>{
+    el.classList.toggle('active', el.dataset.cat===cat);
+  });
+  document.getElementById('kitPanel').classList.remove('visible');
+  document.getElementById('promptGrid').style.display='grid';
+  document.getElementById('emptyState').style.display='';
+  document.getElementById('resultsHeader').style.display='flex';
+  renderGrid();
+}
+
+function filterTag(tag) {
+  currentTag = tag;
+  showingKit = false;
+  document.querySelectorAll('.chip').forEach(c=>{
+    c.classList.toggle('active', c.dataset.tag===tag);
+  });
+  document.getElementById('kitPanel').classList.remove('visible');
+  document.getElementById('promptGrid').style.display='grid';
+  document.getElementById('resultsHeader').style.display='flex';
+  renderGrid();
+}
+
+// SEARCH
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+
+searchInput.addEventListener('input', () => {
+  searchQuery = searchInput.value.trim();
+  searchClear.classList.toggle('visible', !!searchQuery);
+  if (showingKit) { showingKit=false; toggleKit(); }
+  renderGrid();
+});
+
+searchInput.addEventListener('keydown', e => {
+  if (e.key==='Escape') clearSearch();
+});
+
+function clearSearch() {
+  searchInput.value='';
+  searchQuery='';
+  searchClear.classList.remove('visible');
+  renderGrid();
+}
+
+// ═══════════════════════════════════════════
+// EXPAND / COLLAPSE
+// ═══════════════════════════════════════════
+function toggleExpand(cardId, btn) {
+  const card = document.getElementById('card-'+cardId);
+  card.classList.toggle('expanded');
+  // auto-resize textareas
+  card.querySelectorAll('.field-input').forEach(ta => autoResize(ta));
+}
+
+function autoResize(ta) {
+  ta.style.height='auto';
+  ta.style.height=(ta.scrollHeight)+'px';
+}
+
+// ═══════════════════════════════════════════
+// PREVIEW UPDATE
+// ═══════════════════════════════════════════
+function updatePreview(promptId, ta) {
+  autoResize(ta);
+  const cardId = ta.closest('.prompt-card').id.replace('card-','');
+  const p = getPromptById(cardId);
+  if (!p) return;
+  const vals = getVals(cardId);
+  const built = buildPrompt(p, vals);
+  const preview = document.getElementById('preview-'+cardId);
+  if (preview) preview.textContent = built;
+}
+
+// ═══════════════════════════════════════════
+// COPY & LAUNCH
+// ═══════════════════════════════════════════
+function getBuiltPrompt(cardId) {
+  const p = getPromptById(cardId);
+  if (!p) return '';
+  const vals = getVals(cardId);
+  return buildPrompt(p, vals);
+}
+
+function copyPrompt(cardId, btn) {
+  const text = getBuiltPrompt(cardId);
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent='✓ Copied!';
+    btn.classList.add('success');
+    showToast('Prompt copied to clipboard');
+    setTimeout(()=>{ btn.textContent='⊕ Copy'; btn.classList.remove('success'); }, 2000);
+  });
+}
+
+function launchClaude(cardId) {
+  const text = getBuiltPrompt(cardId);
+  const url = 'https://claude.ai/new?q='+encodeURIComponent(text);
+  window.open(url,'_blank');
+  showToast('Opening in Claude...');
+}
+
+function launchGPT(cardId) {
+  const text = getBuiltPrompt(cardId);
+  // Copy to clipboard then open ChatGPT — best available approach
+  navigator.clipboard.writeText(text).then(() => {
+    window.open('https://chatgpt.com/','_blank');
+    showToast('Prompt copied — paste it into ChatGPT');
+  });
+}
+
+// ═══════════════════════════════════════════
+// SAVE / KIT
+// ═══════════════════════════════════════════
+function toggleSave(promptId, btn) {
+  if (savedIds.has(promptId)) {
+    savedIds.delete(promptId);
+    btn.textContent='◇ Kit';
+    btn.classList.remove('saved');
+    // update any card with this id
+    document.querySelectorAll(`#card-${promptId}, #card-${promptId}-kit`).forEach(c=>c.classList.remove('saved-card'));
+    showToast('Removed from My Kit');
+  } else {
+    savedIds.add(promptId);
+    btn.textContent='◈ Saved';
+    btn.classList.add('saved');
+    document.querySelectorAll(`#card-${promptId}`).forEach(c=>c.classList.add('saved-card'));
+    showToast('Saved to My Kit');
+  }
+  localStorage.setItem('pmkit_saved', JSON.stringify([...savedIds]));
+  updateKitCount();
+  if (showingKit) renderKitGrid();
+}
+
+function updateKitCount() {
+  const n = savedIds.size;
+  const el = document.getElementById('kitCount');
+  el.textContent = n;
+  el.classList.toggle('visible', n>0);
+}
+
+function toggleKit() {
+  showingKit = !showingKit;
+  const kitPanel = document.getElementById('kitPanel');
+  const grid = document.getElementById('promptGrid');
+  const empty = document.getElementById('emptyState');
+  const header = document.getElementById('resultsHeader');
+  const hero = document.getElementById('heroSection');
+  const filterRow = document.getElementById('filterRow');
+  const btn = document.getElementById('kitBtn');
+
+  if (showingKit) {
+    kitPanel.classList.add('visible');
+    grid.style.display='none';
+    empty.style.display='none';
+    header.style.display='none';
+    hero.style.display='none';
+    filterRow.style.display='none';
+    btn.classList.add('active');
+    renderKitGrid();
+  } else {
+    kitPanel.classList.remove('visible');
+    grid.style.display='grid';
+    empty.style.display='';
+    header.style.display='flex';
+    hero.style.display='block';
+    filterRow.style.display='flex';
+    btn.classList.remove('active');
+    renderGrid();
+  }
+}
+
+function renderKitGrid() {
+  const kitGrid = document.getElementById('kitGrid');
+  const kitEmpty = document.getElementById('kitEmpty');
+  if (savedIds.size === 0) {
+    kitGrid.innerHTML='';
+    kitEmpty.style.display='block';
+  } else {
+    kitEmpty.style.display='none';
+    const saved = PROMPTS.filter(p=>savedIds.has(p.id));
+    kitGrid.innerHTML = saved.map(p=>renderCard(p,true)).join('');
+  }
+}
+
+function clearKit() {
+  if (!confirm('Clear all saved prompts?')) return;
+  savedIds.clear();
+  localStorage.removeItem('pmkit_saved');
+  updateKitCount();
+  renderKitGrid();
+  // update all save buttons
+  document.querySelectorAll('.btn-save').forEach(b=>{
+    b.textContent='◇ Kit';
+    b.classList.remove('saved');
+  });
+  document.querySelectorAll('.saved-card').forEach(c=>c.classList.remove('saved-card'));
+}
+
+// ═══════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+updateKitCount();
+renderGrid();
+</script>
+</body>
+</html>
