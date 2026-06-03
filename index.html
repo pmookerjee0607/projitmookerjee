@@ -438,7 +438,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2px;
-    background: var(--mid);
+    background: rgba(255,255,255,0.1);
   }
   .domain-cell {
     background: var(--ink);
@@ -447,7 +447,7 @@
     font-size: 9px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(248, 245, 239, 0.45);
+    color: rgba(248, 245, 239, 0.68);
   }
 
   /* ─────────────────────────────
@@ -701,7 +701,7 @@
   .geo-desc {
     font-size: 0.9rem;
     line-height: 1.65;
-    color: rgba(255,255,255,0.48);
+    color: rgba(255,255,255,0.65);
     font-weight: 300;
   }
 
@@ -1330,8 +1330,8 @@
     letter-spacing: 0.1em;
     padding: 0.3rem 0.7rem;
     border: none;
-    background: rgba(255,255,255,0.03);
-    color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.65);
     border-radius: 0;
   }
   .ins-stats-row {
@@ -1510,8 +1510,8 @@
     letter-spacing: 0.06em;
     padding: 0.4rem 0.85rem;
     border: none;
-    background: rgba(255,255,255,0.02);
-    color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.58);
     border-radius: 0;
     transition: all 0.2s;
   }
@@ -1895,7 +1895,7 @@
     font-family: 'Epilogue', sans-serif;
     font-size: 1rem;
     font-weight: 300;
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.65);
     line-height: 1.75;
   }
   .contact-links { display: flex; flex-direction: column; }
@@ -1977,7 +1977,6 @@
     .hero { grid-template-columns: 1fr; gap: 3rem; padding-top: 8rem; }
     .expertise-grid { grid-template-columns: repeat(2, 1fr); }
     .geo-grid { grid-template-columns: repeat(2, 1fr); }
-    .industry-blocks { grid-template-columns: repeat(2, 1fr); }
     .work-grid { grid-template-columns: 1fr; }
     .work-intro { grid-template-columns: 1fr; gap: 1.5rem; }
     .resume-grid { grid-template-columns: 1fr; }
@@ -2001,7 +2000,6 @@
     section.content { padding: 5rem 1.5rem; }
     .hero { padding: 7rem 1.5rem 3rem; }
     .expertise-grid { grid-template-columns: 1fr; }
-    .industry-blocks { grid-template-columns: 1fr; }
     .career-row { grid-template-columns: 1fr; gap: 0.5rem; }
     .career-content { padding: 1.2rem; }
     .career-dot { display: none; }
@@ -2039,6 +2037,163 @@
     h1.hero-name { font-size: clamp(36px, 10vw, 60px); }
     .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 20px 12px; }
     .stat-num { font-size: 26px; }
+  }
+
+  /* ─────────────────────────────
+     INDUSTRIES REDESIGN — section 09
+  ───────────────────────────── */
+
+  /* Part 1: Industry cards */
+  .ind-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: var(--mid);
+    margin-top: 48px;
+  }
+  .ind-card {
+    background: var(--paper);
+    padding: 24px 28px;
+  }
+  .ind-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .ind-card-sub {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* Sub-labels for Parts 2 & 3 */
+  .sec-sublabel {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 32px 0 16px;
+    border-top: 1px solid var(--mid);
+    margin-top: 40px;
+    display: block;
+  }
+
+  /* Part 2: Expertise cards */
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--mid);
+  }
+  .exp-card-item {
+    background: var(--paper);
+    padding: 20px 24px;
+  }
+  .exp-card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .exp-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .exp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  .exp-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    background: var(--cream);
+    border: 1px solid var(--mid);
+    color: var(--muted);
+    border-radius: 0;
+  }
+
+  /* Part 3: Stack reference */
+  .stack-rows { display: flex; flex-direction: column; }
+  .stack-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    border-bottom: 1px solid var(--mid);
+  }
+  .stack-label {
+    background: var(--cream);
+    padding: 12px 16px;
+    border-right: 1px solid var(--mid);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+  }
+  .stack-pills {
+    padding: 10px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    background: var(--paper);
+  }
+  .stack-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border: 1px solid var(--mid);
+    color: var(--ink);
+    background: var(--paper);
+    border-radius: 0;
+  }
+
+  /* ─────────────────────────────
+     CAREER CURRENT ROLE (dark highlight)
+  ───────────────────────────── */
+  .career-row--current .career-content {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+  .career-row--current .career-content h4 { color: var(--paper); }
+  .career-row--current .career-company { color: var(--gold); }
+  .career-row--current .career-content p { color: rgba(248,245,239,0.72); }
+  .career-row--current .career-tags { background: rgba(255,255,255,0.1); }
+  .career-row--current .career-tag {
+    background: rgba(255,255,255,0.08);
+    color: rgba(248,245,239,0.75);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+
+  /* Section 09 mobile */
+  @media (max-width: 768px) {
+    .ind-cards { grid-template-columns: repeat(2, 1fr); }
+    .exp-grid  { grid-template-columns: 1fr; }
+    .stack-row { grid-template-columns: 1fr; }
+    .stack-label {
+      border-right: none;
+      border-bottom: 1px solid var(--mid);
+    }
+  }
+  @media (max-width: 480px) {
+    .ind-cards { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -2246,7 +2401,7 @@
     <h2 class="section-title">Fourteen years, <em>one trajectory</em></h2>
   </div>
   <div class="timeline">
-    <div class="career-row reveal">
+    <div class="career-row career-row--current reveal">
       <div class="career-period">2024 &mdash; NOW</div>
       <div class="career-dot"></div>
       <div class="career-content">
@@ -2548,32 +2703,105 @@
     <h2 class="section-title">Industries &amp; <em>technologies</em></h2>
     <p>Deep specialization in insurance technology, with proven transferability across financial services, public sector, and enterprise SaaS.</p>
   </div>
-  <div class="industry-blocks">
-    <div class="ind-block reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5z"/><path d="M9 12l2 2 4-4"/></svg>
-      <div class="ind-name">Insurance</div>
-      <div class="ind-detail">P&amp;C &middot; Workers' Comp &middot; Reinsurance &middot; Life &amp; Annuities</div>
+  <!-- PART 1: Industry cards -->
+  <div class="ind-cards reveal">
+    <div class="ind-card">
+      <div class="ind-card-title">Insurance</div>
+      <div class="ind-card-sub">P&amp;C &middot; Workers&rsquo; Comp &middot; Reinsurance &middot; Life &amp; Annuities</div>
     </div>
-    <div class="ind-block reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
-      <div class="ind-name">Fintech &amp; Capital Markets</div>
-      <div class="ind-detail">S&amp;P Global &middot; Banking &middot; Trading Platforms</div>
+    <div class="ind-card">
+      <div class="ind-card-title">Fintech &amp; Capital Markets</div>
+      <div class="ind-card-sub">S&amp;P Global &middot; Banking &middot; Trading Platforms</div>
     </div>
-    <div class="ind-block reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4 8 4v14"/></svg>
-      <div class="ind-name">Public Sector</div>
-      <div class="ind-detail">Health Insurance &middot; Workers' Comp Boards</div>
+    <div class="ind-card">
+      <div class="ind-card-title">Public Sector</div>
+      <div class="ind-card-sub">Health Insurance &middot; Workers&rsquo; Comp Boards</div>
     </div>
-    <div class="ind-block reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10c0 4.4-6 12-6 12S6 14.4 6 10a6 6 0 1112 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <div class="ind-name">SaaS &amp; Cloud</div>
-      <div class="ind-detail">Enterprise SaaS &middot; AWS &middot; Azure &middot; GCP</div>
+    <div class="ind-card">
+      <div class="ind-card-title">SaaS &amp; Cloud</div>
+      <div class="ind-card-sub">Enterprise SaaS &middot; AWS &middot; Azure &middot; GCP</div>
     </div>
   </div>
-  <div class="tech-row reveal">
-    <h4>Platforms &middot; Tools &middot; Stacks</h4>
-    <div class="tech-tags">
-      <span class="tech-tag">Guidewire</span><span class="tech-tag">Duck Creek</span><span class="tech-tag">Sapiens Digital Suite</span><span class="tech-tag">Majesco</span><span class="tech-tag">Salesforce</span><span class="tech-tag">Microsoft Dynamics 365</span><span class="tech-tag">Azure AI Agents</span><span class="tech-tag">GenAI</span><span class="tech-tag">RAG</span><span class="tech-tag">LLM Frameworks</span><span class="tech-tag">Prompt Engineering</span><span class="tech-tag">Splunk</span><span class="tech-tag">Dynatrace</span><span class="tech-tag">Jira</span><span class="tech-tag">Confluence</span><span class="tech-tag">ServiceNow</span><span class="tech-tag">Docker</span><span class="tech-tag">Kubernetes</span><span class="tech-tag">Jenkins</span><span class="tech-tag">GitHub Actions</span><span class="tech-tag">ITIL v4</span><span class="tech-tag">SAFe</span><span class="tech-tag">Scrum</span><span class="tech-tag">Lean Portfolio</span>
+
+  <!-- PART 2: Expertise cards -->
+  <span class="sec-sublabel">What I do &mdash; and what I use to do it</span>
+  <div class="exp-grid reveal">
+    <div class="exp-card-item">
+      <span class="exp-card-num">01</span>
+      <div class="exp-card-title">Portfolio &amp; Program Leadership</div>
+      <div class="exp-tags">
+        <span class="exp-tag">Jira</span><span class="exp-tag">Confluence</span><span class="exp-tag">Trello</span><span class="exp-tag">Asana</span><span class="exp-tag">ServiceNow</span><span class="exp-tag">SAFe</span><span class="exp-tag">Lean Portfolio</span>
+      </div>
+    </div>
+    <div class="exp-card-item">
+      <span class="exp-card-num">02</span>
+      <div class="exp-card-title">Enterprise Transformation</div>
+      <div class="exp-tags">
+        <span class="exp-tag">AWS</span><span class="exp-tag">Azure</span><span class="exp-tag">GCP</span><span class="exp-tag">Docker</span><span class="exp-tag">Kubernetes</span><span class="exp-tag">CI/CD</span><span class="exp-tag">IaC</span><span class="exp-tag">SDLC</span><span class="exp-tag">Waterfall</span>
+      </div>
+    </div>
+    <div class="exp-card-item">
+      <span class="exp-card-num">03</span>
+      <div class="exp-card-title">AI Program Management</div>
+      <div class="exp-tags">
+        <span class="exp-tag">Azure AI Agents</span><span class="exp-tag">Document Intelligence</span><span class="exp-tag">RAG</span><span class="exp-tag">GenAI</span><span class="exp-tag">LLM Frameworks</span><span class="exp-tag">Prompt Engineering</span><span class="exp-tag">Claude Enterprise</span><span class="exp-tag">Copilot</span><span class="exp-tag">Responsible AI</span>
+      </div>
+    </div>
+    <div class="exp-card-item">
+      <span class="exp-card-num">04</span>
+      <div class="exp-card-title">Agile at Scale</div>
+      <div class="exp-tags">
+        <span class="exp-tag">SAFe SPC</span><span class="exp-tag">PI Planning</span><span class="exp-tag">ART Setup</span><span class="exp-tag">Scrum</span><span class="exp-tag">Lean Portfolio</span><span class="exp-tag">Centers of Excellence</span><span class="exp-tag">Confluence</span>
+      </div>
+    </div>
+    <div class="exp-card-item">
+      <span class="exp-card-num">05</span>
+      <div class="exp-card-title">Pre-Sales &amp; Commercial</div>
+      <div class="exp-tags">
+        <span class="exp-tag">RFP Strategy</span><span class="exp-tag">Salesforce</span><span class="exp-tag">Oracle</span><span class="exp-tag">NetSuite</span><span class="exp-tag">Microsoft Dynamics 365</span><span class="exp-tag">Board-Level Business Cases</span><span class="exp-tag">Executive Narratives</span>
+      </div>
+    </div>
+    <div class="exp-card-item">
+      <span class="exp-card-num">06</span>
+      <div class="exp-card-title">Governance &amp; Risk Management</div>
+      <div class="exp-tags">
+        <span class="exp-tag">ITIL v4</span><span class="exp-tag">ServiceNow</span><span class="exp-tag">SLA Governance</span><span class="exp-tag">KPI Frameworks</span><span class="exp-tag">RAID Management</span><span class="exp-tag">Change Management</span><span class="exp-tag">Incident Management</span><span class="exp-tag">Risk Mitigation</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 3: Full stack reference -->
+  <span class="sec-sublabel">Full stack reference</span>
+  <div class="stack-rows reveal">
+    <div class="stack-row">
+      <div class="stack-label">Insurance Platforms</div>
+      <div class="stack-pills">
+        <span class="stack-pill">Guidewire</span><span class="stack-pill">Duck Creek</span><span class="stack-pill">Sapiens</span><span class="stack-pill">Majesco</span>
+      </div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label">SaaS &amp; ERP</div>
+      <div class="stack-pills">
+        <span class="stack-pill">Salesforce</span><span class="stack-pill">Microsoft Dynamics 365</span><span class="stack-pill">Oracle</span><span class="stack-pill">NetSuite</span><span class="stack-pill">SAP</span>
+      </div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label">AI &amp; Data</div>
+      <div class="stack-pills">
+        <span class="stack-pill">Azure AI Agents</span><span class="stack-pill">Document Intelligence</span><span class="stack-pill">GenAI</span><span class="stack-pill">RAG</span><span class="stack-pill">LLM Frameworks</span><span class="stack-pill">Prompt Engineering</span><span class="stack-pill">Claude Enterprise</span><span class="stack-pill">Copilot</span>
+      </div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label">DevOps &amp; Observability</div>
+      <div class="stack-pills">
+        <span class="stack-pill">AWS</span><span class="stack-pill">Azure</span><span class="stack-pill">GCP</span><span class="stack-pill">Docker</span><span class="stack-pill">Kubernetes</span><span class="stack-pill">Jenkins</span><span class="stack-pill">GitHub Actions</span><span class="stack-pill">Splunk</span><span class="stack-pill">Dynatrace</span><span class="stack-pill">Grafana</span>
+      </div>
+    </div>
+    <div class="stack-row" style="border-bottom: none;">
+      <div class="stack-label">Delivery Tooling</div>
+      <div class="stack-pills">
+        <span class="stack-pill">Jira</span><span class="stack-pill">Confluence</span><span class="stack-pill">Trello</span><span class="stack-pill">Asana</span><span class="stack-pill">ServiceNow</span><span class="stack-pill">ITIL v3/v4</span><span class="stack-pill">SAFe</span><span class="stack-pill">Scrum</span><span class="stack-pill">Lean Portfolio</span>
+      </div>
     </div>
   </div>
 </section>
