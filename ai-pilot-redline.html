@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>AI Pilot Redline</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="An AI pilot status update, reviewed with a red pen. Tap each line to see what it really means, then add the one you've heard.">
+<meta name="author" content="Projit Mookerjee">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Pilot Status Update, translated">
+<meta property="og:description" content="Week 14 of a 12-week pilot. Status: green. Redline the memo yourself and add the line you've heard.">
+<meta property="og:url" content="https://pmookerjee0607.github.io/projitmookerjee/ai-pilot-redline.html">
+<meta property="og:image" content="https://pmookerjee0607.github.io/projitmookerjee/ai-pilot-redline-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&family=Archivo+Narrow:wght@500;600&family=Nanum+Pen+Script&display=swap">
+<style>
+  /* Single-theme by design: this is a sheet of paper on a desk. Colours painted explicitly. */
+  :root {
+    color-scheme: light;
+    --desk: #D9E0E6;
+    --desk-shade: #C9D2DA;
+    --paper: #FCFCFA;
+    --rule: #E3E6EA;
+    --ink: #1E2329;
+    --muted: #6B7480;
+    --pen: #C8281E;
+    --pen-soft: rgba(200, 40, 30, .14);
+    --hi: #F4E36B;
+    --corp: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --field: "Archivo Narrow", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --hand: "Nanum Pen Script", "Bradley Hand", "Segoe Print", cursive;
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--desk); }
+  body {
+    color: var(--ink);
+    font-family: var(--corp);
+    padding-inline: 16px;
+    padding-block: 32px 56px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; display: grid; gap: 20px; }
+
+  /* ---------- controls ---------- */
+  .bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+  .bar p { margin: 0; font: 500 13px/1.4 var(--field); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .btns { display: flex; gap: 8px; }
+  button {
+    font: 600 14px/1 var(--field); letter-spacing: .05em; text-transform: uppercase;
+    padding: 11px 16px; border: 1.5px solid var(--ink); background: transparent; color: var(--ink);
+    cursor: pointer; border-radius: 2px;
+  }
+  button.primary { background: var(--ink); color: var(--paper); }
+  button:hover { background: var(--pen); border-color: var(--pen); color: #fff; }
+  button:focus-visible, .row:focus-visible, input:focus-visible { outline: 3px solid var(--pen); outline-offset: 3px; }
+
+  /* ---------- the sheet ---------- */
+  .sheet {
+    --s: 1px;                       /* scale unit; still mode raises it */
+    background: var(--paper);
+    padding: calc(40 * var(--s)) calc(44 * var(--s)) calc(36 * var(--s));
+    box-shadow: 0 1px 0 var(--desk-shade), 0 18px 40px -22px rgba(30, 40, 55, .35);
+    position: relative;
+  }
+  .masthead { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .doc-kind { font: 600 calc(12 * var(--s))/1 var(--field); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .conf {
+    font: 600 calc(11 * var(--s))/1 var(--field); letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); border: 1px solid var(--rule); padding: calc(5 * var(--s)) calc(8 * var(--s));
+  }
+  h1 {
+    margin: calc(14 * var(--s)) 0 0; font: 800 calc(40 * var(--s))/1.02 var(--corp);
+    letter-spacing: -.02em; text-wrap: balance; position: relative;
+  }
+  .h1-note {
+    display: block; font: 400 calc(52 * var(--s))/.9 var(--hand); color: var(--pen);
+    transform: rotate(-3deg); transform-origin: left; margin-top: calc(4 * var(--s)); margin-left: calc(6 * var(--s));
+  }
+  .fields {
+    margin: calc(22 * var(--s)) 0 0; display: grid; grid-template-columns: auto 1fr; column-gap: calc(18 * var(--s));
+    row-gap: calc(6 * var(--s)); padding-block: calc(14 * var(--s)); border-block: 1px solid var(--rule);
+    font: 500 calc(14 * var(--s))/1.3 var(--field);
+  }
+  .fields dt { color: var(--muted); letter-spacing: .1em; text-transform: uppercase; font-size: calc(12 * var(--s)); padding-top: calc(2 * var(--s)); }
+  .fields dd { margin: 0; }
+  .status { position: relative; display: inline-flex; align-items: center; gap: calc(8 * var(--s)); }
+  .status .dot { width: calc(11 * var(--s)); height: calc(11 * var(--s)); border-radius: 50%; background: #2E9E5B; }
+  .status b { font-weight: 600; letter-spacing: .08em; }
+  .status .ring {
+    position: absolute; left: calc(-12 * var(--s)); top: calc(-9 * var(--s)); width: calc(104 * var(--s)); height: calc(36 * var(--s));
+    pointer-events: none; overflow: visible;
+  }
+  .status .ring path { fill: none; stroke: var(--pen); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 320; stroke-dashoffset: 320; transition: stroke-dashoffset .7s ease; }
+  .status .q { font: 400 calc(30 * var(--s))/1 var(--hand); color: var(--pen); opacity: 0; transition: opacity .3s ease .6s; margin-left: calc(24 * var(--s)); }
+  .sheet.is-green .ring path { stroke-dashoffset: 0; }
+  .sheet.is-green .q { opacity: 1; }
+
+  .summary-label { margin: calc(22 * var(--s)) 0 calc(4 * var(--s)); font: 600 calc(12 * var(--s))/1 var(--field); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+  ol.rows { list-style: none; margin: 0; padding: 0; }
+  .row {
+    display: grid; grid-template-columns: calc(26 * var(--s)) 1fr; column-gap: calc(8 * var(--s));
+    padding-block: calc(13 * var(--s)); border-bottom: 1px solid var(--rule); cursor: pointer;
+  }
+  .row:last-child { border-bottom: 0; }
+  .bullet { font: 500 calc(15 * var(--s))/1.35 var(--field); color: var(--muted); padding-top: calc(2 * var(--s)); }
+  .said { font: 500 calc(19 * var(--s))/1.35 var(--corp); position: relative; display: inline; }
+  .said .txt { position: relative; background-image: linear-gradient(var(--pen), var(--pen)); background-repeat: no-repeat;
+    background-size: 0% calc(2.4 * var(--s)); background-position: 0 58%; transition: background-size .45s cubic-bezier(.6,.1,.3,1); }
+  .meant {
+    display: block; font: 400 calc(29 * var(--s))/1.02 var(--hand); color: var(--pen);
+    margin-top: calc(4 * var(--s)); transform: rotate(-.8deg); transform-origin: left;
+    clip-path: inset(0 100% 0 0); transition: clip-path .9s steps(22, end) .35s;
+  }
+  .row.done .said .txt { background-size: 100% calc(2.4 * var(--s)); color: #4A525C; }
+  .row.done .meant { clip-path: inset(0 0 0 0); }
+  .row:not(.done):hover .said .txt { background-color: var(--pen-soft); }
+
+  .signoff { margin-top: calc(18 * var(--s)); display: flex; justify-content: space-between; align-items: flex-end; gap: calc(16 * var(--s)); flex-wrap: wrap; }
+  .verdict { font: 400 calc(34 * var(--s))/1 var(--hand); color: var(--pen); transform: rotate(-2deg); max-width: 34ch; opacity: 0; transition: opacity .5s ease; }
+  .verdict mark { background: linear-gradient(transparent 55%, var(--hi) 55%); color: var(--pen); padding: 0 .1em; }
+  .sheet.finished .verdict { opacity: 1; }
+  .byline { font: 600 calc(13 * var(--s))/1.3 var(--field); letter-spacing: .12em; text-transform: uppercase; text-align: right; }
+  .byline span { display: block; color: var(--muted); font-weight: 500; letter-spacing: .08em; }
+
+  /* ---------- add your own ---------- */
+  .yours { background: transparent; border-top: 1.5px solid var(--ink); padding-top: 18px; display: grid; gap: 12px; }
+  .yours h2 { margin: 0; font: 800 22px/1.15 var(--corp); letter-spacing: -.01em; }
+  .yours p { margin: 0; max-width: 62ch; color: #3A424C; line-height: 1.5; font-size: 15px; }
+  .form { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; }
+  .form label { display: grid; gap: 6px; font: 600 12px/1 var(--field); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .form input { font: 500 16px/1.3 var(--corp); padding: 11px 12px; border: 1.5px solid #AEB7C0; background: var(--paper); color: var(--ink); border-radius: 2px; width: 100%; }
+  #meant-in { font-family: var(--hand); font-size: 24px; color: var(--pen); padding-block: 6px; }
+  .toast { font: 600 13px/1.3 var(--field); letter-spacing: .06em; text-transform: uppercase; color: var(--pen); min-height: 1.3em; }
+  .foot { font: 500 13px/1.5 var(--field); color: var(--muted); letter-spacing: .04em; }
+  .foot a { color: var(--ink); }
+
+  @media (max-width: 620px) {
+    .sheet { padding: 26px 20px 24px; }
+    h1 { font-size: 30px; }
+    .h1-note { font-size: 40px; }
+    .said { font-size: 17px; }
+    .meant { font-size: 26px; }
+    .form { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- still mode: the 1080x1350 feed image ---------- */
+  html.still, html.still body { background: var(--desk); padding: 0; margin: 0; }
+  html.still .wrap { max-width: none; width: 1080px; height: 1350px; padding: 44px 50px; gap: 0; }
+  html.still .bar, html.still .yours, html.still .foot { display: none; }
+  html.still .sheet { --s: 1.44px; height: 100%; padding: 56px 66px 44px; display: flex; flex-direction: column; }
+  html.still ol.rows { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+  html.still .row { padding-block: 8px; }
+  html.still .signoff { flex-wrap: nowrap; margin-top: 14px; }
+  html.still .verdict { flex: 1; max-width: none; }
+  html.still .byline { flex: none; padding-bottom: 6px; }
+  html.still .row.feed-skip { display: none; }
+  html.still .meant { line-height: .95; }
+  html.still .fields { margin-top: 26px; }
+  html.still *, html.still *::before, html.still *::after { transition: none !important; }
+
+
+  /* ---------- og mode: 1200x627 link-preview card ---------- */
+  html.og, html.og body { background: var(--desk); padding: 0; margin: 0; }
+  html.og .wrap { max-width: none; width: 1200px; height: 627px; padding: 36px 60px 0; gap: 0; overflow: hidden; }
+  html.og .bar, html.og .yours, html.og .foot, html.og .summary-label, html.og .signoff { display: none; }
+  html.og .sheet { --s: 1.3px; height: 640px; padding: 44px 60px 0; }
+  html.og .row.feed-skip { display: none; }
+  html.og .row { padding-block: 8px; }
+  html.og .fields { margin-top: 18px; }
+  html.og *, html.og *::before, html.og *::after { transition: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0s !important; transition-delay: 0s !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="bar">
+    <p>Tap a line to redline it, or run the whole review.</p>
+    <div class="btns">
+      <button type="button" class="primary" id="play">Redline it</button>
+      <button type="button" id="reset">Clean copy</button>
+    </div>
+  </div>
+
+  <article class="sheet" id="sheet" aria-label="AI pilot status update with reviewer annotations">
+    <div class="masthead">
+      <span class="doc-kind">Steering Committee Pack &middot; Item 4</span>
+      <span class="conf">Internal</span>
+    </div>
+    <h1>AI Pilot Status Update<span class="h1-note">...translated.</span></h1>
+    <dl class="fields">
+      <dt>To</dt><dd>Executive Sponsor, Steering Committee</dd>
+      <dt>Re</dt><dd>GenAI Assistant Pilot, Week 14 of 12</dd>
+      <dt>Status</dt>
+      <dd>
+        <span class="status">
+          <span class="dot" aria-hidden="true"></span><b>GREEN</b>
+          <svg class="ring" viewBox="0 0 104 36" aria-hidden="true"><path d="M8 20 C 6 6, 70 2, 96 12 C 104 18, 92 32, 52 33 C 20 34, 2 28, 10 14 C 14 8, 30 5, 40 5"/></svg>
+          <span class="q">really?</span>
+        </span>
+      </dd>
+    </dl>
+    <p class="summary-label">Executive summary</p>
+    <ol class="rows" id="rows"></ol>
+    <div class="signoff">
+      <div class="verdict" id="verdict">It's amber. <mark>Say amber early.</mark> Amber is a plan. Fake green is a surprise.</div>
+      <div class="byline">Projit Mookerjee<span>Reviewed, with a red pen</span></div>
+    </div>
+  </article>
+
+  <section class="yours" aria-labelledby="yours-h">
+    <h2 id="yours-h">Add your own translation</h2>
+    <p>Every steering committee has one. Write the line you've heard and what it really meant. It gets added to the memo above, and "Copy for comments" formats it so you can paste it straight into the LinkedIn thread.</p>
+    <form class="form" id="form" novalidate>
+      <label for="said-in">What the update said
+        <input id="said-in" maxlength="90" placeholder="We're seeing strong interest from the business." required>
+      </label>
+      <label for="meant-in">What it meant
+        <input id="meant-in" maxlength="80" placeholder="One VP forwarded the demo." required>
+      </label>
+      <button type="submit" class="primary">Add to memo</button>
+    </form>
+    <div class="btns">
+      <button type="button" id="copy" disabled>Copy for comments</button>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </section>
+
+  <p class="foot">Projit Mookerjee writes about AI-enabled delivery from inside enterprise programs. More at <a href="https://pmookerjee0607.github.io/projitmookerjee/" target="_blank" rel="noopener">pmookerjee0607.github.io/projitmookerjee</a></p>
+</div>
+
+<script>
+(() => {
+  const OG = location.hash === "#og";
+  const STILL = location.hash === "#still" || OG;
+  if (OG) document.documentElement.classList.add("og");
+  else if (STILL) document.documentElement.classList.add("still");
+
+  const LINES = [
+    ["Promising early results.", "The demo worked. Once. On data we cleaned by hand."],
+    ["Model accuracy is at 94%.", "On 50 hand-picked examples. Nobody has priced the 6%."],
+    ["Strong user engagement.", "Twelve logins. Nine were the project team."],
+    ["Minor data quality issues identified.", "The data problem is now the project.", true],
+    ["We are taking a human-in-the-loop approach.", "We don't trust it either."],
+    ["Awaiting final sign-off from Compliance.", "Compliance found out about it on Tuesday."],
+    ["We are ready to scale.", "Nobody has told the people whose jobs change."]
+  ];
+
+  const rowsEl = document.getElementById("rows");
+  const sheet = document.getElementById("sheet");
+  let timers = [];
+  let lastAdded = null;
+
+  function addRow(said, meant, done) {
+    const li = document.createElement("li");
+    li.className = "row" + (done ? " done" : "");
+    li.tabIndex = 0;
+    li.setAttribute("role", "button");
+    li.innerHTML = '<span class="bullet" aria-hidden="true"></span><div><span class="said"><span class="txt"></span></span><span class="meant"></span></div>';
+    li.querySelector(".txt").textContent = said;
+    li.querySelector(".meant").textContent = meant;
+    li.setAttribute("aria-label", said + " Means: " + meant);
+    const toggle = () => { li.classList.toggle("done"); checkFinished(); };
+    li.addEventListener("click", toggle);
+    li.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+    rowsEl.appendChild(li);
+    renumber();
+    return li;
+  }
+  function renumber() {
+    rowsEl.querySelectorAll(STILL ? ".row:not(.feed-skip) .bullet" : ".bullet").forEach((b, i) => { b.textContent = (i + 1) + "."; });
+  }
+  function checkFinished() {
+    const rows = [...rowsEl.children];
+    const all = rows.length && rows.every(r => r.classList.contains("done"));
+    sheet.classList.toggle("finished", all);
+    if (rows.some(r => r.classList.contains("done"))) sheet.classList.add("is-green");
+  }
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+  function reset() {
+    clearTimers();
+    sheet.classList.remove("is-green", "finished");
+    rowsEl.querySelectorAll(".row").forEach(r => r.classList.remove("done"));
+  }
+  function play() {
+    reset();
+    const rows = [...rowsEl.children];
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const step = reduced ? 0 : 1500;
+    timers.push(setTimeout(() => sheet.classList.add("is-green"), reduced ? 0 : 500));
+    rows.forEach((r, i) => timers.push(setTimeout(() => r.classList.add("done"), (reduced ? 0 : 1600) + i * step)));
+    timers.push(setTimeout(checkFinished, (reduced ? 0 : 1700) + rows.length * step));
+  }
+
+  LINES.forEach(([s, m, skip]) => { const r = addRow(s, m, STILL); if (skip) r.classList.add("feed-skip"); });
+  if (STILL) { sheet.classList.add("is-green", "finished"); return; }
+
+  document.getElementById("play").addEventListener("click", play);
+  document.getElementById("reset").addEventListener("click", reset);
+
+  const toast = document.getElementById("toast");
+  const say = t => { toast.textContent = t; setTimeout(() => { if (toast.textContent === t) toast.textContent = ""; }, 3500); };
+
+  document.getElementById("form").addEventListener("submit", e => {
+    e.preventDefault();
+    const s = document.getElementById("said-in"), m = document.getElementById("meant-in");
+    const said = s.value.trim(), meant = m.value.trim();
+    if (!said || !meant) { say("Fill in both lines first."); (said ? m : s).focus(); return; }
+    const li = addRow(said, meant, false);
+    requestAnimationFrame(() => requestAnimationFrame(() => { li.classList.add("done"); checkFinished(); }));
+    lastAdded = { said, meant };
+    document.getElementById("copy").disabled = false;
+    s.value = ""; m.value = "";
+    say("Added to the memo.");
+    li.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  document.getElementById("copy").addEventListener("click", async () => {
+    if (!lastAdded) return;
+    const text = `What the update said: "${lastAdded.said}"\nWhat it meant: ${lastAdded.meant}`;
+    try { await navigator.clipboard.writeText(text); say("Copied. Paste it into the comments."); }
+    catch { say(text); }
+  });
+
+  // Auto-run the review once, so a first-time visitor sees the idea without hunting for the button.
+  setTimeout(play, 900);
+})();
+</script>
+
+</body>
+</html>
