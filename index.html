@@ -70,6 +70,9 @@ a:hover{color:inherit}
 .top nav a:hover{color:var(--ink)}
 .top .cv{font-size:14px;text-decoration:none;border:1px solid var(--ink);padding:7px 12px;border-radius:2px;white-space:nowrap}
 .top .cv:hover{background:var(--ink);color:var(--paper)}
+.menu-btn{display:none;font:500 14px/1 var(--sans);color:var(--ink);background:none;border:0;padding:12px 4px;margin-left:auto;cursor:pointer}
+.top .me{padding-block:12px}
+.top .cv{padding:11px 14px}
 
 /* hero */
 .hero{padding-block:clamp(40px,7vw,96px) clamp(32px,5vw,56px)}
@@ -80,20 +83,20 @@ a:hover{color:inherit}
 .lens{margin-top:34px}
 .ask{font:500 clamp(1.25rem,2.1vw,1.6rem)/1.3 var(--sans);letter-spacing:-.02em}
 .pick{position:relative;display:inline-block}
-#lens-btn{font:inherit;letter-spacing:inherit;color:var(--ink);background:none;border:0;padding:0 2px 1px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;border-bottom:2px solid var(--ink);transition:border-color .2s}
+#lens-btn{font:inherit;letter-spacing:inherit;color:var(--ink);background:none;border:0;padding:8px 2px 1px;margin-top:-8px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;border-bottom:2px solid var(--ink);transition:border-color .2s}
 #lens-btn svg{width:12px;height:8px;transition:transform .25s var(--ease)}
 #lens-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
 #lens-btn:hover{border-bottom-color:var(--ok)}
 .menu{position:absolute;left:0;top:calc(100% + 10px);z-index:30;min-width:290px;background:var(--sheet);border:1px solid var(--ink);box-shadow:0 18px 40px -18px rgba(20,7,0,.35);display:flex;flex-direction:column;padding:6px;animation:fade .22s var(--ease) both}
 .menu[hidden]{display:none}
-.menu button{display:grid;gap:2px;text-align:left;background:none;border:0;padding:10px 12px;cursor:pointer;color:var(--ink);border-radius:2px}
+.menu button{display:grid;gap:2px;text-align:left;background:none;border:0;padding:12px 14px;cursor:pointer;color:var(--ink);border-radius:2px}
 .menu button:hover,.menu button:focus-visible{background:var(--band)}
 .menu b{font:500 16px/1.2 var(--sans);letter-spacing:-.01em}
 .menu small{font:400 13px/1.3 var(--sans);color:var(--mute)}
 .menu button[aria-checked="true"] b::after{content:"  ✓";color:var(--ok)}
 .path{margin-top:12px;font:400 14px/1.45 var(--sans);color:var(--mute);min-height:1.45em}
 .path b{color:var(--ink);font-weight:500}
-.path button{font:inherit;color:var(--ink-2);background:none;border:0;padding:0;margin-left:8px;cursor:pointer;text-decoration:underline;text-underline-offset:.2em}
+.path button{font:inherit;color:var(--ink-2);background:none;border:0;padding:12px 4px;margin:-12px 0 -12px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:.2em}
 .path.swap{animation:fade .45s both}
 .glance{border-top:1px solid var(--ink);padding-top:14px}
 .glance dl > div{display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.45;color:var(--ink-2)}
@@ -257,7 +260,7 @@ a:hover{color:inherit}
 .lines a:hover{color:var(--paper)}
 .lines .ar{text-align:right;color:color-mix(in srgb,var(--paper) 60%,transparent)}
 .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:56px;font:400 12px/1.5 var(--mono);color:color-mix(in srgb,var(--paper) 55%,transparent)}
-.foot button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:.2em}
+.foot button{font:inherit;color:inherit;background:none;border:0;padding:12px 0;cursor:pointer;text-decoration:underline;text-underline-offset:.2em}
 
 /* hero load sequence */
 .statement .w{display:inline-block;animation:rise .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--d) * 28ms)}
@@ -291,6 +294,7 @@ a:hover{color:inherit}
 .map.pre .rt{stroke-dashoffset:1}
 .map .stop{transition:opacity .5s;transition-delay:calc(var(--d) * 520ms + 200ms)}
 .map.pre .stop{opacity:0}
+.swipe{display:none;font:400 12px/1.4 var(--sans);color:var(--mute);margin:8px 0 0}
 .mapcap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font:400 11px/1.5 var(--mono);color:var(--mute);margin-bottom:8px}
 
 /* motion: quiet reveals for content below the first screen, hairlines that draw, small hover cues */
@@ -331,7 +335,10 @@ a:hover{color:inherit}
   .sh,.body{grid-template-columns:minmax(0,1fr)}
   .sh .label{padding-top:0}
   .top nav{display:none}
-  .top .cv{margin-left:auto}
+  .menu-btn{display:block}
+  .top nav.open{display:flex;position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;background:var(--paper);border-bottom:1px solid var(--ink);padding:4px var(--gutter) 14px;animation:fade .22s var(--ease) both}
+  .top nav.open a{padding:14px 0;font-size:18px;border-bottom:1px solid var(--line);color:var(--ink)}
+  .top nav.open a::after{display:none}
   .traits{grid-template-columns:repeat(2,minmax(0,1fr))}
   .places,.inds{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
@@ -345,7 +352,9 @@ a:hover{color:inherit}
   .layers > div + div{padding-left:0;border-left:0;border-top:1px solid var(--line)}
   .axis{display:none}
   .gr{grid-template-columns:minmax(0,1fr);gap:8px}
-  .gr .track{order:-1}
+  .gr .track{order:-1;margin-right:12px}
+  .swipe{display:block}
+  .menu{min-width:min(290px,calc(100vw - 32px))}
   .doors thead{display:none}
   .doors,.doors tbody,.doors tr,.doors td{display:block;width:100%!important}
   .doors tr{border-bottom:1px solid var(--line);padding-block:18px}
@@ -370,9 +379,10 @@ a:hover{color:inherit}
   <div class="wrap">
     <a class="me" href="#main">Projit Mookerjee</a>
     <span class="dot">Open to conversations</span>
-    <nav aria-label="Sections">
+    <nav aria-label="Sections" id="site-nav">
       <a href="#now">Now</a><a href="#career">Career</a><a href="#work">Work with me</a><a href="#writing">Writing</a><a href="#about">About</a>
     </nav>
+    <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="site-nav">Menu</button>
     <a class="cv" href="#resume">Résumé</a>
   </div>
 </header>
@@ -517,6 +527,7 @@ a:hover{color:inherit}
     <p class="sub-h">Three continents, one perspective</p>
     <div class="mapcap"><span>Hyderabad → New York → Columbus → Indianapolis → Victoria</span><span>Equirectangular · 15° graticule</span></div>
     <div class="map" id="map"></div>
+    <p class="swipe">Swipe the map to follow the full route →</p>
     <div class="places">
       <div><div class="co">17.39° N · 78.49° E</div><h3>India</h3><div class="r">Born · educated · built teams</div><p>Engineering grounding at BITS Pilani. Scaled an insurance delivery org from 23 to 75 in Hyderabad. Learned that talent is universal; opportunity is not.</p></div>
       <div><div class="co">40.71° N · 74.01° W</div><h3>United States</h3><div class="r">Studied · worked · delivered</div><p>MS at NYU, then years on the ground in Indianapolis, Columbus and New England, where directness and execution speed shaped my consulting style.</p></div>
@@ -720,6 +731,13 @@ a:hover{color:inherit}
   groups.forEach(function(sel){[].forEach.call(document.querySelectorAll(sel),function(el){var sib=[].indexOf.call(el.parentNode.children,el);el.classList.add("rv");arm(el,Math.min(sib,6))})});
   /* at-a-glance rows follow the headline in on load */
   if(MOTION)[].forEach.call(document.querySelectorAll(".glance .ri, .glance .cta"),function(el,i){el.style.setProperty("--s",i);el.classList.add("row-in")});
+
+  /* phone and tablet menu */
+  var mb=document.getElementById("menu-btn"), sn=document.getElementById("site-nav");
+  function navOpen(on){sn.classList.toggle("open",on);mb.setAttribute("aria-expanded",String(on));mb.textContent=on?"Close":"Menu"}
+  mb.addEventListener("click",function(){navOpen(!sn.classList.contains("open"))});
+  sn.addEventListener("click",function(e){if(e.target.closest("a"))navOpen(false)});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&sn.classList.contains("open")){navOpen(false);mb.focus()}});
 
   /* sticky bar rule */
   var top=document.getElementById("top");
