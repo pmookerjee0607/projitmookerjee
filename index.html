@@ -1,2941 +1,738 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projit Mookerjee — Technology Leader · Strategist · Lifelong Learner</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Projit Mookerjee</title>
+<meta name="description" content="Projit Mookerjee: technology delivery and client engagement leader in Victoria, BC. 14+ years across insurance, financial services and the public sector. Open to Director-level roles, advisory and project work.">
+<meta property="og:title" content="Projit Mookerjee">
+<meta property="og:description" content="Technology leader, builder of teams, student of cultures. Delivery and client engagement, 14+ years across insurance, financial services and the public sector.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://pmookerjee0607.github.io/projitmookerjee/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#F8F8F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#110D0B" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23140700'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='15' font-weight='600' fill='%23F8F8F7'%3EPM%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Host+Grotesk:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Projit Mookerjee","jobTitle":"Director, Client Engagement and Digital Delivery","worksFor":{"@type":"Organization","name":"Sapiens Insurance Solutions"},"address":{"@type":"PostalAddress","addressLocality":"Victoria","addressRegion":"BC","addressCountry":"CA"},"email":"mailto:prom18@gmail.com","sameAs":["https://www.linkedin.com/in/projit-mookerjee/"],"alumniOf":["University of Victoria","New York University","BITS Pilani"]}
+</script>
 <style>
-  /* ═══════════════════════════════════════════
-     PM GUIDE DESIGN SYSTEM — projitmookerjee.com
-  ═══════════════════════════════════════════ */
-  :root {
-    --ink:    #0f1117;
-    --paper:  #f8f5ef;
-    --cream:  #ede9e0;
-    --mid:    #d5cfc4;
-    --accent: #c8410a;
-    --muted:  #6b6459;
-    /* compatibility aliases */
-    --bg:          var(--paper);
-    --bg-warm:     var(--cream);
-    --ink-soft:    #3a3835;
-    --rule:        var(--mid);
-    --accent-deep: #9e3308;
-    --teal:        #1d5b56;
-    --teal-bright: #2d8a82;
-    --gold:        #c9a84c;
-    --paper-shadow: 0 1px 0 rgba(0,0,0,0.04);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Epilogue', -apple-system, sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    overflow-x: hidden;
-    line-height: 1.6;
-    font-weight: 300;
-    -webkit-font-smoothing: antialiased;
-  }
-  ::selection { background: var(--accent); color: var(--paper); }
-
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 200;
-    opacity: 0.04;
-    mix-blend-mode: multiply;
-  }
-
-  /* ─────────────────────────────
-     NAVIGATION
-  ───────────────────────────── */
-  nav {
-    position: fixed;
-    top: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(-20px);
-    z-index: 1000;
-    background: rgba(15, 17, 23, 0.96);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 100px;
-    padding: 0.55rem 0.7rem;
-    display: flex;
-    gap: 0.15rem;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    opacity: 0;
-  }
-  nav a {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    font-weight: 400;
-    color: rgba(255,255,255,0.4);
-    text-decoration: none;
-    padding: 0.5rem 0.8rem;
-    border-radius: 100px;
-    transition: all 0.2s;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  nav a:hover { color: var(--paper); background: rgba(255,255,255,0.07); }
-  nav a.active { background: var(--accent); color: var(--paper); }
-
-  /* ─────────────────────────────
-     HERO — dark, full-bleed
-  ───────────────────────────── */
-  .hero {
-    min-height: 100vh;
-    padding: 7rem 5vw 4rem;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-    background: var(--ink);
-    color: var(--paper);
-  }
-  .hero-inner {
-    display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 64px;
-    align-items: start;
-    position: relative;
-    z-index: 2;
-    width: 100%;
-  }
-
-  /* subtle grid overlay */
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    pointer-events: none;
-    z-index: 0;
-  }
-  .blob-1 {
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-    top: -150px; right: -100px;
-    opacity: 0.32;
-    animation: float 18s ease-in-out infinite;
-  }
-  .blob-2 {
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, var(--teal) 0%, transparent 70%);
-    bottom: -100px; left: -100px;
-    opacity: 0.18;
-    animation: float 22s ease-in-out infinite reverse;
-  }
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(40px, -30px) scale(1.05); }
-    66% { transform: translate(-30px, 40px) scale(0.95); }
-  }
-
-  .hero-content { position: relative; }
-
-  .hero-meta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.4rem 0.9rem;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 100px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 2rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    opacity: 0;
-    animation: rise 0.8s 0.1s ease forwards;
-  }
-  .pulse {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--teal-bright);
-    box-shadow: 0 0 0 0 rgba(45, 138, 130, 0.7);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%   { box-shadow: 0 0 0 0   rgba(45, 138, 130, 0.7); }
-    70%  { box-shadow: 0 0 0 8px rgba(45, 138, 130, 0);   }
-    100% { box-shadow: 0 0 0 0   rgba(45, 138, 130, 0);   }
-  }
-
-  h1.hero-name {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(3.2rem, 7vw, 6.5rem);
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -0.04em;
-    margin-bottom: 1.5rem;
-    color: var(--paper);
-    opacity: 0;
-    animation: rise 1s 0.2s ease forwards;
-    font-variation-settings: "opsz" 144;
-  }
-  h1.hero-name .italic {
-    font-style: italic;
-    font-weight: 300;
-    color: var(--accent);
-  }
-
-  .hero-tag {
-    font-family: 'Epilogue', sans-serif;
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
-    font-weight: 300;
-    line-height: 1.7;
-    color: rgba(255,255,255,0.6);
-    max-width: 480px;
-    margin-bottom: 2.5rem;
-    opacity: 0;
-    animation: rise 1s 0.4s ease forwards;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: rise 1s 0.6s ease forwards;
-  }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.85rem 1.5rem;
-    border-radius: 100px;
-    font-family: 'Epilogue', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.25s;
-    border: 1px solid;
-    cursor: pointer;
-  }
-  .btn-primary {
-    background: var(--paper);
-    color: var(--ink);
-    border-color: var(--paper);
-  }
-  .btn-primary:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--paper);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(200, 65, 10, 0.35);
-  }
-  .btn-ghost {
-    background: transparent;
-    color: rgba(255,255,255,0.7);
-    border-color: rgba(255,255,255,0.2);
-  }
-  .btn-ghost:hover {
-    background: rgba(255,255,255,0.07);
-    color: var(--paper);
-    border-color: rgba(255,255,255,0.4);
-    transform: translateY(-2px);
-  }
-  .btn .arrow { transition: transform 0.25s; }
-  .btn:hover .arrow { transform: translateX(3px); }
-
-  /* Hero card — editorial credential panel on ink */
-  .hero-card {
-    position: relative;
-    z-index: 2;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 2px;
-    padding: 2.5rem;
-    color: var(--paper);
-    overflow: hidden;
-    opacity: 0;
-    animation: rise 1s 0.5s ease forwards;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .hero-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 80% 15%, rgba(201,168,76,0.08) 0%, transparent 55%),
-      radial-gradient(circle at 15% 85%, rgba(200,65,10,0.07) 0%, transparent 50%);
-    pointer-events: none;
-  }
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    position: relative;
-    z-index: 2;
-    margin-bottom: 2rem;
-  }
-  .card-corner {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.3);
-    text-transform: uppercase;
-  }
-  .card-monogram {
-    font-family: 'Fraunces', serif;
-    font-size: 1.8rem;
-    font-weight: 300;
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  /* Stat strip — large Fraunces numbers */
-  .card-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: rgba(255,255,255,0.08);
-    overflow: hidden;
-    margin-bottom: 2rem;
-    position: relative;
-    z-index: 2;
-  }
-  .card-stat {
-    background: rgba(255,255,255,0.02);
-    padding: 1.2rem 0.8rem;
-    text-align: center;
-  }
-  .card-stat .cs-num {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(2.2rem, 3.5vw, 2.8rem);
-    font-weight: 600;
-    color: var(--paper);
-    line-height: 1;
-    display: block;
-    letter-spacing: -0.03em;
-  }
-  .card-stat .cs-num sup {
-    font-size: 0.48em;
-    color: var(--gold);
-    vertical-align: super;
-  }
-  .card-stat .cs-lbl {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.53rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
-    display: block;
-    margin-top: 5px;
-  }
-
-  .card-creds {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    position: relative;
-    z-index: 2;
-  }
-  .card-cred {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.65rem 0.9rem;
-    background: rgba(255,255,255,0.025);
-    border: 1px solid rgba(255,255,255,0.06);
-    transition: background 0.2s;
-  }
-  .card-cred:hover { background: rgba(255,255,255,0.055); }
-  .card-cred-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--gold);
-    flex-shrink: 0;
-  }
-  .card-cred-dot.teal   { background: var(--teal-bright); }
-  .card-cred-dot.accent { background: var(--accent); }
-  .card-cred-text {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.63rem;
-    letter-spacing: 0.03em;
-    color: rgba(255,255,255,0.68);
-    line-height: 1.35;
-  }
-  .card-cred-text span {
-    display: block;
-    font-size: 0.57rem;
-    color: rgba(255,255,255,0.28);
-    letter-spacing: 0.05em;
-    margin-top: 2px;
-  }
-
-  /* Pull quote — full statement typography */
-  .card-body {
-    margin-top: auto;
-    position: relative;
-    z-index: 2;
-    padding-top: 1.8rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
-  }
-  .card-quote {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(1.5rem, 2.2vw, 2rem);
-    font-weight: 300;
-    line-height: 1.2;
-    color: var(--paper);
-    margin-bottom: 1.2rem;
-    font-style: italic;
-    letter-spacing: -0.025em;
-    border-top: none;
-    padding-top: 0;
-  }
-  .card-quote::before { content: none; }
-  .card-quote::after  { content: none; }
-
-  .card-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.12em;
-    color: rgba(255,255,255,0.28);
-    text-transform: uppercase;
-  }
-  .card-meta .gold { color: var(--gold); }
-
-  .floating-stat { display: none; }
-  .float-1, .float-2 { display: none; }
-
-  /* ─────────────────────────────
-     DOMAIN GRID (replaces ticker)
-  ───────────────────────────── */
-  .domain-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2px;
-    background: rgba(255,255,255,0.1);
-  }
-  .domain-cell {
-    background: var(--ink);
-    padding: 10px 14px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(248, 245, 239, 0.68);
-  }
-
-  /* ─────────────────────────────
-     PULL QUOTE SECTION
-  ───────────────────────────── */
-  .pullquote-section {
-    padding: 80px 64px;
-    background: var(--paper);
-    border-top: 1px solid var(--mid);
-    border-bottom: 1px solid var(--mid);
-  }
-  .pullquote-text {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(36px, 5vw, 68px);
-    font-weight: 300;
-    font-style: italic;
-    color: var(--ink);
-    line-height: 1.15;
-    max-width: 900px;
-    letter-spacing: -0.02em;
-  }
-
-  /* ─────────────────────────────
-     HERO PHOTO + STATS
-  ───────────────────────────── */
-  .photo-col {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding-top: 2rem;
-  }
-  .photo-frame {
-    position: relative;
-    width: 220px;
-    height: 260px;
-  }
-  .photo-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-    display: block;
-    filter: grayscale(20%) contrast(1.05);
-  }
-  .photo-caption {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(248,245,239,0.4);
-    margin-top: 12px;
-    text-align: right;
-    max-width: 220px;
-    line-height: 1.6;
-  }
-  .hero-stats {
-    display: flex;
-    gap: 48px;
-    margin-bottom: 48px;
-    margin-top: 8px;
-  }
-  .stat-num {
-    font-family: 'Fraunces', serif;
-    font-size: 44px;
-    font-weight: 600;
-    color: #f8f5ef;
-    line-height: 1;
-    display: block;
-    letter-spacing: -0.03em;
-  }
-  .stat-lbl {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(248,245,239,0.4);
-    display: block;
-    margin-top: 6px;
-  }
-
-  /* ─────────────────────────────
-     PHILOSOPHY PRINCIPLE ROWS
-  ───────────────────────────── */
-  .lead {
-    font-family: 'Fraunces', serif;
-    font-size: 1.05rem;
-    font-style: italic;
-    font-weight: 300;
-    color: var(--muted);
-    line-height: 1.65;
-    margin-bottom: 3rem;
-    max-width: 560px;
-  }
-  .principles-list { display: flex; flex-direction: column; }
-  .principle-row {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 32px;
-    padding: 28px 0;
-    border-bottom: 1px solid var(--mid);
-    align-items: start;
-  }
-  .principle-num {
-    font-family: 'Fraunces', serif;
-    font-size: 56px;
-    font-weight: 900;
-    color: var(--mid);
-    line-height: 1;
-    padding-top: 4px;
-    font-variation-settings: "opsz" 144;
-  }
-  .principle-content h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    letter-spacing: -0.01em;
-  }
-  .principle-content p {
-    font-size: 14px;
-    color: var(--muted);
-    font-weight: 300;
-    line-height: 1.75;
-    max-width: 560px;
-  }
-
-  /* ─────────────────────────────
-     SECTIONS — counter eyebrows
-  ───────────────────────────── */
-  body { counter-reset: sec; }
-  section.content { counter-increment: sec; }
-
-  section.content {
-    padding: 8rem 5vw;
-    position: relative;
-  }
-
-  .section-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 1.2rem;
-  }
-  /* Decorative line → numbered prefix for content sections */
-  section.content .section-tag::before {
-    content: counter(sec, decimal-leading-zero) " ·";
-    width: auto; height: auto;
-    background: none;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-  }
-  /* Dark section overrides */
-  #journey .section-tag,
-  #work    .section-tag,
-  #insights .section-tag { color: var(--gold); }
-  #journey  .section-tag::before,
-  #work     .section-tag::before,
-  #insights .section-tag::before { color: rgba(255,255,255,0.28); background: none; }
-
-  h2.section-title {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin-bottom: 1rem;
-    font-variation-settings: "opsz" 144;
-  }
-  h2.section-title em {
-    font-style: italic;
-    font-weight: 300;
-    color: var(--accent);
-  }
-
-  /* ─────────────────────────────
-     PHILOSOPHY  — paper
-  ───────────────────────────── */
-  #philosophy {
-    background: var(--paper);
-    border-top: 1px solid var(--mid);
-  }
-
-
-
-
-
-
-  /* ─────────────────────────────
-     JOURNEY  — ink
-  ───────────────────────────── */
-  #journey {
-    background: var(--ink);
-    color: var(--paper);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    overflow: hidden;
-  }
-  #journey h2.section-title em { color: var(--gold); }
-
-  .journey-intro {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 4rem;
-    margin-bottom: 5rem;
-    align-items: end;
-  }
-  .journey-intro p {
-    font-family: 'Fraunces', serif;
-    font-size: 1.2rem;
-    font-weight: 300;
-    line-height: 1.65;
-    color: rgba(255,255,255,0.6);
-    font-style: italic;
-  }
-
-  .geo-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-  .geo-card {
-    background: var(--ink);
-    padding: 2.5rem 2rem;
-    transition: background 0.3s;
-  }
-  .geo-card:hover { background: #191820; }
-  .geo-flag { font-size: 2rem; margin-bottom: 1.2rem; display: block; }
-  .geo-name {
-    font-family: 'Fraunces', serif;
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    letter-spacing: -0.01em;
-  }
-  .geo-period {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--gold);
-    letter-spacing: 0.12em;
-    margin-bottom: 1.2rem;
-    text-transform: uppercase;
-  }
-  .geo-desc {
-    font-size: 0.9rem;
-    line-height: 1.65;
-    color: rgba(255,255,255,0.65);
-    font-weight: 300;
-  }
-
-  .geo-insight {
-    margin-top: 5rem;
-    padding: 3rem;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(201,168,76,0.025);
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 3rem;
-    align-items: center;
-  }
-  .geo-insight .icon-large {
-    font-family: 'Fraunces', serif;
-    font-size: 5rem;
-    font-weight: 300;
-    font-style: italic;
-    color: var(--gold);
-    line-height: 1;
-  }
-  .geo-insight p {
-    font-family: 'Fraunces', serif;
-    font-size: 1.3rem;
-    font-weight: 300;
-    line-height: 1.65;
-    color: rgba(255,255,255,0.85);
-    font-style: italic;
-  }
-  .geo-insight strong { color: var(--gold); font-weight: 400; }
-
-  /* ─────────────────────────────
-     EXPERTISE  — cream, gap-grid
-  ───────────────────────────── */
-  #expertise {
-    background: var(--cream);
-    border-top: 1px solid var(--mid);
-  }
-  .expertise-headline {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    margin-bottom: 5rem;
-    align-items: end;
-  }
-  .expertise-headline p {
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--muted);
-    font-weight: 300;
-  }
-
-  .expertise-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--mid);
-  }
-  .exp-card {
-    background: var(--paper);
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 2.2rem;
-    transition: background 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-  .exp-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-  }
-  .exp-card:hover { background: var(--cream); transform: none; box-shadow: none; }
-  .exp-card:hover::before { transform: scaleX(1); }
-  .exp-icon {
-    width: 40px; height: 40px;
-    background: var(--cream);
-    border: 1px solid var(--mid);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-    color: var(--accent);
-    transition: all 0.3s;
-    border-radius: 0;
-  }
-  .exp-card:hover .exp-icon {
-    background: var(--accent);
-    color: var(--paper);
-    border-color: var(--accent);
-    transform: none;
-  }
-  .exp-icon svg { width: 18px; height: 18px; stroke-width: 1.8; }
-  .exp-card h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 0.6rem;
-    letter-spacing: -0.01em;
-  }
-  .exp-card p {
-    font-size: 0.9rem;
-    line-height: 1.75;
-    color: var(--muted);
-    font-weight: 300;
-  }
-
-  /* ─────────────────────────────
-     HUMAN  — paper
-  ───────────────────────────── */
-  #human {
-    background: var(--paper);
-    border-top: 1px solid var(--mid);
-  }
-  .human-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 5rem;
-    align-items: start;
-  }
-  .human-quote {
-    background: var(--cream);
-    padding: 3rem;
-    border: 1px solid var(--mid);
-    box-shadow: none;
-    border-radius: 0;
-    position: relative;
-  }
-  .human-quote::before {
-    content: '\201C';
-    position: absolute;
-    top: -0.5rem;
-    left: 1.8rem;
-    font-family: 'Fraunces', serif;
-    font-size: 5rem;
-    color: var(--accent);
-    line-height: 1;
-    font-weight: 300;
-  }
-  .human-quote p {
-    font-family: 'Fraunces', serif;
-    font-size: 1.35rem;
-    font-style: italic;
-    font-weight: 300;
-    line-height: 1.5;
-    color: var(--ink);
-    padding-top: 1rem;
-  }
-  .human-quote .attribution {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--mid);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.63rem;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    text-transform: uppercase;
-    font-style: normal;
-  }
-  .traits-list { display: flex; flex-direction: column; }
-  .trait {
-    padding: 1.5rem 0;
-    border-top: 1px solid var(--mid);
-    display: grid;
-    grid-template-columns: 40px 1fr auto;
-    gap: 1.5rem;
-    align-items: center;
-    transition: padding 0.3s;
-    cursor: pointer;
-  }
-  .trait:last-child { border-bottom: 1px solid var(--mid); }
-  .trait:hover { padding-left: 0.5rem; }
-  .trait-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.63rem;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-  }
-  .trait-name {
-    font-family: 'Fraunces', serif;
-    font-size: 1.1rem;
-    font-weight: 500;
-  }
-  .trait-arrow {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: var(--cream);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent);
-    font-size: 0.7rem;
-    transition: all 0.3s;
-  }
-  .trait:hover .trait-arrow,
-  .trait.open  .trait-arrow {
-    background: var(--accent);
-    color: var(--paper);
-    transform: rotate(-45deg);
-  }
-  .trait-detail {
-    grid-column: 2 / -1;
-    font-size: 0.9rem;
-    color: var(--muted);
-    line-height: 1.75;
-    font-weight: 300;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
-  }
-  .trait.open .trait-detail {
-    max-height: 220px;
-    opacity: 1;
-    margin-top: 0.6rem;
-  }
-
-  /* ─────────────────────────────
-     CAREER  — cream, editorial timeline
-  ───────────────────────────── */
-  #career {
-    background: var(--cream);
-    border-top: 1px solid var(--mid);
-  }
-  .timeline {
-    margin-top: 4rem;
-    position: relative;
-  }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 175px;
-    top: 0; bottom: 0;
-    width: 1px;
-    background: var(--mid);
-  }
-  .career-row {
-    display: grid;
-    grid-template-columns: 150px 60px 1fr;
-    gap: 2rem;
-    padding: 2.5rem 0;
-    border-bottom: 1px solid var(--mid);
-    align-items: start;
-    position: relative;
-  }
-  .career-row:last-child { border-bottom: none; }
-  .career-period {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.63rem;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    padding-top: 0.5rem;
-    text-align: right;
-    line-height: 1.4;
-  }
-  .career-dot {
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    background: var(--cream);
-    border: 2px solid var(--accent);
-    margin: 0.55rem 0 0 24px;
-    position: relative;
-    z-index: 2;
-  }
-  .career-row:first-child .career-dot {
-    background: var(--accent);
-    box-shadow: 0 0 0 4px rgba(200, 65, 10, 0.15);
-  }
-  .career-content {
-    background: var(--paper);
-    border: 1px solid var(--mid);
-    padding: 1.8rem 2rem;
-  }
-  .career-content h4 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-    letter-spacing: -0.01em;
-  }
-  .career-company {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--accent);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 0.8rem;
-    font-weight: 400;
-  }
-  .career-content p {
-    font-size: 0.92rem;
-    line-height: 1.75;
-    color: var(--muted);
-    max-width: 720px;
-    font-weight: 300;
-  }
-  .career-tags {
-    display: flex;
-    gap: 2px;
-    margin-top: 1rem;
-    flex-wrap: wrap;
-    background: var(--mid);
-  }
-  .career-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.58rem;
-    padding: 0.3rem 0.65rem;
-    background: var(--ink);
-    color: var(--paper);
-    letter-spacing: 0.08em;
-    border-radius: 0;
-    border: none;
-  }
-
-  /* ─────────────────────────────
-     WORK WITH ME  — ink
-  ───────────────────────────── */
-  #work {
-    background: var(--ink);
-    color: var(--paper);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    position: relative;
-    overflow: hidden;
-  }
-  #work::before {
-    content: '';
-    position: absolute;
-    top: 10%; left: -200px;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, var(--teal) 0%, transparent 65%);
-    opacity: 0.15;
-    filter: blur(70px);
-    pointer-events: none;
-  }
-  #work::after {
-    content: '';
-    position: absolute;
-    bottom: 5%; right: -150px;
-    width: 450px; height: 450px;
-    background: radial-gradient(circle, var(--accent) 0%, transparent 65%);
-    opacity: 0.12;
-    filter: blur(70px);
-    pointer-events: none;
-  }
-  #work h2.section-title em { color: var(--gold); }
-
-  .work-intro {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 4rem;
-    margin-bottom: 4rem;
-    align-items: end;
-    position: relative;
-    z-index: 2;
-  }
-  .work-intro p {
-    font-family: 'Fraunces', serif;
-    font-size: 1.15rem;
-    font-weight: 300;
-    line-height: 1.65;
-    color: rgba(255,255,255,0.6);
-    font-style: italic;
-  }
-
-  .work-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: rgba(255,255,255,0.07);
-    position: relative;
-    z-index: 2;
-  }
-
-  .work-card {
-    background: rgba(255,255,255,0.02);
-    border: none;
-    border-radius: 0;
-    padding: 2.5rem 2.2rem;
-    display: flex;
-    flex-direction: column;
-    transition: background 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .work-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s;
-  }
-  .work-card:hover { background: rgba(255,255,255,0.04); transform: none; border-color: transparent; }
-  .work-card:hover::before { transform: scaleX(1); }
-
-  .work-card.featured { background: rgba(201,168,76,0.04); }
-
-  .work-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.57rem;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-    text-transform: uppercase;
-    padding: 0.28rem 0.6rem;
-    border: 1px solid rgba(201,168,76,0.25);
-    border-radius: 0;
-    background: rgba(201,168,76,0.04);
-    align-self: flex-start;
-    margin-bottom: 1.8rem;
-  }
-  .work-badge .dot {
-    width: 5px; height: 5px;
-    background: var(--gold);
-    border-radius: 50%;
-  }
-
-  .work-card h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
-    color: var(--paper);
-    line-height: 1.15;
-  }
-
-  .work-card .work-sub {
-    font-family: 'Fraunces', serif;
-    font-size: 0.9rem;
-    font-style: italic;
-    font-weight: 300;
-    color: rgba(255,255,255,0.42);
-    margin-bottom: 1.8rem;
-    line-height: 1.5;
-  }
-
-  .work-card ul {
-    list-style: none;
-    margin-bottom: 2rem;
-    flex: 1;
-  }
-  .work-card ul li {
-    padding: 0.6rem 0;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.55;
-    display: grid;
-    grid-template-columns: 14px 1fr;
-    gap: 0.7rem;
-    align-items: start;
-    font-weight: 300;
-  }
-  .work-card ul li:first-child { border-top: none; padding-top: 0; }
-  .work-card ul li::before {
-    content: '';
-    width: 4px; height: 4px;
-    background: var(--gold);
-    border-radius: 50%;
-    margin-top: 0.6rem;
-  }
-
-  .work-meta {
-    margin-top: auto;
-    padding-top: 1.2rem;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-  .work-meta-item {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.57rem;
-    letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.28);
-    text-transform: uppercase;
-  }
-  .work-meta-item span {
-    display: block;
-    color: var(--paper);
-    font-family: 'Fraunces', serif;
-    font-size: 0.9rem;
-    font-style: italic;
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: -0.01em;
-    margin-top: 4px;
-  }
-
-  .work-cta-row {
-    margin-top: 2px;
-    padding: 2.5rem 3rem;
-    background: rgba(255,255,255,0.025);
-    border: none;
-    border-top: 2px solid var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    flex-wrap: wrap;
-    position: relative;
-    z-index: 2;
-  }
-  .work-cta-row p {
-    font-family: 'Fraunces', serif;
-    font-size: 1.1rem;
-    font-style: italic;
-    font-weight: 300;
-    color: rgba(255,255,255,0.78);
-    line-height: 1.5;
-    flex: 1;
-    min-width: 280px;
-  }
-  .work-cta-row .btn-gold {
-    background: var(--gold);
-    color: var(--ink);
-    border-color: var(--gold);
-    border-radius: 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .work-cta-row .btn-gold:hover {
-    background: #d8b860;
-    border-color: #d8b860;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(201, 168, 76, 0.25);
-  }
-
-  /* ─────────────────────────────
-     INSIGHTS  — ink
-  ───────────────────────────── */
-  #insights {
-    background: var(--ink);
-    color: var(--paper);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    position: relative;
-    overflow: hidden;
-  }
-  #insights::before {
-    content: '';
-    position: absolute;
-    top: -200px; right: -200px;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, var(--teal) 0%, transparent 60%);
-    opacity: 0.1;
-    filter: blur(80px);
-    pointer-events: none;
-  }
-  #insights h2.section-title em { color: var(--gold); }
-
-  .insights-layout {
-    display: grid;
-    grid-template-columns: 1fr 360px;
-    gap: 2px;
-    background: rgba(255,255,255,0.06);
-    margin-bottom: 2px;
-  }
-  .ins-main {
-    background: rgba(255,255,255,0.02);
-    border: none;
-    border-left: 2px solid var(--accent);
-    padding: 3.5rem;
-    display: flex;
-    flex-direction: column;
-  }
-  .ins-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-  .ins-eyebrow::before {
-    content: '';
-    width: 1rem; height: 1px;
-    background: var(--gold);
-  }
-  .ins-title {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: var(--paper);
-    margin-bottom: 1.2rem;
-    font-variation-settings: "opsz" 144;
-  }
-  .ins-title em { font-style: italic; font-weight: 300; color: var(--gold); }
-  .ins-desc {
-    font-size: 0.92rem;
-    line-height: 1.8;
-    color: rgba(255,255,255,0.48);
-    font-weight: 300;
-    margin-bottom: 2rem;
-    flex: 1;
-    max-width: 620px;
-  }
-  .ins-audience {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px;
-    margin-bottom: 2rem;
-    background: rgba(255,255,255,0.04);
-  }
-  .ins-chip {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.57rem;
-    letter-spacing: 0.1em;
-    padding: 0.3rem 0.7rem;
-    border: none;
-    background: rgba(255,255,255,0.07);
-    color: rgba(255,255,255,0.65);
-    border-radius: 0;
-  }
-  .ins-stats-row {
-    display: flex;
-    gap: 2.5rem;
-    padding: 1.5rem 0;
-    border-top: 1px solid rgba(255,255,255,0.07);
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    margin-bottom: 2rem;
-  }
-  .ins-stat .n {
-    font-family: 'Fraunces', serif;
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--paper);
-    line-height: 1;
-    display: block;
-    letter-spacing: -0.02em;
-  }
-  .ins-stat .l {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.26);
-    margin-top: 3px;
-  }
-  .ins-ctas {
-    display: flex;
-    gap: 0.7rem;
-    flex-wrap: wrap;
-  }
-  .ins-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.4rem;
-    background: var(--gold);
-    color: var(--ink);
-    border: 1px solid var(--gold);
-    border-radius: 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.63rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.25s;
-  }
-  .ins-btn-primary:hover {
-    background: #d8b860;
-    border-color: #d8b860;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(201,168,76,0.25);
-  }
-  .ins-btn-ghost {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.4rem;
-    background: transparent;
-    color: rgba(255,255,255,0.5);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.63rem;
-    font-weight: 400;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.25s;
-  }
-  .ins-btn-ghost:hover {
-    border-color: rgba(255,255,255,0.35);
-    color: var(--paper);
-    transform: translateY(-2px);
-  }
-  .ins-btn-ghost svg, .ins-btn-primary svg { width: 13px; height: 13px; stroke-width: 2; }
-
-  .ins-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .ins-side-card {
-    background: rgba(255,255,255,0.015);
-    border: none;
-    border-left: 1px solid rgba(255,255,255,0.06);
-    padding: 2rem 1.8rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    transition: background 0.25s;
-  }
-  .ins-side-card:hover { background: rgba(255,255,255,0.03); }
-  .ins-side-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.57rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.2);
-    margin-bottom: 0.8rem;
-  }
-  .ins-side-title {
-    font-family: 'Fraunces', serif;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--paper);
-    margin-bottom: 0.6rem;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-  }
-  .ins-side-desc {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.33);
-    font-weight: 300;
-    line-height: 1.65;
-    margin-bottom: 1.2rem;
-    flex: 1;
-  }
-  .ins-side-link {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    transition: gap 0.2s;
-  }
-  .ins-side-link:hover { gap: 0.7rem; }
-  .ins-coming {
-    background: rgba(255,255,255,0.015);
-    border: none;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 2.5rem 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2.5rem;
-    flex-wrap: wrap;
-    margin-top: 2px;
-  }
-  .ins-coming-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.57rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.2);
-    margin-bottom: 0.6rem;
-  }
-  .ins-coming-title {
-    font-family: 'Fraunces', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--paper);
-    margin-bottom: 0.3rem;
-    letter-spacing: -0.01em;
-  }
-  .ins-coming-sub {
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.3);
-    font-weight: 300;
-  }
-  .ins-topics {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px;
-    background: rgba(255,255,255,0.04);
-  }
-  .ins-topic {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.06em;
-    padding: 0.4rem 0.85rem;
-    border: none;
-    background: rgba(255,255,255,0.04);
-    color: rgba(255,255,255,0.58);
-    border-radius: 0;
-    transition: all 0.2s;
-  }
-  .ins-topic:hover { background: rgba(200,65,10,0.1); color: rgba(255,255,255,0.65); }
-
-  /* ─────────────────────────────
-     LEARNING  — paper
-  ───────────────────────────── */
-  #learning {
-    background: var(--paper);
-    border-top: 1px solid var(--mid);
-  }
-  .learning-intro {
-    max-width: 680px;
-    margin-bottom: 4rem;
-  }
-  .learning-intro p {
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--muted);
-    margin-top: 1rem;
-    font-weight: 300;
-  }
-  .learning-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2px;
-    background: var(--mid);
-  }
-  .learn-card {
-    background: var(--paper);
-    border: none;
-    border-radius: 0;
-    padding: 2rem;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 1.5rem;
-    align-items: center;
-    transition: background 0.25s;
-    box-shadow: none;
-  }
-  .learn-card:hover {
-    background: var(--cream);
-    transform: none;
-    box-shadow: none;
-    border-color: transparent;
-  }
-  .learn-icon {
-    width: 48px; height: 48px;
-    background: var(--ink);
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--paper);
-    flex-shrink: 0;
-  }
-  .learn-icon svg { width: 22px; height: 22px; stroke-width: 1.6; }
-  .learn-card h4 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-    letter-spacing: -0.01em;
-  }
-  .learn-card .learn-source {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-  .learn-status {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.57rem;
-    letter-spacing: 0.12em;
-    padding: 0.3rem 0.65rem;
-    border-radius: 0;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .learn-status.active {
-    background: var(--ink);
-    color: var(--teal-bright);
-    border: none;
-  }
-  .learn-status.complete {
-    background: var(--mid);
-    color: var(--muted);
-    border: none;
-  }
-
-  /* ─────────────────────────────
-     INDUSTRIES  — cream
-  ───────────────────────────── */
-  #industries {
-    background: var(--cream);
-    border-top: 1px solid var(--mid);
-  }
-  .ind-headline {
-    margin-bottom: 4rem;
-    max-width: 680px;
-  }
-  .ind-headline p {
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--muted);
-    margin-top: 1rem;
-    font-weight: 300;
-  }
-  .industry-blocks {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2px;
-    background: var(--mid);
-  }
-  .ind-block {
-    background: var(--paper);
-    padding: 2rem 1.5rem;
-    text-align: center;
-    transition: all 0.25s;
-    border-radius: 0;
-  }
-  .ind-block:hover {
-    background: var(--accent);
-    color: var(--paper);
-    transform: none;
-    z-index: 5;
-    position: relative;
-  }
-  .ind-block:hover .ind-name   { color: var(--paper); }
-  .ind-block:hover .ind-detail { color: rgba(255,255,255,0.8); }
-  .ind-block:hover svg { color: var(--paper); }
-  .ind-block svg {
-    width: 26px; height: 26px;
-    color: var(--accent);
-    margin-bottom: 1rem;
-    stroke-width: 1.5;
-    transition: color 0.25s;
-  }
-  .ind-name {
-    font-family: 'Fraunces', serif;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    transition: color 0.25s;
-    letter-spacing: -0.01em;
-  }
-  .ind-detail {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--muted);
-    line-height: 1.5;
-    letter-spacing: 0.04em;
-    transition: color 0.25s;
-  }
-
-  .tech-row {
-    margin-top: 4rem;
-    padding-top: 3rem;
-    border-top: 2px solid var(--mid);
-  }
-  .tech-row h4 {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.63rem;
-    letter-spacing: 0.18em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-  }
-  .tech-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px;
-    background: var(--mid);
-  }
-  .tech-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    padding: 0.42rem 0.75rem;
-    background: var(--ink);
-    border-radius: 0;
-    color: var(--paper);
-    letter-spacing: 0.04em;
-    transition: background 0.2s;
-  }
-  .tech-tag:hover { background: var(--accent); transform: none; }
-
-  /* ─────────────────────────────
-     RESUME  — paper
-  ───────────────────────────── */
-  #resume {
-    background: var(--paper);
-    border-top: 1px solid var(--mid);
-    position: relative;
-    overflow: hidden;
-  }
-  .resume-intro {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 4rem;
-    margin-bottom: 4rem;
-    align-items: end;
-  }
-  .resume-intro p {
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--muted);
-    font-weight: 300;
-  }
-  .resume-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    background: var(--mid);
-  }
-  .resume-card {
-    background: var(--paper);
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    transition: background 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-  .resume-card:hover {
-    background: var(--cream);
-    transform: none;
-    border-color: transparent;
-    box-shadow: none;
-  }
-  .resume-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-  }
-  .resume-card:hover::before { transform: scaleX(1); }
-  .resume-card-cta {
-    background: var(--cream);
-    border-left: 3px solid var(--mid);
-  }
-  .resume-card-cta:hover { background: var(--paper); }
-  .resume-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-  }
-  .resume-icon {
-    width: 48px; height: 48px;
-    background: var(--ink);
-    border: none;
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--paper);
-    transition: background 0.3s;
-  }
-  .resume-card:hover .resume-icon { background: var(--accent); }
-  .resume-icon svg { width: 22px; height: 22px; stroke-width: 1.6; }
-  .resume-version {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.57rem;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    text-transform: uppercase;
-    padding: 0.25rem 0.6rem;
-    border: 1px solid var(--mid);
-    border-radius: 0;
-    background: transparent;
-  }
-  .resume-card h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    letter-spacing: -0.02em;
-  }
-  .resume-card .resume-sub {
-    font-family: 'Fraunces', serif;
-    font-size: 0.95rem;
-    font-style: italic;
-    font-weight: 300;
-    color: var(--muted);
-    margin-bottom: 1.8rem;
-    line-height: 1.5;
-  }
-  .resume-card .resume-desc {
-    font-size: 0.92rem;
-    line-height: 1.75;
-    color: var(--muted);
-    margin-bottom: 2rem;
-    flex: 1;
-    font-weight: 300;
-  }
-  .resume-actions {
-    display: flex;
-    gap: 2px;
-    align-items: stretch;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--mid);
-    background: var(--mid);
-  }
-  .resume-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.7rem 1.2rem;
-    border-radius: 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.63rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.25s;
-    border: none;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-  }
-  .resume-btn.primary {
-    background: var(--ink);
-    color: var(--paper);
-    flex: 1;
-    justify-content: center;
-  }
-  .resume-btn.primary:hover { background: var(--accent); }
-  .resume-btn.secondary {
-    background: var(--paper);
-    color: var(--muted);
-  }
-  .resume-btn.secondary:hover { background: var(--ink); color: var(--paper); }
-  .resume-btn svg { width: 13px; height: 13px; stroke-width: 2; }
-
-  /* ─────────────────────────────
-     CONTACT / FOOTER  — ink
-  ───────────────────────────── */
-  #contact {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 8rem 5vw 3rem;
-    position: relative;
-    overflow: hidden;
-  }
-  #contact::before {
-    content: '';
-    position: absolute;
-    top: -200px; right: -200px;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, var(--accent) 0%, transparent 60%);
-    opacity: 0.12;
-    filter: blur(60px);
-    pointer-events: none;
-  }
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 5rem;
-    margin-bottom: 5rem;
-    align-items: end;
-    position: relative;
-    z-index: 2;
-  }
-  .contact-headline {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(3rem, 7vw, 6rem);
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    font-variation-settings: "opsz" 144;
-  }
-  .contact-headline em { font-style: italic; font-weight: 300; color: var(--accent); }
-  .contact-sub {
-    font-family: 'Epilogue', sans-serif;
-    font-size: 1rem;
-    font-weight: 300;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.75;
-  }
-  .contact-links { display: flex; flex-direction: column; }
-  .contact-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.3rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    color: var(--paper);
-    text-decoration: none;
-    transition: all 0.25s;
-  }
-  .contact-link:hover { border-bottom-color: var(--accent); padding-left: 0.5rem; }
-  .contact-link:hover .cl-arrow { transform: translateX(8px) rotate(-45deg); color: var(--accent); }
-  .contact-link:hover .cl-label { color: var(--accent); }
-  .cl-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.28);
-    text-transform: uppercase;
-    transition: color 0.25s;
-  }
-  .cl-value {
-    font-family: 'Fraunces', serif;
-    font-size: 1.05rem;
-    font-weight: 300;
-    margin-top: 0.25rem;
-    display: block;
-  }
-  .cl-arrow { color: rgba(255,255,255,0.35); transition: all 0.3s; }
-
-  .footer-base {
-    margin-top: 5rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    position: relative;
-    z-index: 2;
-  }
-  .footer-base p {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-    color: rgba(255,255,255,0.22);
-    text-transform: uppercase;
-  }
-  .footer-base .signature {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: 1.5rem;
-    color: var(--paper);
-    font-weight: 300;
-  }
-
-  /* ─────────────────────────────
-     ANIMATIONS
-  ───────────────────────────── */
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.9s cubic-bezier(0.2, 0.6, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.6, 0.2, 1);
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  /* ─────────────────────────────
-     RESPONSIVE
-  ───────────────────────────── */
-  @media (max-width: 1024px) {
-    .hero { grid-template-columns: 1fr; gap: 3rem; padding-top: 8rem; }
-    .expertise-grid { grid-template-columns: repeat(2, 1fr); }
-    .geo-grid { grid-template-columns: repeat(2, 1fr); }
-    .work-grid { grid-template-columns: 1fr; }
-    .work-intro { grid-template-columns: 1fr; gap: 1.5rem; }
-    .resume-grid { grid-template-columns: 1fr; }
-    .resume-intro { grid-template-columns: 1fr; gap: 1.5rem; }
-    .human-grid { grid-template-columns: 1fr; gap: 3rem; }
-    .learning-grid { grid-template-columns: 1fr; }
-    .contact-grid { grid-template-columns: 1fr; gap: 3rem; align-items: start; }
-    .career-row { grid-template-columns: 110px 30px 1fr; gap: 1rem; }
-    .timeline::before { left: 125px; }
-    .geo-insight { grid-template-columns: 1fr; gap: 1.5rem; }
-    .expertise-headline { grid-template-columns: 1fr; gap: 1.5rem; }
-    .journey-intro { grid-template-columns: 1fr; gap: 1.5rem; }
-    nav { padding: 0.4rem 0.4rem; gap: 0; }
-    nav a { font-size: 0.52rem; padding: 0.45rem 0.6rem; }
-    .insights-layout { grid-template-columns: 1fr; }
-    .ins-sidebar { flex-direction: row; }
-    .ins-coming { flex-direction: column; align-items: flex-start; }
-  }
-
-  @media (max-width: 640px) {
-    section.content { padding: 5rem 1.5rem; }
-    .hero { padding: 7rem 1.5rem 3rem; }
-    .expertise-grid { grid-template-columns: 1fr; }
-    .career-row { grid-template-columns: 1fr; gap: 0.5rem; }
-    .career-content { padding: 1.2rem; }
-    .career-dot { display: none; }
-    .timeline::before { display: none; }
-    nav { display: none; }
-    #contact { padding: 5rem 1.5rem 2rem; }
-    .geo-insight { padding: 2rem; }
-    .learn-card { grid-template-columns: auto 1fr; }
-    .learn-status { grid-column: 1 / -1; justify-self: start; }
-    .ins-main { padding: 2rem; }
-    .ins-sidebar { flex-direction: column; }
-    .ins-stats-row { gap: 1.5rem; flex-wrap: wrap; }
-    .ins-coming { padding: 2rem; }
-  }
-
-  /* ─────────────────────────────
-     MOBILE PASS
-  ───────────────────────────── */
-  @media (max-width: 768px) {
-    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
-    .photo-col { align-items: center; }
-    .photo-frame { width: 120px; height: 140px; border-radius: 50%; overflow: hidden; }
-    .photo-frame img { border-radius: 50%; }
-    .photo-caption { display: none; }
-    .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 16px; }
-    .stat-num { font-size: 32px; }
-    .pullquote-section { padding: 48px 24px; }
-    .pullquote-text { font-size: clamp(28px, 7vw, 48px); }
-    .principle-row { grid-template-columns: 48px 1fr; gap: 16px; }
-    .principle-num { font-size: 36px; }
-    .domain-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (max-width: 480px) {
-    h1.hero-name { font-size: clamp(36px, 10vw, 60px); }
-    .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 20px 12px; }
-    .stat-num { font-size: 26px; }
-  }
-
-  /* ─────────────────────────────
-     INDUSTRIES REDESIGN — section 09
-  ───────────────────────────── */
-
-  /* Part 1: Industry cards */
-  .ind-cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2px;
-    background: var(--mid);
-    margin-top: 48px;
-  }
-  .ind-card {
-    background: var(--paper);
-    padding: 24px 28px;
-  }
-  .ind-card-title {
-    font-family: 'Fraunces', serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 6px;
-  }
-  .ind-card-sub {
-    font-family: 'Epilogue', sans-serif;
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  /* Sub-labels for Parts 2 & 3 */
-  .sec-sublabel {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 32px 0 16px;
-    border-top: 1px solid var(--mid);
-    margin-top: 40px;
-    display: block;
-  }
-
-  /* Part 2: Expertise cards */
-  .exp-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--mid);
-  }
-  .exp-card-item {
-    background: var(--paper);
-    padding: 20px 24px;
-  }
-  .exp-card-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    margin-bottom: 6px;
-    display: block;
-  }
-  .exp-card-title {
-    font-family: 'Fraunces', serif;
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 10px;
-    line-height: 1.3;
-  }
-  .exp-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 8px;
-  }
-  .exp-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    padding: 3px 10px;
-    background: var(--cream);
-    border: 1px solid var(--mid);
-    color: var(--muted);
-    border-radius: 0;
-  }
-
-  /* Part 3: Stack reference */
-  .stack-rows { display: flex; flex-direction: column; }
-  .stack-row {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    border-bottom: 1px solid var(--mid);
-  }
-  .stack-label {
-    background: var(--cream);
-    padding: 12px 16px;
-    border-right: 1px solid var(--mid);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-  }
-  .stack-pills {
-    padding: 10px 16px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    align-items: center;
-    background: var(--paper);
-  }
-  .stack-pill {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    padding: 3px 10px;
-    border: 1px solid var(--mid);
-    color: var(--ink);
-    background: var(--paper);
-    border-radius: 0;
-  }
-
-  /* ─────────────────────────────
-     CAREER CURRENT ROLE (dark highlight)
-  ───────────────────────────── */
-  .career-row--current .career-content {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: var(--paper);
-  }
-  .career-row--current .career-content h4 { color: var(--paper); }
-  .career-row--current .career-company { color: var(--gold); }
-  .career-row--current .career-content p { color: rgba(248,245,239,0.72); }
-  .career-row--current .career-tags { background: rgba(255,255,255,0.1); }
-  .career-row--current .career-tag {
-    background: rgba(255,255,255,0.08);
-    color: rgba(248,245,239,0.75);
-    border: 1px solid rgba(255,255,255,0.15);
-  }
-
-
-  /* Section 09 mobile */
-  @media (max-width: 768px) {
-    .ind-cards { grid-template-columns: repeat(2, 1fr); }
-    .exp-grid  { grid-template-columns: 1fr; }
-    .stack-row { grid-template-columns: 1fr; }
-    .stack-label {
-      border-right: none;
-      border-bottom: 1px solid var(--mid);
-    }
-  }
-  @media (max-width: 480px) {
-    .ind-cards { grid-template-columns: 1fr; }
-  }
+/* Layout: a calm index landing (statement, reader lens, at-a-glance column) over a single long page whose sections reorder by reader. */
+:root{
+  /* Warm Black + Sage Band: near-white paper, brown-black ink (after Collins), whole sections on pale sage (after Kinfolk).
+     No accent colour. Sage is the only hue; it appears as section bands and the small "open" signals. */
+  --paper:#F8F8F7; --sheet:#FFFFFF; --ink:#140700; --ink-2:#4A3F3A; --mute:#8C837E; --line:#E3E0DD; --line-2:#CFCAC6;
+  --band:#DBDED5; --band-line:#C6CABF;
+  --acc:#140700; --acc-ink:#F8F8F7; --ok:#56634D; --warn:#8C837E;
+  /* Type: one Swiss grotesk for structure (after Aesop, Pentagram, Vitsoe), classical Garamond for reading (after Work & Co). */
+  --display:"Host Grotesk","Helvetica Neue",Arial,sans-serif;
+  --sans:"Host Grotesk","Helvetica Neue",Arial,sans-serif;
+  --mono:"Host Grotesk","Helvetica Neue",Arial,sans-serif;
+  --serif:"EB Garamond",Garamond,"Times New Roman",serif;
+  --gutter:clamp(16px,4vw,56px); --max:1200px; --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#110D0B; --sheet:#181412; --ink:#F1EEEA; --ink-2:#CBC5BF; --mute:#968E88; --line:#2A2421; --line-2:#433B37;
+  --band:#1B1F1A; --band-line:#2E342C; --acc:#F1EEEA; --acc-ink:#110D0B; --ok:#A9B59E; --warn:#968E88; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#110D0B; --sheet:#181412; --ink:#F1EEEA; --ink-2:#CBC5BF; --mute:#968E88; --line:#2A2421; --line-2:#433B37;
+  --band:#1B1F1A; --band-line:#2E342C; --acc:#F1EEEA; --acc-ink:#110D0B; --ok:#A9B59E; --warn:#968E88; color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3,h4{margin:0;font-weight:500;text-wrap:balance}
+p{margin:0}
+ul,ol,dl,dd{margin:0;padding:0;list-style:none}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:.2em}
+a:hover{color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:2px}
+::selection{background:var(--acc);color:var(--acc-ink)}
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--gutter)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.04em}
+.label{font:500 11px/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--mute)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:var(--paper);padding:8px 12px;z-index:99}
+.skip:focus{left:8px}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid transparent;transition:border-color .2s}
+.top.scrolled{border-bottom-color:var(--line)}
+.top .wrap{display:flex;align-items:center;gap:24px;padding-block:14px}
+.top .me{font:600 15px/1 var(--display);text-decoration:none;white-space:nowrap}
+.top .dot{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--mute);white-space:nowrap}
+.top .dot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 22%,transparent)}
+.top nav{margin-left:auto;display:flex;gap:22px;font-size:14px}
+.top nav a{text-decoration:none;color:var(--ink-2)}
+.top nav a:hover{color:var(--ink)}
+.top .cv{font-size:14px;text-decoration:none;border:1px solid var(--ink);padding:7px 12px;border-radius:2px;white-space:nowrap}
+.top .cv:hover{background:var(--ink);color:var(--paper)}
+
+/* hero */
+.hero{padding-block:clamp(40px,7vw,96px) clamp(32px,5vw,56px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:clamp(32px,6vw,96px);align-items:end}
+.statement{font:400 clamp(1.95rem,3.9vw,3.35rem)/1.06 var(--display);letter-spacing:-.025em;max-width:16em}
+.statement .m,.statement .m .w{color:var(--mute)}
+.sub{margin-top:28px;font-size:clamp(1.02rem,1.4vw,1.15rem);color:var(--ink-2);max-width:44ch;min-height:3.2em}
+.lens{margin-top:34px}
+.ask{font:500 clamp(1.25rem,2.1vw,1.6rem)/1.3 var(--sans);letter-spacing:-.02em}
+.pick{position:relative;display:inline-block}
+#lens-btn{font:inherit;letter-spacing:inherit;color:var(--ink);background:none;border:0;padding:0 2px 1px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;border-bottom:2px solid var(--ink);transition:border-color .2s}
+#lens-btn svg{width:12px;height:8px;transition:transform .25s var(--ease)}
+#lens-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+#lens-btn:hover{border-bottom-color:var(--ok)}
+.menu{position:absolute;left:0;top:calc(100% + 10px);z-index:30;min-width:290px;background:var(--sheet);border:1px solid var(--ink);box-shadow:0 18px 40px -18px rgba(20,7,0,.35);display:flex;flex-direction:column;padding:6px;animation:fade .22s var(--ease) both}
+.menu[hidden]{display:none}
+.menu button{display:grid;gap:2px;text-align:left;background:none;border:0;padding:10px 12px;cursor:pointer;color:var(--ink);border-radius:2px}
+.menu button:hover,.menu button:focus-visible{background:var(--band)}
+.menu b{font:500 16px/1.2 var(--sans);letter-spacing:-.01em}
+.menu small{font:400 13px/1.3 var(--sans);color:var(--mute)}
+.menu button[aria-checked="true"] b::after{content:"  ✓";color:var(--ok)}
+.path{margin-top:12px;font:400 14px/1.45 var(--sans);color:var(--mute);min-height:1.45em}
+.path b{color:var(--ink);font-weight:500}
+.path button{font:inherit;color:var(--ink-2);background:none;border:0;padding:0;margin-left:8px;cursor:pointer;text-decoration:underline;text-underline-offset:.2em}
+.path.swap{animation:fade .45s both}
+.glance{border-top:1px solid var(--ink);padding-top:14px}
+.glance dl > div{display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.45;color:var(--ink-2)}
+.glance dt{font:400 10.5px/2 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--mute)}
+.glance dd b{color:var(--ink);font-weight:500}
+.cta{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;background:var(--ink);color:var(--paper);padding:14px 16px;text-decoration:none;font-weight:500;font-size:15px;border-radius:2px;transition:background .3s var(--ease)}
+.cta:hover{color:var(--paper);background:var(--ink-2)}
+.cta .arr{transition:transform .2s}
+.cta:hover .arr{transform:translateX(4px)}
+
+/* numbers */
+.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
+.nums > div{padding:22px 20px 20px 0}
+.nums > div + div{padding-left:20px;border-left:1px solid var(--line)}
+.nums .n{font:400 clamp(2rem,4vw,3.1rem)/1 var(--display);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.nums .n sup{font:500 11px/1 var(--mono);color:var(--mute);vertical-align:top;margin-left:3px;letter-spacing:0}
+.nums .k{font-size:14px;color:var(--ink-2);margin-top:10px;line-height:1.35}
+.fn{display:flex;flex-wrap:wrap;gap:6px 22px;padding-block:12px 0;color:var(--mute);font:400 11.5px/1.5 var(--mono)}
+.fn b{color:var(--ink);font-weight:500}
+
+/* index */
+.index{margin-top:clamp(56px,8vw,96px)}
+.index ol{display:flex;flex-direction:column;border-top:1px solid var(--ink)}
+.index li{border-bottom:1px solid var(--line)}
+.index a{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto) 28px;gap:20px;align-items:baseline;padding:16px 0;text-decoration:none}
+.index h2{font:400 clamp(1.6rem,3.6vw,2.6rem)/1.05 var(--display);letter-spacing:-.025em;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.index a:hover h2{transform:translateX(12px)}
+.index .meta{font-size:14px;color:var(--mute);text-align:right}
+.index .go{font:300 22px/1 var(--display);color:var(--mute);text-align:right}
+.index a:hover .go{color:var(--ink)}
+
+/* sections */
+#flow{display:flex;flex-direction:column}
+.sec{padding-block:clamp(64px,9vw,112px);scroll-margin-top:64px;transition:background .5s}
+.sec.band{background:var(--band);--line:var(--band-line)}
+#flow{margin-top:clamp(48px,7vw,88px)}
+.sh{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;margin-bottom:clamp(28px,4vw,44px)}
+.sh .label{padding-top:12px}
+.sh h2{font:400 clamp(2rem,4.4vw,3.4rem)/1.02 var(--display);letter-spacing:-.03em}
+.sh p{margin-top:14px;color:var(--ink-2);max-width:60ch}
+.body{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px}
+.body > .side{color:var(--mute);font-size:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;font:500 10.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.07em;padding:5px 7px;border:1px solid currentColor;border-radius:2px;white-space:nowrap}
+.chip.ok{color:var(--ok)} .chip.warn{color:var(--ink-2)} .chip.acc{color:var(--ink-2)} .chip.mute{color:var(--mute)}
+
+/* now */
+.now-lead{font-size:clamp(1.1rem,1.6vw,1.3rem);line-height:1.5;max-width:56ch}
+.now-lead b{font-weight:600}
+.layers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--ink);margin-top:32px}
+.layers > div{padding:22px 22px 6px 0}
+.layers > div + div{padding-left:22px;border-left:1px solid var(--line)}
+.layers h3{font:500 1.25rem/1.2 var(--display);margin:12px 0 10px;letter-spacing:-.01em}
+.layers p{font-size:15px;color:var(--ink-2)}
+.layers .chip{margin-top:16px}
+.also{margin-top:28px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;font-size:15px;color:var(--ink-2)}
+.also li{padding-top:14px;border-top:1px solid var(--line)}
+
+/* gantt */
+.axis,.gr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:32px}
+.axis .ticks{position:relative;height:20px;font:400 11px/1 var(--mono);color:var(--mute)}
+.axis .ticks span{position:absolute;top:0;transform:translateX(-50%)}
+.axis .ticks span:first-child{transform:none}
+.axis .ticks span:last-child{transform:translateX(-100%)}
+.gr{padding-block:20px;border-top:1px solid var(--line)}
+.gr:first-of-type{border-top-color:var(--ink)}
+.gr h3{font:500 1.2rem/1.25 var(--display);letter-spacing:-.01em}
+.gr .org{font:400 12px/1.5 var(--mono);color:var(--mute);margin-top:4px;letter-spacing:.02em}
+.gr p{font-size:15px;color:var(--ink-2);margin-top:10px;max-width:58ch}
+.track{position:relative;height:26px;margin-top:4px;background-image:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px calc(100% / 16.3))}
+.bar{position:absolute;top:7px;height:12px;background:var(--mute);transform-origin:left center}
+.bar.now{background:var(--ink)}
+.bar.now::after{content:"";position:absolute;right:-9px;top:-4px;border-left:9px solid var(--ink);border-top:10px solid transparent;border-bottom:10px solid transparent}
+.gr .when{font:400 12px/1 var(--mono);color:var(--mute);margin-top:10px;font-variant-numeric:tabular-nums}
+.bar{transition:transform 1s var(--ease),background .2s;transition-delay:calc(var(--i) * 90ms),0s}
+.pre .bar{transform:scaleX(0)}
+.today{transition:opacity .6s .8s}
+.pre .today{opacity:0}
+
+/* work table */
+.doors{width:100%;border-collapse:collapse;font-size:15px}
+.doors th{font:500 11px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--mute);text-align:left;padding:0 20px 10px 0;border-bottom:1px solid var(--ink)}
+.doors td{padding:22px 20px 22px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.doors td:first-child{width:26%}
+.doors h3{font:500 1.35rem/1.15 var(--display);letter-spacing:-.015em}
+.doors td:first-child p{color:var(--mute);font-size:14px;margin-top:6px}
+.doors li{padding:3px 0 3px 16px;position:relative;color:var(--ink-2)}
+.doors li::before{content:"";position:absolute;left:0;top:.85em;width:8px;height:1px;background:var(--mute)}
+.doors .terms{font-size:14px;color:var(--ink-2);white-space:normal}
+.doors .terms div + div{margin-top:8px}
+.doors .terms span{display:block;font:400 10.5px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--mute)}
+.tbl{overflow-x:auto}
+.close-line{margin-top:28px;display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:space-between;font-size:16px;color:var(--ink-2)}
+.btn{display:inline-flex;gap:10px;align-items:center;text-decoration:none;font-weight:500;border:1px solid var(--ink);padding:11px 16px;border-radius:2px;color:var(--ink)}
+.btn:hover{background:var(--ink);color:var(--paper)}
+
+/* docs */
+.docs li{border-top:1px solid var(--line)}
+.docs li:first-child{border-top-color:var(--ink)}
+.docs a,.docs .row{display:grid;grid-template-columns:92px minmax(0,1fr) 150px;gap:24px;padding:22px 0;text-decoration:none;align-items:baseline}
+.docs .id{font:500 12px/1 var(--mono);color:var(--mute)}
+.docs h3{font:500 clamp(1.25rem,2.2vw,1.6rem)/1.15 var(--display);letter-spacing:-.015em}
+.docs a:hover h3{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em}
+.docs .k{font:400 11px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--mute);margin-bottom:8px}
+.docs p{font-size:15px;color:var(--ink-2);margin-top:8px;max-width:62ch}
+.docs .facts{font:400 12px/1.5 var(--mono);color:var(--mute);margin-top:10px}
+.docs .st{text-align:right}
+
+/* about */
+.principles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}
+.principles > div{padding:22px 0;border-top:1px solid var(--line)}
+.principles h3{font:500 1.35rem/1.2 var(--display);letter-spacing:-.015em}
+.principles p{font-size:15.5px;color:var(--ink-2);margin-top:10px}
+.quote{margin-block:clamp(48px,7vw,80px);font:400 clamp(1.5rem,3vw,2.3rem)/1.22 var(--display);letter-spacing:-.02em;max-width:30em}
+.quote span{color:var(--mute)}
+.quote cite{display:block;font:400 12px/1.5 var(--mono);font-style:normal;color:var(--mute);margin-top:16px;letter-spacing:.04em}
+.traits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 32px}
+.traits > div{padding:20px 0;border-top:1px solid var(--line)}
+.traits h3{font:500 1.1rem/1.25 var(--display)}
+.traits p{font-size:14.5px;color:var(--ink-2);margin-top:8px}
+.places{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 28px;margin-top:8px}
+.places > div{padding:20px 0;border-top:2px solid var(--ink)}
+.places .co{font:400 11px/1.5 var(--mono);color:var(--mute)}
+.places h3{font:500 1.3rem/1.15 var(--display);margin-top:6px}
+.places .r{font-size:13px;color:var(--ok);margin-top:4px}
+.places p{font-size:14.5px;color:var(--ink-2);margin-top:10px}
+.sub-h{font:500 11px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.09em;color:var(--mute);margin:clamp(48px,6vw,72px) 0 14px}
+
+/* credentials + toolkit */
+.creds li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 120px;gap:20px;padding:15px 0;border-top:1px solid var(--line);align-items:baseline}
+.creds li:first-child{border-top-color:var(--ink)}
+.creds h3{font:500 1.08rem/1.3 var(--display)}
+.creds .w{font-size:14px;color:var(--mute)}
+.creds .chip{justify-self:end}
+.kit{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}
+.kit > div{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:15px 0;border-top:1px solid var(--line);font-size:15px}
+.kit dt{font:400 11px/1.9 var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--mute)}
+.kit dd{color:var(--ink-2)}
+.inds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 28px;margin-bottom:8px}
+.inds > div{padding:18px 0;border-top:2px solid var(--ink)}
+.inds h3{font:500 1.15rem/1.2 var(--display)}
+.inds p{font-size:14px;color:var(--mute);margin-top:6px}
+
+/* resume */
+.cvs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}
+.cvs > div{border-top:1px solid var(--ink);padding-top:20px;display:flex;flex-direction:column;gap:12px}
+.cvs h3{font:500 1.5rem/1.15 var(--display);letter-spacing:-.015em}
+.cvs p{font-size:15px;color:var(--ink-2);max-width:48ch}
+.cvs .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.cvnote{margin-top:32px;color:var(--ink-2);max-width:62ch}
+
+/* contact */
+.contact{margin-top:0;background:var(--ink);color:var(--paper);padding-block:clamp(56px,8vw,96px) 40px}
+.contact .label{color:color-mix(in srgb,var(--paper) 60%,transparent)}
+.contact h2{font:400 clamp(2.4rem,7vw,5.6rem)/.98 var(--display);letter-spacing:-.035em;max-width:12em;margin-top:18px}
+.contact p.lead{margin-top:20px;max-width:52ch;color:color-mix(in srgb,var(--paper) 78%,transparent)}
+.lines{margin-top:48px;border-top:1px solid color-mix(in srgb,var(--paper) 25%,transparent)}
+.lines a,.lines div.l{display:grid;grid-template-columns:140px minmax(0,1fr) 30px;gap:16px;padding:18px 0;border-bottom:1px solid color-mix(in srgb,var(--paper) 18%,transparent);text-decoration:none;align-items:baseline}
+.lines span.k{font:400 11px/1.9 var(--mono);text-transform:uppercase;letter-spacing:.07em;color:color-mix(in srgb,var(--paper) 60%,transparent)}
+.lines span.v{font:400 clamp(1.15rem,2.4vw,1.6rem)/1.2 var(--display);word-break:break-word}
+.lines a:hover span.v{color:var(--paper);text-decoration:underline;text-underline-offset:.18em}
+.lines a:hover{color:var(--paper)}
+.lines .ar{text-align:right;color:color-mix(in srgb,var(--paper) 60%,transparent)}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:56px;font:400 12px/1.5 var(--mono);color:color-mix(in srgb,var(--paper) 55%,transparent)}
+.foot button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:.2em}
+
+/* hero load sequence */
+.statement .w{display:inline-block;animation:rise .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--d) * 28ms)}
+@keyframes rise{from{opacity:0;transform:translateY(.35em)}to{opacity:1;transform:none}}
+.sub.swap{animation:fade .45s both}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.top .dot::before{animation:pulse 2.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 22%,transparent)}50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--ok) 0%,transparent)}}
+
+/* gantt extras */
+.today{position:absolute;top:-4px;bottom:-4px;width:0;border-left:1px dashed var(--ink);opacity:.45}
+.axis .ticks .tod{color:var(--acc)}
+.gr:hover .bar:not(.now){background:var(--ink)}
+
+/* quote: scroll-linked reveal, readable at rest */
+.quote .qw{color:var(--mute);transition:color .25s}
+.quote .qw.lit{color:var(--ink)}
+
+/* route map */
+.map{margin:6px 0 4px;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);overflow-x:auto}
+.map svg{display:block;width:100%;min-width:560px;height:auto}
+.map .g{stroke:var(--line);stroke-width:.7}
+.map .g0{stroke:var(--line-2);stroke-width:1}
+.map .gl{font:400 9.5px var(--mono);fill:var(--mute)}
+.map .rt{fill:none;stroke:var(--acc);stroke-width:1.7;stroke-linecap:round}
+.map .c{fill:var(--paper);stroke:var(--acc);stroke-width:1.6}
+.map .c.home{fill:var(--acc)}
+.map .cl{font:500 13px var(--display);fill:var(--ink)}
+.map .cy{font:400 9.5px var(--mono);fill:var(--mute)}
+.map .rt{stroke-dasharray:1;stroke-dashoffset:0;transition:stroke-dashoffset 2.6s cubic-bezier(.45,.1,.25,1) .2s}
+.map.pre .rt{stroke-dashoffset:1}
+.map .stop{transition:opacity .5s;transition-delay:calc(var(--d) * 520ms + 200ms)}
+.map.pre .stop{opacity:0}
+.mapcap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font:400 11px/1.5 var(--mono);color:var(--mute);margin-bottom:8px}
+
+/* motion: quiet reveals for content below the first screen, hairlines that draw, small hover cues */
+.rv{transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--s,0) * 70ms)}
+.rv.pre{opacity:0;transform:translateY(16px)}
+.sh{position:relative;padding-top:22px}
+.sh::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--ink);transform-origin:left;transition:transform 1.2s var(--ease)}
+.sh.pre::before{transform:scaleX(0)}
+.sh.pre{opacity:1;transform:none}
+.sh.pre h2,.sh.pre p,.sh.pre .label{opacity:0;transform:translateY(14px)}
+.sh h2,.sh p,.sh .label{transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.sh h2{transition-delay:.15s}.sh p{transition-delay:.28s}
+.glance .row-in{animation:rise .7s var(--ease) both;animation-delay:calc(var(--s) * 90ms + 500ms)}
+.top nav a{position:relative}
+.top nav a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease)}
+.top nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.docs a .st::after{content:"→";display:inline-block;margin-left:10px;opacity:0;transform:translateX(-6px);transition:opacity .25s,transform .25s var(--ease);color:var(--acc)}
+.docs a:hover .st::after{opacity:1;transform:none}
+.btn span[aria-hidden]{transition:transform .25s var(--ease)}
+.btn:hover span[aria-hidden]{transform:translateX(3px)}
+.lines a .ar{transition:transform .3s var(--ease)}
+.lines a:hover .ar{transform:translateX(6px)}
+.nums .n{transition:color .3s}
+
+
+/* type roles: grotesk for structure, Garamond for anything read as prose */
+.statement,.sh h2,.index h2,.contact h2{font-weight:500;letter-spacing:-.035em}
+.nums .n{font-weight:500;letter-spacing:-.035em}
+.label,.fn,.gr .org,.gr .when,.docs .id,.docs .k,.docs .facts,.places .co,.glance dt,.doors th,.doors .terms span,.kit dt,.lines span.k,.axis .ticks,.chip,.foot,.mapcap,.sub-h,.quote cite{letter-spacing:.07em}
+.sub,.now-lead,.layers p,.also li,.gr p,.doors li,.docs p,.principles p,.traits p,.places p,.cvs p,.cvnote,.sh p,.contact p.lead,.body > .side,.inds p,.close-line span{font-family:var(--serif);font-size-adjust:.47;line-height:1.5}
+.quote{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em;font-size:clamp(1.8rem,3.6vw,2.8rem);line-height:1.15}
+.quote cite{font-family:var(--sans);font-style:normal}
+.now-lead b{font-family:var(--sans);font-weight:500;font-size-adjust:none}
+
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:minmax(0,1fr)}
+  .glance{max-width:520px}
+  .sh,.body{grid-template-columns:minmax(0,1fr)}
+  .sh .label{padding-top:0}
+  .top nav{display:none}
+  .top .cv{margin-left:auto}
+  .traits{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .places,.inds{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .nums{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nums > div:nth-child(3){padding-left:0;border-left:0}
+  .nums > div:nth-child(n+3){border-top:1px solid var(--line)}
+  .index .meta{display:none}
+  .index a{grid-template-columns:minmax(0,1fr) 28px}
+  .layers,.also,.principles,.traits,.cvs,.kit{grid-template-columns:minmax(0,1fr)}
+  .layers > div + div{padding-left:0;border-left:0;border-top:1px solid var(--line)}
+  .axis{display:none}
+  .gr{grid-template-columns:minmax(0,1fr);gap:8px}
+  .gr .track{order:-1}
+  .doors thead{display:none}
+  .doors,.doors tbody,.doors tr,.doors td{display:block;width:100%!important}
+  .doors tr{border-bottom:1px solid var(--line);padding-block:18px}
+  .doors td{border:0;padding:6px 0}
+  .docs a,.docs .row{grid-template-columns:minmax(0,1fr);gap:6px}
+  .docs .st{text-align:left}
+  .creds li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .creds .chip{justify-self:start}
+  .kit > div{grid-template-columns:minmax(0,1fr);gap:4px}
+  .lines a,.lines div.l{grid-template-columns:minmax(0,1fr) 24px}
+  .lines span.k{grid-column:1/-1}
+  .top .dot{display:none}
+}
+@media (max-width:460px){.places,.inds{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav id="nav">
-  <a href="#top" class="active">Home</a>
-  <a href="#philosophy">Philosophy</a>
-  <a href="#journey">Journey</a>
-  <a href="#expertise">Expertise</a>
-  <a href="#career">Career</a>
-  <a href="#work">Work With Me</a>
-  <a href="#insights">Insights</a>
-  <a href="#resume">Resume</a>
-  <a href="#contact">Contact</a>
-</nav>
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="me" href="#main">Projit Mookerjee</a>
+    <span class="dot">Open to conversations</span>
+    <nav aria-label="Sections">
+      <a href="#now">Now</a><a href="#career">Career</a><a href="#work">Work with me</a><a href="#writing">Writing</a><a href="#about">About</a>
+    </nav>
+    <a class="cv" href="#resume">Résumé</a>
+  </div>
+</header>
 
-<section class="hero" id="top">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-
-  <div class="hero-inner">
-    <div class="hero-content">
-      <div class="hero-meta">
-        <span class="pulse"></span>
-        Open to full-time leadership &middot; consulting &middot; advisory
-      </div>
-      <h1 class="hero-name">
-        Projit<br>
-        <span class="italic">Mookerjee</span>
-      </h1>
-      <p class="hero-tag">
-        Technology leader, builder of teams, student of cultures &mdash; turning enterprise complexity into outcomes that hold up in the boardroom and on the floor.
-      </p>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <span class="stat-num">14+</span>
-          <span class="stat-lbl">Years Leading Digital Transformation</span>
-        </div>
-        <div class="hero-stat">
-          <span class="stat-num">$65M+</span>
-          <span class="stat-lbl">Portfolio Under Active Governance</span>
-        </div>
-        <div class="hero-stat">
-          <span class="stat-num">22→8%</span>
-          <span class="stat-lbl">Program Slippage Reduced</span>
-        </div>
-        <div class="hero-stat">
-          <span class="stat-num">3</span>
-          <span class="stat-lbl">Countries Called Home</span>
+<main id="main">
+  <section class="hero" aria-label="Introduction">
+    <div class="wrap hero-grid">
+      <div>
+        <h1 class="statement">Technology leader, builder of teams, student of cultures. <span class="m">Turning enterprise complexity into outcomes that hold up in the boardroom and on the floor.</span></h1>
+        <p class="sub" id="sub" aria-live="polite">Fourteen years leading large programs and client relationships across insurance, financial services and the public sector.</p>
+        <div class="lens">
+          <p class="ask">I'm here as <span class="pick"><button type="button" id="lens-btn" aria-haspopup="true" aria-expanded="false" aria-controls="lens-menu"><span id="lens-val">someone curious</span><svg viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+            <span class="menu" id="lens-menu" role="menu" hidden>
+              <button type="button" role="menuitemradio" aria-checked="true" data-lens="all"><b>someone curious</b><small>Everything, in the usual order</small></button>
+              <button type="button" role="menuitemradio" aria-checked="false" data-lens="hiring"><b>a hiring leader</b><small>Career and résumé first</small></button>
+              <button type="button" role="menuitemradio" aria-checked="false" data-lens="client"><b>a potential client</b><small>Ways to work together first</small></button>
+              <button type="button" role="menuitemradio" aria-checked="false" data-lens="reader"><b>a reader</b><small>Writing and tools first</small></button>
+            </span></span></p>
+          <p class="path" id="lens-path" aria-live="polite">Pick who you are and the page reorders itself for you.</p>
         </div>
       </div>
-      <div class="hero-cta">
-        <a href="#philosophy" class="btn btn-primary">Get to know me <span class="arrow">&rarr;</span></a>
-        <a href="#work" class="btn btn-ghost">Ways to work together</a>
-      </div>
+      <aside class="glance" aria-label="At a glance">
+        <span class="label">At a glance</span>
+        <dl>
+          <div class="ri"><dt>Now</dt><dd><b>Director, Client Engagement &amp; Digital Delivery</b> at Sapiens. Leading the internal Claude Enterprise pilot.</dd></div>
+          <div class="ri"><dt>Open to</dt><dd>Senior Manager, Director and Senior Director roles. Advisory, coaching, project and pro bono work.</dd></div>
+          <div class="ri"><dt>Based</dt><dd>Victoria, BC. Open to Vancouver and remote.</dd></div>
+        </dl>
+        <a class="cta" id="cta" href="#contact"><span id="cta-t">Start a conversation</span><span class="arr" aria-hidden="true">→</span></a>
+      </aside>
     </div>
-    <div class="photo-col">
-      <div class="photo-frame">
-        <img src="projit_headshot.png" alt="Projit Mookerjee">
-      </div>
-      <p class="photo-caption">Director, Client Engagement &amp; Digital Delivery</p>
-    </div>
-  </div>
-</section>
+  </section>
 
+  <div class="wrap">
+    <div class="nums" aria-label="Key numbers">
+      <div><div class="n">22→8%<sup>1</sup></div><div class="k">Program slippage reduced</div></div>
+      <div><div class="n">$65M+<sup>2</sup></div><div class="k">Portfolio governed</div></div>
+      <div><div class="n">23→75<sup>3</sup></div><div class="k">Delivery team scaled in 15 months</div></div>
+      <div><div class="n">14+<sup>4</sup></div><div class="k">Years leading digital transformation</div></div>
+    </div>
+    <p class="fn"><span><b>1</b> Across a multi-client portfolio</span><span><b>2</b> 12 enterprise accounts, P&amp;L and forecast ownership</span><span><b>3</b> Insurance practice, CGI Hyderabad</span><span><b>4</b> India, United States, Canada</span></p>
 
-<div class="pullquote-section">
-  <div style="width: 48px; height: 2px; background: #c8410a; margin-bottom: 32px;"></div>
-  <p class="pullquote-text">Strategy is interesting. Execution is where it <em style="color: #c8410a; font-style: normal;">earns its keep.</em></p>
-</div>
-
-<section id="philosophy" class="content">
-  <div class="section-tag">My Approach</div>
-  <h2 class="section-title">How I think about <em>the work</em></h2>
-  <p class="lead">Beyond credentials and case studies &mdash; these are the convictions that shape how I lead, partner, and build.</p>
-  <div class="principles-list">
-    <div class="principle-row reveal">
-      <div class="principle-num">01</div>
-      <div class="principle-content">
-        <h3>Clarity is a leadership act</h3>
-        <p>The best technical strategies fail when teams cannot articulate what they are doing or why. I treat clarity &mdash; in language, in priorities, in trade-offs &mdash; as one of the most underrated levers a leader has.</p>
-      </div>
-    </div>
-    <div class="principle-row reveal">
-      <div class="principle-num">02</div>
-      <div class="principle-content">
-        <h3>People before frameworks</h3>
-        <p>SAFe, Scrum, Lean &mdash; these are tools, not religions. The right operating model is the one that fits the team, the market, and the moment. My job is to read the context and choose well, not to enforce orthodoxy.</p>
-      </div>
-    </div>
-    <div class="principle-row reveal">
-      <div class="principle-num">03</div>
-      <div class="principle-content">
-        <h3>Trust compounds quietly</h3>
-        <p>I have seen multi-million-dollar deals close on the strength of relationships built three years prior. Showing up consistently, taking accountability when things go wrong, telling clients what they need to hear &mdash; these are not soft skills. They are commercial assets.</p>
-      </div>
-    </div>
-    <div class="principle-row reveal" style="border-bottom: none;">
-      <div class="principle-num">04</div>
-      <div class="principle-content">
-        <h3>Curiosity outlasts expertise</h3>
-        <p>The technologies I led with five years ago are not the ones I lead with today. Generative AI, agentic systems, responsible governance &mdash; staying useful means staying a student. I take learning seriously, and I take it personally.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="journey" class="content">
-  <div class="journey-intro">
-    <div class="reveal">
-      <div class="section-tag">A Global Story</div>
-      <h2 class="section-title">Three continents, <em>one perspective</em></h2>
-    </div>
-    <p class="reveal">I have lived, worked, and built teams across India, the United States, and Canada &mdash; and partnered closely with colleagues and clients across Europe and Asia. Each move taught me something my degrees could not.</p>
-  </div>
-  <div class="geo-grid">
-    <div class="geo-card reveal"><span class="geo-flag">&#127470;&#127475;</span><div class="geo-name">India</div><div class="geo-period">Born &middot; Educated &middot; Built Teams</div><p class="geo-desc">Engineering grounding at BITS Pilani. Scaled an insurance delivery org from 23 to 75 in Hyderabad. Learned that talent is universal &mdash; opportunity is not.</p></div>
-    <div class="geo-card reveal"><span class="geo-flag">&#127482;&#127480;</span><div class="geo-name">United States</div><div class="geo-period">Studied &middot; Worked &middot; Delivered</div><p class="geo-desc">MS at NYU. Years on the ground with clients across Boston, Columbus, and New England &mdash; where directness and execution speed shaped my consulting style.</p></div>
-    <div class="geo-card reveal"><span class="geo-flag">&#127464;&#127462;</span><div class="geo-name">Canada</div><div class="geo-period">Settled &middot; Leading &middot; Now</div><p class="geo-desc">MBA at University of Victoria. Now based in BC, leading SaaS engagements across North America. Found that thoughtfulness and consensus are not slowness &mdash; they are how lasting things get built.</p></div>
-    <div class="geo-card reveal"><span class="geo-flag">&#127760;</span><div class="geo-name">EMEA &amp; Asia</div><div class="geo-period">Partnered &middot; Collaborated</div><p class="geo-desc">Years of cross-border collaboration with teams in the UK, Europe, and Asia-Pacific. Working across timezones taught me to write better, listen harder, and assume good intent by default.</p></div>
-  </div>
-  <div class="geo-insight reveal">
-    <div class="icon-large">&ldquo;</div>
-    <p>Living across geographies didn't just teach me about <strong>time zones and travel logistics</strong>. It taught me how culture shapes the way people receive feedback, escalate concerns, run meetings, and define success. That intuition &mdash; for the human texture beneath organizational charts &mdash; is what makes me a better leader of <strong>change</strong>, not just programs.</p>
-  </div>
-</section>
-
-<section id="expertise" class="content">
-  <div class="expertise-headline">
-    <div class="reveal">
-      <div class="section-tag">What I Do</div>
-      <h2 class="section-title">Built for <em>complex</em> environments</h2>
-    </div>
-    <p class="reveal">Six areas where I've put in the reps &mdash; across SaaS vendors, system integrators, and enterprise clients in highly regulated industries.</p>
-  </div>
-  <div class="expertise-grid">
-    <div class="exp-card reveal">
-      <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 3v18"/></svg></div>
-      <h3>Portfolio &amp; Program Leadership</h3>
-      <p>Owning the work end-to-end &mdash; from intake and sequencing through delivery, governance, and value realization across multi-domain enterprise portfolios.</p>
-    </div>
-    <div class="exp-card reveal">
-      <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-      <h3>Enterprise Transformation</h3>
-      <p>Cloud, SaaS, and platform modernization at scale &mdash; designing operating models that survive past the steering committee and into day-to-day execution.</p>
-    </div>
-    <div class="exp-card reveal">
-      <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div>
-      <h3>Client Engagement &amp; Trust</h3>
-      <p>Building C-suite relationships that move beyond vendor-client dynamics into strategic partnership &mdash; where the hard conversations actually happen.</p>
-    </div>
-    <div class="exp-card reveal">
-      <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
-      <h3>AI Program Management</h3>
-      <p>Leading enterprise AI initiatives &mdash; GenAI, agentic systems, LLM frameworks, RAG &mdash; with the governance, risk lens, and ROI discipline that production deployments demand.</p>
-    </div>
-    <div class="exp-card reveal">
-      <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l3 3 6-6 6 6 3-3"/></svg></div>
-      <h3>Agile at Scale</h3>
-      <p>SAFe SPC certified &mdash; establishing PI Planning, ART setup, Lean Portfolio Management, and Centers of Excellence that mature an organization's delivery DNA.</p>
-    </div>
-    <div class="exp-card reveal">
-      <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg></div>
-      <h3>Pre-Sales &amp; Commercial</h3>
-      <p>From RFP qualification to deal close &mdash; translating technical capability into board-level business cases, with engagements ranging from $500K to $25M behind me.</p>
-    </div>
-  </div>
-</section>
-
-<section id="human" class="content">
-  <div class="reveal">
-    <div class="section-tag">The Human Side</div>
-    <h2 class="section-title" style="margin-bottom: 4rem;">Beyond the <em>resume</em></h2>
-  </div>
-  <div class="human-grid">
-    <div class="human-quote reveal">
-      <p>Frameworks tell you how. Cultures tell you why. Leaders bridge the two &mdash; and the best ones know which side needs more attention on any given Tuesday.</p>
-      <div class="attribution">&mdash; A working principle</div>
-    </div>
-    <div class="traits-list">
-      <div class="trait reveal" data-trait><div class="trait-num">01</div><div><div class="trait-name">Reads the room (and the silence)</div><div class="trait-detail">Years across cultures taught me that what isn't said often matters more than what is. I notice hesitation, look for who has gone quiet in a meeting, and follow up one-on-one. Most "people problems" are actually unspoken signal problems.</div></div><div class="trait-arrow">&rarr;</div></div>
-      <div class="trait reveal" data-trait><div class="trait-num">02</div><div><div class="trait-name">Calm under escalation</div><div class="trait-detail">When a launch slips or a client is unhappy, the team needs a leader who lowers the temperature, not raises it. I lead with diagnosis before defense, and I take the heat so my team can focus on the fix.</div></div><div class="trait-arrow">&rarr;</div></div>
-      <div class="trait reveal" data-trait><div class="trait-num">03</div><div><div class="trait-name">A genuine student of cultures</div><div class="trait-detail">I read history, eat my way through new cities, and ask questions that go beyond small talk. Understanding where people come from &mdash; literally and figuratively &mdash; is how I build trust faster than tenure usually allows.</div></div><div class="trait-arrow">&rarr;</div></div>
-      <div class="trait reveal" data-trait><div class="trait-num">04</div><div><div class="trait-name">Writes well, on purpose</div><div class="trait-detail">Clear writing is clear thinking. I have written investment cases, exec summaries, client emails, and team-wide updates that get read &mdash; because I care about the reader's time and the precision of the message.</div></div><div class="trait-arrow">&rarr;</div></div>
-      <div class="trait reveal" data-trait><div class="trait-num">05</div><div><div class="trait-name">Coaches, doesn't just manage</div><div class="trait-detail">My favorite professional moments are not won deals &mdash; they are when someone I mentored gets promoted, leads their first major program, or pushes back on me with a better idea. Building leaders is the most lasting work I do.</div></div><div class="trait-arrow">&rarr;</div></div>
-      <div class="trait reveal" data-trait><div class="trait-num">06</div><div><div class="trait-name">Honest about trade-offs</div><div class="trait-detail">I don't sell certainty I don't have. I tell clients what I would do if it were my budget, my team, my reputation. That candor has won more business than any pitch deck.</div></div><div class="trait-arrow">&rarr;</div></div>
-    </div>
-  </div>
-</section>
-
-<section id="career" class="content">
-  <div class="reveal">
-    <div class="section-tag">Where I've Worked</div>
-    <h2 class="section-title">Fourteen years, <em>one trajectory</em></h2>
-  </div>
-  <div class="timeline">
-    <div class="career-row career-row--current reveal">
-      <div class="career-period">2024 &mdash; NOW</div>
-      <div class="career-dot"></div>
-      <div class="career-content">
-        <h4>Director, Client Engagement &amp; Digital Delivery</h4>
-        <div class="career-company">Sapiens Insurance Solutions</div>
-        <p>Leading SaaS migration delivery and AI integration across Workers' Comp and Reinsurance &mdash; owning customer success, GTM partnership, and the Microsoft / Azure AI roadmap within Sapiens Digital Suite.</p>
-        <div class="career-tags"><span class="career-tag">SaaS Delivery</span><span class="career-tag">AI Integration</span><span class="career-tag">Customer Success</span></div>
-      </div>
-    </div>
-    <div class="career-row reveal">
-      <div class="career-period">2022 &mdash; 2024</div>
-      <div class="career-dot"></div>
-      <div class="career-content">
-        <h4>Associate Director, Client Delivery</h4>
-        <div class="career-company">S&amp;P Global</div>
-        <p>Oversaw delivery across 8 Agile product teams, mentored a 14-person leadership group, and partnered with Product on AI-enabled low-code financial apps. Built executive governance frameworks that connected delivery milestones to client business outcomes.</p>
-        <div class="career-tags"><span class="career-tag">Capital Markets</span><span class="career-tag">Fintech</span><span class="career-tag">Leadership Coaching</span></div>
-      </div>
-    </div>
-    <div class="career-row reveal">
-      <div class="career-period">2019 &mdash; 2022</div>
-      <div class="career-dot"></div>
-      <div class="career-content">
-        <h4>Principal, Application Services</h4>
-        <div class="career-company">CGI Group</div>
-        <p>Directed multi-million-dollar cloud transformation programs for two Fortune 500 insurance clients. Advised C-suite on portfolio sequencing, contributed to several RFP wins, and built repeatable delivery governance across multi-client portfolios.</p>
-        <div class="career-tags"><span class="career-tag">Guidewire</span><span class="career-tag">Duck Creek</span><span class="career-tag">Cloud Migration</span></div>
-      </div>
-    </div>
-    <div class="career-row reveal">
-      <div class="career-period">2015 &mdash; 2019</div>
-      <div class="career-dot"></div>
-      <div class="career-content">
-        <h4>Lead Business Consultant</h4>
-        <div class="career-company">CGI Group &middot; Hyderabad / Victoria</div>
-        <p>Scaled an insurance delivery team from 23 to 75 in 15 months. Served as Product Owner on financial software launches, drove strategic account solutioning, and built the trusted advisory muscle that defines my engagement style today.</p>
-        <div class="career-tags"><span class="career-tag">Team Building</span><span class="career-tag">Product Ownership</span><span class="career-tag">Account Growth</span></div>
-      </div>
-    </div>
-    <div class="career-row reveal">
-      <div class="career-period">2011 &mdash; 2015</div>
-      <div class="career-dot"></div>
-      <div class="career-content">
-        <h4>Early Career &mdash; Consulting &amp; Insurance</h4>
-        <div class="career-company">CGI &middot; Mapfre USA &middot; Liberty Mutual</div>
-        <p>Foundational years across P&amp;C insurance in Boston, Columbus, and Hyderabad. Built the technical fluency, client management instincts, and cross-cultural delivery experience that underpin every leadership role since.</p>
-        <div class="career-tags"><span class="career-tag">P&amp;C Insurance</span><span class="career-tag">Cross-Border</span><span class="career-tag">Foundations</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="work" class="content">
-  <div class="work-intro">
-    <div class="reveal">
-      <div class="section-tag">Ways To Work Together</div>
-      <h2 class="section-title">Three doors, <em>same standard</em></h2>
-    </div>
-    <p class="reveal">Whether you're hiring a senior leader, retaining an advisor, or scoping a focused engagement &mdash; here's how I show up. The depth of attention is the same; the structure is what changes.</p>
-  </div>
-  <div class="work-grid">
-    <div class="work-card featured reveal">
-      <span class="work-badge"><span class="dot"></span>Primary Focus</span>
-      <h3>Full-Time Leadership</h3>
-      <p class="work-sub">Senior Manager &middot; Director &middot; VP &middot; Head of Delivery / Engagement / Transformation</p>
-      <ul>
-        <li>Director of Technology Delivery, Client Engagement, or Customer Success</li>
-        <li>Head of Program / Portfolio Management Office</li>
-        <li>VP-level transformation, modernization, or AI program leadership</li>
-        <li>Senior Manager and lead-architect roles in SaaS or enterprise IT</li>
-      </ul>
-      <div class="work-meta">
-        <div class="work-meta-item">Geography<span>Canada-first &middot; Remote-friendly</span></div>
-        <div class="work-meta-item">Availability<span>Actively exploring</span></div>
-      </div>
-    </div>
-    <div class="work-card reveal">
-      <span class="work-badge"><span class="dot"></span>Selective</span>
-      <h3>Fractional &amp; Advisory</h3>
-      <p class="work-sub">Trusted counsel &middot; ongoing partnership &middot; a few hours a week or month</p>
-      <ul>
-        <li>Fractional Head of Delivery or Customer Success for growth-stage SaaS</li>
-        <li>Board / executive advisory on AI program management and roadmap</li>
-        <li>Trusted advisor on enterprise modernization and Lean Portfolio design</li>
-        <li>Mentorship and coaching for emerging tech leaders</li>
-      </ul>
-      <div class="work-meta">
-        <div class="work-meta-item">Cadence<span>Monthly retainer or hourly</span></div>
-        <div class="work-meta-item">Commitment<span>3&ndash;12 months typical</span></div>
-      </div>
-    </div>
-    <div class="work-card reveal">
-      <span class="work-badge"><span class="dot"></span>Project-Based</span>
-      <h3>Consulting Engagements</h3>
-      <p class="work-sub">Defined scope &middot; clear outcomes &middot; deep expertise on tap</p>
-      <ul>
-        <li>AI program assessments &mdash; readiness, governance, ROI roadmaps</li>
-        <li>Insurance platform modernization advisory (Guidewire, Duck Creek, Sapiens, Majesco)</li>
-        <li>PMO design, SAFe implementation, and Agile transformation reviews</li>
-        <li>Pre-sales support, RFP strategy, and executive narrative development</li>
-      </ul>
-      <div class="work-meta">
-        <div class="work-meta-item">Format<span>Fixed-scope or milestone</span></div>
-        <div class="work-meta-item">Duration<span>2 weeks &ndash; 6 months</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="work-cta-row reveal">
-    <p>Not sure which door fits? Most strong engagements start with a 30-minute conversation about what you're trying to move.</p>
-    <a href="mailto:prom18@gmail.com?subject=Engagement%20Inquiry" class="btn btn-gold">Start a conversation <span class="arrow">&rarr;</span></a>
-  </div>
-</section>
-
-<!-- ══ INSIGHTS & WRITING (NEW) ══ -->
-<section id="insights" class="content">
-  <div class="reveal">
-    <div class="section-tag">Insights &amp; Writing</div>
-    <h2 class="section-title" style="margin-bottom: 3rem;">Thinking out loud, <em>in public</em></h2>
+    <nav class="index" aria-label="On this page">
+      <ol id="index">
+        <li data-k="now"><a href="#now"><h2>Now</h2><span class="meta">Sapiens · Claude Enterprise pilot</span><span class="go" aria-hidden="true">↓</span></a></li>
+        <li data-k="career"><a href="#career"><h2>Career</h2><span class="meta">2011 to now · six roles</span><span class="go" aria-hidden="true">↓</span></a></li>
+        <li data-k="work"><a href="#work"><h2>Work with me</h2><span class="meta">Full-time · fractional · project</span><span class="go" aria-hidden="true">↓</span></a></li>
+        <li data-k="writing"><a href="#writing"><h2>Writing &amp; tools</h2><span class="meta">Guide · Prompt Kit · Redline · more</span><span class="go" aria-hidden="true">↓</span></a></li>
+        <li data-k="about"><a href="#about"><h2>About</h2><span class="meta">Approach · how I show up · places</span><span class="go" aria-hidden="true">↓</span></a></li>
+        <li data-k="resume"><a href="#resume"><h2>Résumé</h2><span class="meta">Two lenses, PDF</span><span class="go" aria-hidden="true">↓</span></a></li>
+      </ol>
+    </nav>
   </div>
 
-  <div class="insights-layout reveal">
-    <div class="ins-main">
-      <p class="ins-eyebrow">Featured Guide &middot; 2026</p>
-      <h3 class="ins-title">AI in Project &amp;<br><em>Program Management</em></h3>
-      <p class="ins-desc">A practitioner field guide built from 14+ years of enterprise delivery experience &mdash; not vendor marketing. Covers how AI tools fit into the six core PM delivery domains: planning and work breakdown, budget and cost tracking, status reporting, risk and RAID management, team and meeting intelligence, and Agile and release management. Includes a full prompt library with 40+ worked examples, an AI tool stack guide, certification paths by role across Microsoft, Google, AWS, and Anthropic, a five-level AI maturity model, and a 90-day team activation plan.</p>
-      <div class="ins-audience">
-        <span class="ins-chip">Project Managers</span>
-        <span class="ins-chip">Program Managers</span>
-        <span class="ins-chip">Portfolio Managers</span>
-        <span class="ins-chip">Scrum Masters</span>
-        <span class="ins-chip">Release Managers</span>
+  <div id="flow">
+
+  <!-- NOW -->
+  <section class="sec" id="now" data-k="now"><div class="wrap">
+    <div class="sh"><div class="label">Now</div><div><h2>What I'm working on</h2></div></div>
+    <div class="body"><div class="side">Sapiens Insurance Solutions<br>Sep 2024 to present<br>Victoria, BC (remote)</div>
+      <div>
+        <p class="now-lead">Director of Client Engagement and Digital Delivery. I hold full delivery accountability for enterprise SaaS implementations in <b>Workers' Compensation and Reinsurance</b>, from governance and escalations to go-live decisions, release by release. Alongside that, I run the company's internal <b>Claude Enterprise pilot</b>.</p>
+        <div class="layers">
+          <div><span class="label">Layer 1</span><h3>Developer enablement</h3><p>Claude Code in the development environment, to shorten build cycles and cut manual overhead in code generation and review.</p><span class="chip ok">In pilot</span></div>
+          <div><span class="label">Layer 2</span><h3>BA and requirements</h3><p>Custom skills that read configuration workbooks, use cases and wireframes, then draft dev specs and business test scenarios.</p><span class="chip warn">Current frontier</span></div>
+          <div><span class="label">Layer 3</span><h3>PMO and delivery</h3><p>AI-assisted status reporting, risk synthesis and documentation, built into the team's daily delivery rhythm.</p><span class="chip ok">In pilot</span></div>
+        </div>
+        <ul class="also">
+          <li>AI agent integrations with Microsoft for document processing, underwriting analytics and claim triage.</li>
+          <li>Working with product leadership on platform upgrades and a new agentic AI offering.</li>
+          <li>Delivery teams across North America, India and Eastern Europe, held to one standard of accountability.</li>
+        </ul>
       </div>
-      <div class="ins-stats-row">
-        <div class="ins-stat"><span class="n">20+</span><span class="l">Use Cases</span></div>
-        <div class="ins-stat"><span class="n">40+</span><span class="l">Prompt Examples</span></div>
-        <div class="ins-stat"><span class="n">10</span><span class="l">Sections</span></div>
-        <div class="ins-stat"><span class="n">4&ndash;6 hrs</span><span class="l">Saved / Week</span></div>
-      </div>
-      <div class="ins-ctas">
-        <a href="AI_PM_Practitioner_Guide_v2.html" target="_blank" class="ins-btn-primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l10-9 10 9"/><path d="M5 9.5V20h5v-5h4v5h5V9.5"/></svg>
-          Read Interactive Guide &rarr;
-        </a>
-        <a href="AI_PM_Practitioner_Guide_v2.html" download="AI_PM_Practitioner_Guide_Projit_Mookerjee.html" class="ins-btn-ghost">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
-          Download Guide
-        </a>
-        <a href="AI_PM_QuickReference.pdf" target="_blank" class="ins-btn-ghost">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
-          Quick Reference PDF
-        </a>
-      </div>
+    </div>
+  </div></section>
+
+  <!-- CAREER -->
+  <section class="sec" id="career" data-k="career"><div class="wrap">
+    <div class="sh"><div class="label">Career</div><div><h2>Fourteen years, one trajectory</h2><p>Insurance, financial services and the public sector, across onshore and offshore teams.</p></div></div>
+    <div id="gantt">
+      <div class="axis" aria-hidden="true"><div></div><div class="ticks" id="ticks"></div></div>
+    </div>
+  </div></section>
+
+  <!-- WORK -->
+  <section class="sec" id="work" data-k="work"><div class="wrap">
+    <div class="sh"><div class="label">Work with me</div><div><h2>Three doors, same standard</h2><p>Whether you're hiring a senior leader, retaining an advisor, or scoping a focused engagement, here's how I show up. The depth of attention is the same; the structure is what changes.</p></div></div>
+    <div class="tbl"><table class="doors">
+      <thead><tr><th scope="col">Option</th><th scope="col">What it looks like</th><th scope="col">Terms</th></tr></thead>
+      <tbody>
+        <tr><td><h3>Full-time leadership</h3><p>Primary focus</p><span class="chip ok" style="margin-top:12px">Actively exploring</span></td>
+          <td><ul><li>Director of Technology Delivery, Client Engagement, or Customer Success</li><li>Head of Program / Portfolio Management Office</li><li>Transformation, modernization, or AI program leadership</li><li>Senior Manager and lead roles in SaaS or enterprise IT</li></ul></td>
+          <td class="terms"><div><span>Level</span>Sr Manager, Director, Sr Director</div><div><span>Geography</span>Canada-first, remote-friendly</div></td></tr>
+        <tr><td><h3>Fractional &amp; advisory</h3><p>Trusted counsel, a few hours a week or month</p><span class="chip acc" style="margin-top:12px">Selective</span></td>
+          <td><ul><li>Fractional Head of Delivery or Customer Success for growth-stage SaaS</li><li>Executive advisory on AI program management and roadmap</li><li>Trusted advisor on enterprise modernization and Lean Portfolio design</li><li>Mentorship and coaching for emerging tech leaders</li></ul></td>
+          <td class="terms"><div><span>Cadence</span>Monthly retainer or hourly</div><div><span>Commitment</span>3 to 12 months typical</div></td></tr>
+        <tr><td><h3>Project &amp; contract</h3><p>Defined scope, clear outcomes</p><span class="chip acc" style="margin-top:12px">Selective</span></td>
+          <td><ul><li>AI program assessments: readiness, governance, ROI roadmaps</li><li>Insurance platform modernization advisory (Guidewire, Duck Creek, Sapiens, Majesco)</li><li>PMO design, SAFe implementation, and Agile transformation reviews</li><li>Project and delivery management, coaching, and pro bono work</li></ul></td>
+          <td class="terms"><div><span>Format</span>Fixed scope or milestone</div><div><span>Duration</span>2 weeks to 6 months</div></td></tr>
+      </tbody>
+    </table></div>
+    <div class="close-line"><span>Not sure which door fits? Most strong engagements start with a 30-minute conversation about what you're trying to move.</span><a class="btn" href="mailto:prom18@gmail.com?subject=Engagement%20inquiry">Start a conversation <span aria-hidden="true">→</span></a></div>
+  </div></section>
+
+  <!-- WRITING -->
+  <section class="sec" id="writing" data-k="writing"><div class="wrap">
+    <div class="sh"><div class="label">Writing &amp; tools</div><div><h2>Thinking out loud, in public</h2><p>Field guides, tools and frameworks from enterprise delivery. Practitioner-built, free, no sign-up.</p></div></div>
+    <ul class="docs">
+      <li><a href="AI_PM_Practitioner_Guide_v2.html"><span class="id">DOC-01</span><div><div class="k">Field guide · 2026</div><h3>AI in Project &amp; Program Management</h3><p>A practitioner field guide built from 14+ years of enterprise delivery experience, not vendor marketing. How AI tools fit the six core delivery domains, with a prompt library, tool stack guide, certification paths by role, a five-level maturity model and a 90-day team activation plan.</p><div class="facts">20+ use cases · 40+ prompt examples · 10 sections</div></div><span class="st"><span class="chip ok">Live</span></span></a></li>
+      <li><a href="AI_PM_QuickReference.pdf"><span class="id">DOC-01a</span><div><div class="k">Quick reference · PDF</div><h3>The guide on four pages</h3><p>A printable card covering every use case, the top prompts, tool stack, learning paths, maturity model and 90-day plan. Share it with your team.</p></div><span class="st"><span class="chip ok">Live</span></span></a></li>
+      <li><a href="PM_Prompt_Kit.html"><span class="id">DOC-02</span><div><div class="k">Interactive tool · 2026</div><h3>PM Prompt Kit</h3><p>80 production-ready prompts for technology and delivery leaders. Fill in your context, copy the ready prompt, and launch straight into Claude or ChatGPT. Save the ones you use daily.</p><div class="facts">80 prompts · 14 categories · free, no sign-up</div></div><span class="st"><span class="chip ok">Live</span></span></a></li>
+      <li><a href="ai-pilot-redline.html"><span class="id">DOC-03</span><div><div class="k">Interactive piece · 2026</div><h3>AI Pilot Redline</h3><p>What AI pilot status updates actually mean, decoded as a steering-committee memo marked up in red pen.</p></div><span class="st"><span class="chip ok">Live</span></span></a></li>
+      <li><div class="row"><span class="id">DOC-04</span><div><div class="k">Framework</div><h3>AI-Enabled Delivery Framework</h3><p>A five-step model, delivery scenarios, anti-patterns, enterprise guardrails and a maturity model that tie the guide and the kit into one delivery system.</p></div><span class="st"><span class="chip warn">Publishing soon</span></span></div></li>
+      <li><div class="row"><span class="id">DOC-05</span><div><div class="k">Toolkit</div><h3>APEX</h3><p>The execution layer that makes the framework run: skills, agents and a program-aware context system for delivery teams.</p></div><span class="st"><span class="chip mute">In development</span></span></div></li>
+    </ul>
+    <p class="sub-h">Topics in progress</p>
+    <p style="color:var(--ink-2);max-width:70ch">AI governance for regulated industries · Building an AI-native PMO · SAFe PI Planning with AI · ROI frameworks for AI programs · From PM to AI strategist · Coaching teams through AI adoption</p>
+  </div></section>
+
+  <!-- ABOUT -->
+  <section class="sec" id="about" data-k="about"><div class="wrap">
+    <div class="sh"><div class="label">About</div><div><h2>How I think about the work</h2><p>Beyond credentials and case studies, these are the convictions that shape how I lead, partner, and build.</p></div></div>
+    <div class="principles">
+      <div><h3>Clarity is a leadership act</h3><p>The best technical strategies fail when teams cannot articulate what they are doing or why. I treat clarity, in language, in priorities, in trade-offs, as one of the most underrated levers a leader has.</p></div>
+      <div><h3>People before frameworks</h3><p>SAFe, Scrum, Lean: these are tools, not religions. The right operating model is the one that fits the team, the market, and the moment. My job is to read the context and choose well, not to enforce orthodoxy.</p></div>
+      <div><h3>Trust compounds quietly</h3><p>I have seen multi-million-dollar deals close on the strength of relationships built three years prior. Showing up consistently, taking accountability when things go wrong, telling clients what they need to hear: these are not soft skills. They are commercial assets.</p></div>
+      <div><h3>Curiosity outlasts expertise</h3><p>The technologies I led with five years ago are not the ones I lead with today. Generative AI, agentic systems, responsible governance: staying useful means staying a student. I take learning seriously, and I take it personally.</p></div>
     </div>
 
-    <div class="ins-sidebar">
-      <div class="ins-side-card">
-        <p class="ins-side-label">Also Inside</p>
-        <h4 class="ins-side-title">AI Certification Paths by Role</h4>
-        <p class="ins-side-desc">Microsoft, Google, AWS, and Anthropic learning programs mapped to your specific role &mdash; what to start with, what costs nothing, and what to pursue when you want formal credentialing.</p>
-        <a href="AI_PM_Practitioner_Guide_v2.html" target="_blank" class="ins-side-link">Explore cert paths &rarr;</a>
-      </div>
-      <div class="ins-side-card">
-        <p class="ins-side-label">Also Inside</p>
-        <h4 class="ins-side-title">40+ Prompts You Can Use Today</h4>
-        <p class="ins-side-desc">Exact prompts for status reports, RAID logs, WBS generation, budget narratives, Go/No-Go checklists, retro synthesis &mdash; with real output examples for each one.</p>
-        <a href="AI_PM_Practitioner_Guide_v2.html" target="_blank" class="ins-side-link">Open prompt library &rarr;</a>
-      </div>
-      <div class="ins-side-card">
-        <p class="ins-side-label">Quick Reference</p>
-        <h4 class="ins-side-title">4-Page PDF Summary</h4>
-        <p class="ins-side-desc">A printable reference card covering all use cases, top prompts, tool stack, AI learning paths, maturity model, and 90-day plan. Share with your team.</p>
-        <a href="AI_PM_QuickReference.pdf" target="_blank" class="ins-side-link">Download PDF &rarr;</a>
-      </div>
-    </div>
-  </div>
+    <blockquote class="quote" id="quote"><p id="qt">Frameworks tell you how. Cultures tell you why. Leaders bridge the two, and the best ones know which side needs more attention on any given Tuesday.</p><cite>A working principle</cite></blockquote>
 
-  <div class="insights-layout reveal" style="margin-top:2px;">
-
-    <!-- MAIN: Prompt Kit featured card -->
-    <div class="ins-main">
-      <p class="ins-eyebrow">Interactive Tool &middot; 2026</p>
-      <h3 class="ins-title">PM Prompt <em>Kit</em></h3>
-      <p class="ins-desc">80 production-ready prompts for technology and delivery leaders &mdash; fill in your context, copy the ready prompt, and launch directly into Claude or ChatGPT. Covers planning, governance, risk, executive comms, AI strategy, agentic workflows, Claude Projects, and MCP integrations. Built for daily use, not inspiration.</p>
-      <div class="ins-audience">
-        <span class="ins-chip">Program Managers</span>
-        <span class="ins-chip">Delivery Leaders</span>
-        <span class="ins-chip">Scrum Masters</span>
-        <span class="ins-chip">AI Practitioners</span>
-        <span class="ins-chip">Tech Executives</span>
-      </div>
-      <div class="ins-stats-row">
-        <div class="ins-stat"><span class="n">80</span><span class="l">Prompts</span></div>
-        <div class="ins-stat"><span class="n">14</span><span class="l">Categories</span></div>
-        <div class="ins-stat"><span class="n">Fill &amp; Launch</span><span class="l">Interaction Model</span></div>
-        <div class="ins-stat"><span class="n">Free</span><span class="l">No signup</span></div>
-      </div>
-      <div class="ins-ctas">
-        <a href="PM_Prompt_Kit.html" target="_blank" class="ins-btn-primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-4"/><path d="M14 3h7v7"/><path d="M21 3l-9 9"/></svg>
-          Open Prompt Kit &rarr;
-        </a>
-      </div>
+    <p class="sub-h">How I show up</p>
+    <div class="traits">
+      <div><h3>Reads the room (and the silence)</h3><p>What isn't said often matters more than what is. I notice hesitation, look for who has gone quiet in a meeting, and follow up one-on-one. Most "people problems" are actually unspoken signal problems.</p></div>
+      <div><h3>Calm under escalation</h3><p>When a launch slips or a client is unhappy, the team needs a leader who lowers the temperature. I lead with diagnosis before defense, and I take the heat so my team can focus on the fix.</p></div>
+      <div><h3>A genuine student of cultures</h3><p>I read history, eat my way through new cities, and ask questions that go beyond small talk. Understanding where people come from is how I build trust faster than tenure usually allows.</p></div>
+      <div><h3>Writes well, on purpose</h3><p>Clear writing is clear thinking. Investment cases, exec summaries, client emails and team updates that get read, because I care about the reader's time and the precision of the message.</p></div>
+      <div><h3>Coaches, doesn't just manage</h3><p>My favorite professional moments are not won deals. They are when someone I mentored gets promoted, leads their first major program, or pushes back on me with a better idea.</p></div>
+      <div><h3>Honest about trade-offs</h3><p>I don't sell certainty I don't have. I tell clients what I would do if it were my budget, my team, my reputation. That candor has won more business than any pitch deck.</p></div>
     </div>
 
-    <!-- SIDEBAR: three context cards -->
-    <div class="ins-sidebar">
-      <div class="ins-side-card">
-        <p class="ins-side-label">How it works</p>
-        <h4 class="ins-side-title">Fill in your context</h4>
-        <p class="ins-side-desc">Every prompt has editable fields for your program, client, and situation. Fill them in and the ready-to-use prompt updates live &mdash; no raw placeholders, no copy-editing required.</p>
-        <a href="PM_Prompt_Kit.html" target="_blank" class="ins-side-link">Try it &rarr;</a>
-      </div>
-      <div class="ins-side-card">
-        <p class="ins-side-label">One-click launch</p>
-        <h4 class="ins-side-title">Send straight to Claude or GPT</h4>
-        <p class="ins-side-desc">Copy to clipboard or launch directly into Claude with your filled prompt pre-loaded. Zero friction between finding the prompt and running it.</p>
-        <a href="PM_Prompt_Kit.html" target="_blank" class="ins-side-link">Open tool &rarr;</a>
-      </div>
-      <div class="ins-side-card">
-        <p class="ins-side-label">My Kit feature</p>
-        <h4 class="ins-side-title">Save your daily prompts</h4>
-        <p class="ins-side-desc">Bookmark the prompts you use most. They persist across sessions so your top 5 are always one click away &mdash; no searching, no re-entering context.</p>
-        <a href="PM_Prompt_Kit.html" target="_blank" class="ins-side-link">Explore &rarr;</a>
-      </div>
+    <p class="sub-h">Three continents, one perspective</p>
+    <div class="mapcap"><span>Hyderabad → New York → Columbus → Indianapolis → Victoria</span><span>Equirectangular · 15° graticule</span></div>
+    <div class="map" id="map"></div>
+    <div class="places">
+      <div><div class="co">17.39° N · 78.49° E</div><h3>India</h3><div class="r">Born · educated · built teams</div><p>Engineering grounding at BITS Pilani. Scaled an insurance delivery org from 23 to 75 in Hyderabad. Learned that talent is universal; opportunity is not.</p></div>
+      <div><div class="co">40.71° N · 74.01° W</div><h3>United States</h3><div class="r">Studied · worked · delivered</div><p>MS at NYU, then years on the ground in Indianapolis, Columbus and New England, where directness and execution speed shaped my consulting style.</p></div>
+      <div><div class="co">48.43° N · 123.37° W</div><h3>Canada</h3><div class="r">Settled · leading · now</div><p>MBA at the University of Victoria. Found that thoughtfulness and consensus are not slowness; they are how lasting things get built.</p></div>
+      <div><div class="co">Across time zones</div><h3>EMEA &amp; Asia</h3><div class="r">Partnered · collaborated</div><p>Years of cross-border work with teams in the UK, Europe and Asia-Pacific taught me to write better, listen harder, and assume good intent by default.</p></div>
     </div>
 
-  </div>
+    <p class="sub-h">Education &amp; credentials</p>
+    <ul class="creds">
+      <li><h3>MBA, International Business &amp; Entrepreneurship</h3><span class="w">University of Victoria · 2017 to 2019</span><span class="chip ok">Earned</span></li>
+      <li><h3>MS, Electrical Engineering</h3><span class="w">New York University · 2009 to 2011</span><span class="chip ok">Earned</span></li>
+      <li><h3>BE (Hons.), Electronics &amp; Instrumentation</h3><span class="w">BITS Pilani, India · 2004 to 2008</span><span class="chip ok">Earned</span></li>
+      <li><h3>SAFe® 5 Program Consultant (SPC)</h3><span class="w">Scaled Agile Inc.</span><span class="chip ok">Certified</span></li>
+      <li><h3>Microsoft Azure AI Fundamentals</h3><span class="w">Azure AI Agents · Document Intelligence</span><span class="chip ok">Completed</span></li>
+      <li><h3>AI in Business Transformation</h3><span class="w">Learning path · Azure AI use cases</span><span class="chip ok">Completed</span></li>
+      <li><h3>Responsible AI Governance</h3><span class="w">Continuous self-study · industry working groups</span><span class="chip acc">Ongoing</span></li>
+      <li><h3>AI Program Management Practices</h3><span class="w">Agentic AI · LLMOps · RAG</span><span class="chip acc">Active</span></li>
+    </ul>
 
-  <div class="ins-coming reveal">
-    <div>
-      <p class="ins-coming-label">More Coming</p>
-      <p class="ins-coming-title">Topics in progress</p>
-      <p class="ins-coming-sub">Field notes and frameworks from enterprise delivery &mdash; published here as they're ready.</p>
+    <p class="sub-h">Industries &amp; toolkit</p>
+    <div class="inds">
+      <div><h3>Insurance</h3><p>P&amp;C · Workers' Comp · Reinsurance · Life &amp; Annuities</p></div>
+      <div><h3>Fintech &amp; Capital Markets</h3><p>Banking · trading platforms</p></div>
+      <div><h3>Public Sector</h3><p>Health insurance · Workers' Comp boards</p></div>
+      <div><h3>SaaS &amp; Cloud</h3><p>Enterprise SaaS · AWS · Azure · GCP</p></div>
     </div>
-    <div class="ins-topics">
-      <span class="ins-topic">AI Governance for Regulated Industries</span>
-      <span class="ins-topic">Building an AI-Native PMO</span>
-      <span class="ins-topic">SAFe PI Planning with AI</span>
-      <span class="ins-topic">ROI Frameworks for AI Programs</span>
-      <span class="ins-topic">From PM to AI Strategist</span>
-      <span class="ins-topic">Coaching Teams Through AI Adoption</span>
-    </div>
-  </div>
-</section>
+    <dl class="kit">
+      <div><dt>Insurance platforms</dt><dd>Guidewire, Duck Creek, Sapiens, Majesco</dd></div>
+      <div><dt>AI &amp; data</dt><dd>Claude Enterprise, Azure AI Agents, Document Intelligence, Microsoft Copilot, RAG, data warehouse and ODS reporting</dd></div>
+      <div><dt>SaaS &amp; ERP</dt><dd>Salesforce, Microsoft Dynamics 365, Oracle NetSuite, SAP</dd></div>
+      <div><dt>Delivery</dt><dd>Jira, Confluence, Jira Align, Azure DevOps, ServiceNow, SAFe, Scrum, Lean Portfolio, ITIL v3/v4</dd></div>
+      <div><dt>Cloud &amp; DevOps</dt><dd>AWS, Azure, GCP, Docker, Kubernetes, Jenkins, GitHub Actions, CI/CD</dd></div>
+      <div><dt>Observability</dt><dd>Splunk, Dynatrace, Grafana, Elastic</dd></div>
+    </dl>
+  </div></section>
 
-<section id="learning" class="content">
-  <div class="learning-intro reveal">
-    <div class="section-tag">Always Learning</div>
-    <h2 class="section-title">Education is <em>permanent</em></h2>
-    <p>The shelf life of any single technology is shrinking. I treat learning as a career-long discipline &mdash; formal and informal, structured and exploratory.</p>
-  </div>
-  <div class="learning-grid">
-    <div class="learn-card reveal">
-      <div class="learn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
-      <div><h4>MBA, International Business &amp; Entrepreneurship</h4><div class="learn-source">University of Victoria &middot; 2017&ndash;2019</div></div>
-      <span class="learn-status complete">Earned</span>
+  <!-- RESUME -->
+  <section class="sec" id="resume" data-k="resume"><div class="wrap">
+    <div class="sh"><div class="label">Résumé</div><div><h2>A current view, tailored on request</h2><p>Two lenses on the same career. For a specific role, full-time, fractional or project-based, I'd rather send a version aligned to the conversation. A short note saves us both time.</p></div></div>
+    <div class="cvs">
+      <div><span class="label">Updated Oct 2026 · PDF · 2 pages</span><h3>Delivery leadership</h3><p>Program and portfolio governance, engagement financials, team building and recovery. 22% to under 8% slippage, 23 to 75 team growth, $65M+ portfolio.</p>
+        <div class="acts"><a class="btn" href="Projit_Mookerjee_Resume_DeliveryLeadership.pdf" download>Download <span aria-hidden="true">↓</span></a><a class="btn" href="Projit_Mookerjee_Resume_DeliveryLeadership.pdf" target="_blank" rel="noopener">Preview</a></div></div>
+      <div><span class="label">Updated Oct 2026 · PDF · 2 pages</span><h3>Client engagement</h3><p>Bid leadership, account growth and managed services. Bids from $500K to $25M+, 28% year-over-year portfolio growth, a $9M managed-services extension.</p>
+        <div class="acts"><a class="btn" href="Projit_Mookerjee_Resume_ClientEngagement.pdf" download>Download <span aria-hidden="true">↓</span></a><a class="btn" href="Projit_Mookerjee_Resume_ClientEngagement.pdf" target="_blank" rel="noopener">Preview</a></div></div>
     </div>
-    <div class="learn-card reveal">
-      <div class="learn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
-      <div><h4>MS, Electrical Engineering</h4><div class="learn-source">New York University &middot; 2009&ndash;2011</div></div>
-      <span class="learn-status complete">Earned</span>
-    </div>
-    <div class="learn-card reveal">
-      <div class="learn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
-      <div><h4>BE (Hons.), Electronics &amp; Instrumentation</h4><div class="learn-source">BITS Pilani, India &middot; 2004&ndash;2008</div></div>
-      <span class="learn-status complete">Earned</span>
-    </div>
-    <div class="learn-card reveal">
-      <div class="learn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13l2 2 4-4"/></svg></div>
-      <div><h4>SAFe&reg; 5 Program Consultant (SPC)</h4><div class="learn-source">Scaled Agile Inc. &middot; Active Certification</div></div>
-      <span class="learn-status complete">Certified</span>
-    </div>
-    <div class="learn-card reveal">
-      <div class="learn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div>
-      <div><h4>AI in Business Transformation</h4><div class="learn-source">Learning Path &middot; Azure AI Use Cases</div></div>
-      <span class="learn-status complete">Completed</span>
-    </div>
-    <div class="learn-card reveal">
-      <div class="learn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></div>
-      <div><h4>Microsoft Azure AI Fundamentals</h4><div class="learn-source">Azure AI Agents &middot; Document Intelligence</div></div>
-      <span class="learn-status active">In Progress</span>
-    </div>
-    <div class="learn-card reveal">
-      <div class="learn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 008 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09A1.65 1.65 0 0015 4.6a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
-      <div><h4>Responsible AI Governance</h4><div class="learn-source">Continuous Self-Study &middot; Industry Working Groups</div></div>
-      <span class="learn-status active">Ongoing</span>
-    </div>
-    <div class="learn-card reveal">
-      <div class="learn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-      <div><h4>AI Program Management Practices</h4><div class="learn-source">Practical study &middot; Agentic AI &middot; LLMOps &middot; RAG</div></div>
-      <span class="learn-status active">Active</span>
-    </div>
-  </div>
-</section>
+    <p class="cvnote">Have a role in mind? I tailor to the conversation, not the keyword. <a href="mailto:prom18@gmail.com?subject=Tailored%20CV%20request">Request a tailored CV</a>.</p>
+  </div></section>
 
-<section id="industries" class="content">
-  <div class="ind-headline reveal">
-    <div class="section-tag">Where I Work Best</div>
-    <h2 class="section-title">Industries &amp; <em>technologies</em></h2>
-    <p>Deep specialization in insurance technology, with proven transferability across financial services, public sector, and enterprise SaaS.</p>
-  </div>
-  <!-- PART 1: Industry cards -->
-  <div class="ind-cards reveal">
-    <div class="ind-card">
-      <div class="ind-card-title">Insurance</div>
-      <div class="ind-card-sub">P&amp;C &middot; Workers&rsquo; Comp &middot; Reinsurance &middot; Life &amp; Annuities</div>
-    </div>
-    <div class="ind-card">
-      <div class="ind-card-title">Fintech &amp; Capital Markets</div>
-      <div class="ind-card-sub">S&amp;P Global &middot; Banking &middot; Trading Platforms</div>
-    </div>
-    <div class="ind-card">
-      <div class="ind-card-title">Public Sector</div>
-      <div class="ind-card-sub">Health Insurance &middot; Workers&rsquo; Comp Boards</div>
-    </div>
-    <div class="ind-card">
-      <div class="ind-card-title">SaaS &amp; Cloud</div>
-      <div class="ind-card-sub">Enterprise SaaS &middot; AWS &middot; Azure &middot; GCP</div>
-    </div>
-  </div>
+  </div><!-- /flow -->
+</main>
 
-  <!-- PART 2: Expertise cards -->
-  <span class="sec-sublabel">What I do &mdash; and what I use to do it</span>
-  <div class="exp-grid reveal">
-    <div class="exp-card-item">
-      <span class="exp-card-num">01</span>
-      <div class="exp-card-title">Portfolio &amp; Program Leadership</div>
-      <div class="exp-tags">
-        <span class="exp-tag">Jira</span><span class="exp-tag">Confluence</span><span class="exp-tag">Trello</span><span class="exp-tag">Asana</span><span class="exp-tag">ServiceNow</span><span class="exp-tag">SAFe</span><span class="exp-tag">Lean Portfolio</span>
-      </div>
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <span class="label">Get in touch</span>
+    <h2>Let's build something meaningful.</h2>
+    <p class="lead">Open to Senior Manager, Director and Senior Director conversations, as well as fractional advisory, consulting, coaching and project-based engagements. Based in Canada, working globally.</p>
+    <div class="lines">
+      <a href="mailto:prom18@gmail.com"><span class="k">Email</span><span class="v">prom18@gmail.com</span><span class="ar" aria-hidden="true">→</span></a>
+      <a href="tel:+12368822825"><span class="k">Phone</span><span class="v">+1 236 882 2825</span><span class="ar" aria-hidden="true">→</span></a>
+      <a href="https://www.linkedin.com/in/projit-mookerjee/" target="_blank" rel="noopener"><span class="k">LinkedIn</span><span class="v">/in/projit-mookerjee</span><span class="ar" aria-hidden="true">↗</span></a>
+      <div class="l"><span class="k">Location</span><span class="v">Victoria, BC · open to Vancouver and remote</span><span></span></div>
     </div>
-    <div class="exp-card-item">
-      <span class="exp-card-num">02</span>
-      <div class="exp-card-title">Enterprise Transformation</div>
-      <div class="exp-tags">
-        <span class="exp-tag">AWS</span><span class="exp-tag">Azure</span><span class="exp-tag">GCP</span><span class="exp-tag">Docker</span><span class="exp-tag">Kubernetes</span><span class="exp-tag">CI/CD</span><span class="exp-tag">IaC</span><span class="exp-tag">SDLC</span><span class="exp-tag">Waterfall</span>
-      </div>
-    </div>
-    <div class="exp-card-item">
-      <span class="exp-card-num">03</span>
-      <div class="exp-card-title">AI Program Management</div>
-      <div class="exp-tags">
-        <span class="exp-tag">Azure AI Agents</span><span class="exp-tag">Document Intelligence</span><span class="exp-tag">RAG</span><span class="exp-tag">GenAI</span><span class="exp-tag">LLM Frameworks</span><span class="exp-tag">Prompt Engineering</span><span class="exp-tag">Claude Enterprise</span><span class="exp-tag">Copilot</span><span class="exp-tag">Responsible AI</span>
-      </div>
-    </div>
-    <div class="exp-card-item">
-      <span class="exp-card-num">04</span>
-      <div class="exp-card-title">Agile at Scale</div>
-      <div class="exp-tags">
-        <span class="exp-tag">SAFe SPC</span><span class="exp-tag">PI Planning</span><span class="exp-tag">ART Setup</span><span class="exp-tag">Scrum</span><span class="exp-tag">Lean Portfolio</span><span class="exp-tag">Centers of Excellence</span><span class="exp-tag">Confluence</span>
-      </div>
-    </div>
-    <div class="exp-card-item">
-      <span class="exp-card-num">05</span>
-      <div class="exp-card-title">Pre-Sales &amp; Commercial</div>
-      <div class="exp-tags">
-        <span class="exp-tag">RFP Strategy</span><span class="exp-tag">Salesforce</span><span class="exp-tag">Oracle</span><span class="exp-tag">NetSuite</span><span class="exp-tag">Microsoft Dynamics 365</span><span class="exp-tag">Board-Level Business Cases</span><span class="exp-tag">Executive Narratives</span>
-      </div>
-    </div>
-    <div class="exp-card-item">
-      <span class="exp-card-num">06</span>
-      <div class="exp-card-title">Governance &amp; Risk Management</div>
-      <div class="exp-tags">
-        <span class="exp-tag">ITIL v4</span><span class="exp-tag">ServiceNow</span><span class="exp-tag">SLA Governance</span><span class="exp-tag">KPI Frameworks</span><span class="exp-tag">RAID Management</span><span class="exp-tag">Change Management</span><span class="exp-tag">Incident Management</span><span class="exp-tag">Risk Mitigation</span>
-      </div>
-    </div>
+    <div class="foot"><span>© 2026 Projit Mookerjee</span><span><button type="button" id="theme">Switch to dark</button> · <a href="#top" style="color:inherit">Back to top ↑</a></span></div>
   </div>
-
-  <!-- PART 3: Full stack reference -->
-  <span class="sec-sublabel">Full stack reference</span>
-  <div class="stack-rows reveal">
-    <div class="stack-row">
-      <div class="stack-label">Insurance Platforms</div>
-      <div class="stack-pills">
-        <span class="stack-pill">Guidewire</span><span class="stack-pill">Duck Creek</span><span class="stack-pill">Sapiens</span><span class="stack-pill">Majesco</span>
-      </div>
-    </div>
-    <div class="stack-row">
-      <div class="stack-label">SaaS &amp; ERP</div>
-      <div class="stack-pills">
-        <span class="stack-pill">Salesforce</span><span class="stack-pill">Microsoft Dynamics 365</span><span class="stack-pill">Oracle</span><span class="stack-pill">NetSuite</span><span class="stack-pill">SAP</span>
-      </div>
-    </div>
-    <div class="stack-row">
-      <div class="stack-label">AI &amp; Data</div>
-      <div class="stack-pills">
-        <span class="stack-pill">Azure AI Agents</span><span class="stack-pill">Document Intelligence</span><span class="stack-pill">GenAI</span><span class="stack-pill">RAG</span><span class="stack-pill">LLM Frameworks</span><span class="stack-pill">Prompt Engineering</span><span class="stack-pill">Claude Enterprise</span><span class="stack-pill">Copilot</span>
-      </div>
-    </div>
-    <div class="stack-row">
-      <div class="stack-label">DevOps &amp; Observability</div>
-      <div class="stack-pills">
-        <span class="stack-pill">AWS</span><span class="stack-pill">Azure</span><span class="stack-pill">GCP</span><span class="stack-pill">Docker</span><span class="stack-pill">Kubernetes</span><span class="stack-pill">Jenkins</span><span class="stack-pill">GitHub Actions</span><span class="stack-pill">Splunk</span><span class="stack-pill">Dynatrace</span><span class="stack-pill">Grafana</span>
-      </div>
-    </div>
-    <div class="stack-row" style="border-bottom: none;">
-      <div class="stack-label">Delivery Tooling</div>
-      <div class="stack-pills">
-        <span class="stack-pill">Jira</span><span class="stack-pill">Confluence</span><span class="stack-pill">Trello</span><span class="stack-pill">Asana</span><span class="stack-pill">ServiceNow</span><span class="stack-pill">ITIL v3/v4</span><span class="stack-pill">SAFe</span><span class="stack-pill">Scrum</span><span class="stack-pill">Lean Portfolio</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="resume" class="content">
-  <div class="resume-intro">
-    <div class="reveal">
-      <div class="section-tag">Resume</div>
-      <h2 class="section-title">A current view, <em>tailored on request</em></h2>
-    </div>
-    <p class="reveal">My CV is here for the quick read. For a specific role &mdash; full-time, fractional, or project-based &mdash; I'd rather send you a version aligned to the conversation. A short note saves us both time.</p>
-  </div>
-  <div class="resume-grid">
-    <div class="resume-card reveal">
-      <div class="resume-card-header">
-        <div class="resume-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
-        <span class="resume-version">Updated May 2026</span>
-      </div>
-      <h3>Curriculum Vit&aelig;</h3>
-      <p class="resume-sub">A current overview of fourteen years across leadership, transformation, and client engagement</p>
-      <p class="resume-desc">A single, comprehensive view of my career &mdash; spanning enterprise program leadership, $65M+ portfolio governance, GTM and pre-sales ownership, AI advisory, and the platform modernization work that has shaped multi-client engagements across insurance, fintech, and public sector.</p>
-      <div class="resume-actions">
-        <a href="Projit_Mookerjee_Resume_ClientEngagement_0526.pdf" download class="resume-btn primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
-          Download PDF
-        </a>
-        <a href="Projit_Mookerjee_Resume_ClientEngagement_0526.pdf" target="_blank" rel="noopener" class="resume-btn secondary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          Preview
-        </a>
-      </div>
-    </div>
-    <div class="resume-card resume-card-cta reveal">
-      <div class="resume-card-header">
-        <div class="resume-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
-        <span class="resume-version">By Request</span>
-      </div>
-      <h3>Have a role in mind?</h3>
-      <p class="resume-sub">I tailor to the conversation, not the keyword</p>
-      <p class="resume-desc">Whether you're hiring for delivery leadership, client engagement, transformation, or an advisory engagement &mdash; I'll send you a version aligned to the role. No templates, no auto-generated variants. A short note from you, a thoughtful response from me.</p>
-      <div class="resume-actions">
-        <a href="mailto:prom18@gmail.com?subject=Resume%20Request%20%E2%80%94%20Role%20Specific&amp;body=Hi%20Projit%2C%0A%0AI%27d%20like%20to%20share%20a%20role%20I%27m%20working%20on%3A%0A%0ACompany%3A%0ARole%3A%0ALocation%2FRemote%3A%0A%0AAny%20context%20you%27d%20like%20to%20share%3A%0A%0AThanks%2C" class="resume-btn primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
-          Request a tailored CV
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="contact">
-  <div class="contact-grid">
-    <div class="reveal">
-      <div class="section-tag" style="color: #c9a84c;">Get In Touch</div>
-      <h2 class="contact-headline">Let's build<br>something <em>meaningful</em>.</h2>
-      <p class="contact-sub" style="margin-top: 2rem;">Open to Senior Manager, Director, and VP-level leadership conversations &mdash; as well as fractional advisory, consulting, and project-based engagements. Based in Canada, working globally.</p>
-    </div>
-    <div class="contact-links reveal">
-      <a href="mailto:prom18@gmail.com" class="contact-link"><div><span class="cl-label">Email</span><span class="cl-value">prom18@gmail.com</span></div><span class="cl-arrow">&rarr;</span></a>
-      <a href="tel:+12368822825" class="contact-link"><div><span class="cl-label">Phone</span><span class="cl-value">+1 236 882 2825</span></div><span class="cl-arrow">&rarr;</span></a>
-      <a href="https://www.linkedin.com/in/projit-mookerjee/" target="_blank" rel="noopener" class="contact-link"><div><span class="cl-label">LinkedIn</span><span class="cl-value">/in/projit-mookerjee</span></div><span class="cl-arrow">&rarr;</span></a>
-      <a href="#resume" class="contact-link"><div><span class="cl-label">Resume</span><span class="cl-value">Download PDF variants</span></div><span class="cl-arrow">&darr;</span></a>
-      <a href="#top" class="contact-link"><div><span class="cl-label">Location</span><span class="cl-value">Victoria, BC &middot; Canada</span></div><span class="cl-arrow">&uarr;</span></a>
-    </div>
-  </div>
-  <div class="footer-base">
-    <p>&copy; 2026 Projit Mookerjee &middot; All rights reserved</p>
-    <span class="signature">Projit M.</span>
-    <p>Designed with intent. Built to last.</p>
-  </div>
-</section>
+</footer>
 
 <script>
-  // Reveal on scroll
-  var reveals = document.querySelectorAll('.reveal');
-  var io = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e, i) {
-      if (e.isIntersecting) {
-        var delay = (i % 6) * 60;
-        setTimeout(function() { e.target.classList.add('visible'); }, delay);
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
-  reveals.forEach(function(el) { io.observe(el); });
+(function(){
+  "use strict";
+  /* career gantt: dates from the Oct 2026 résumé builds */
+  var career=[
+    {s:2024.67,e:2026.8,y:"Sep 2024 – present",t:"Director, Client Engagement & Digital Delivery",o:"Sapiens Insurance Solutions · Victoria, BC",d:"Full delivery accountability for enterprise SaaS implementations in Workers' Compensation and Reinsurance. Runs the internal Claude Enterprise pilot and owns AI agent integrations with Microsoft.",now:true},
+    {s:2022.83,e:2024.67,y:"Nov 2022 – Sep 2024",t:"Associate Director, Client Delivery",o:"S&P Global · Victoria, BC",d:"Governance for 8 Agile product teams building client-facing software, and a 14-person leadership group with zero attrition. Grew the client book 28% year over year, lifted retention 15%, and brought two delivery cultures onto one set of tools after the IHS Markit merger."},
+    {s:2019.92,e:2022.83,y:"Dec 2019 – Nov 2022",t:"Principal, Application Services",o:"CGI Group · Victoria, BC / US New England",d:"Program Director on a multi-year platform replacement for a national insurance carrier. Billable ownership of $4M to $10M cloud transformation engagements, bids from $500K upward, and $7M+ in competitive wins."},
+    {s:2015.33,e:2019.92,y:"May 2015 – Dec 2019",t:"Lead Business Consultant",o:"CGI Group · Hyderabad / Victoria, BC",d:"Scaled an insurance delivery team from 23 to 75 in 15 months, led programs with teams as large as 120+, and built a practice Center of Excellence. Product Owner on financial software launches."},
+    {s:2014.25,e:2015.33,y:"Apr 2014 – Apr 2015",t:"Senior Business Consultant",o:"CGI Group · Columbus, OH / Hyderabad",d:"Insurance consulting across onshore and offshore delivery teams."},
+    {s:2011.25,e:2014.17,y:"Apr 2011 – Mar 2014",t:"Various roles",o:"Mapfre USA and Liberty Mutual · Indianapolis / Columbus",d:"Owned production support for live core business applications, keeping systems stable and changes controlled for day-to-day operations."}
+  ];
+  var Y0=2011,Y1=2027.3;
+  function pct(v){return ((v-Y0)/(Y1-Y0)*100).toFixed(2)}
+  function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+  document.getElementById("ticks").innerHTML=[2011,2014,2017,2020,2023,2026].map(function(y){return '<span style="left:'+pct(y)+'%">'+y+'</span>'}).join("");
+  var g=document.getElementById("gantt");
+  g.insertAdjacentHTML("beforeend",career.map(function(c,i){
+    return '<div class="gr"><div><h3>'+esc(c.t)+'</h3><div class="org">'+esc(c.o)+'</div><p>'+esc(c.d)+'</p></div>'+
+      '<div><div class="track" role="img" aria-label="'+esc(c.y)+'"><div class="bar'+(c.now?' now':'')+'" style="--i:'+i+';left:'+pct(c.s)+'%;width:'+(pct(c.e)-pct(c.s)).toFixed(2)+'%"></div></div><div class="when">'+esc(c.y)+'</div></div></div>';
+  }).join(""));
+  /* "today" marker on every track, so the rows read as one chart */
+  var TODAY=2026.76;
+  [].forEach.call(g.querySelectorAll(".track"),function(t){t.insertAdjacentHTML("beforeend",'<span class="today" style="left:'+pct(TODAY)+'%"></span>')});
 
-  // Trait expand on click
-  document.querySelectorAll('[data-trait]').forEach(function(t) {
-    t.addEventListener('click', function() {
-      document.querySelectorAll('[data-trait]').forEach(function(o) {
-        if (o !== t) o.classList.remove('open');
-      });
-      t.classList.toggle('open');
+  var MOTION=!matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* reveal system: only content that starts below the first screen is hidden, then eases in once.
+     The first screen, thumbnails and no-JS visitors always see the complete page. */
+  var IO="IntersectionObserver" in window;
+  function later(el){return MOTION&&IO&&el.getBoundingClientRect().top>innerHeight*0.92}
+  var rvo=IO?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.remove("pre");rvo.unobserve(e.target)}})},{rootMargin:"0px 0px -8% 0px",threshold:.08}):null;
+  function arm(el,stag){if(!later(el))return;if(stag!=null)el.style.setProperty("--s",stag);el.classList.add("pre");rvo.observe(el)}
+  arm(g);
+
+  /* route map with real coordinates */
+  (function(){
+    var host=document.getElementById("map"); if(!host) return;
+    var W=1000,H=380,L0=-140,L1=100,T=66,B=2;
+    var X=function(l){return (l-L0)/(L1-L0)*W}, Y=function(l){return (T-l)/(T-B)*H};
+    var stops=[["Hyderabad",17.385,78.487,"17.39° N 78.49° E",-10,-16,"end"],["New York",40.713,-74.006,"40.71° N 74.01° W",10,24,"start"],["Columbus",39.961,-82.999,"39.96° N 83.00° W",4,46,"middle"],["Indianapolis",39.768,-86.158,"39.77° N 86.16° W",-12,26,"end"],["Victoria",48.428,-123.366,"48.43° N 123.37° W",12,24,"start"]];
+    var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Route map: Hyderabad, New York, Columbus, Indianapolis, Victoria">';
+    for(var lon=-135;lon<=90;lon+=15){var x=X(lon);s+='<line class="'+(lon===0?'g0':'g')+'" x1="'+x+'" y1="0" x2="'+x+'" y2="'+H+'"/>';if(lon%45===0)s+='<text class="gl" x="'+(x+4)+'" y="'+(H-8)+'">'+Math.abs(lon)+'°'+(lon<0?'W':lon>0?'E':'')+'</text>'}
+    for(var lat=15;lat<=60;lat+=15){var y=Y(lat);s+='<line class="g" x1="0" y1="'+y+'" x2="'+W+'" y2="'+y+'"/><text class="gl" x="6" y="'+(y-5)+'">'+lat+'°N</text>'}
+    var P=stops.map(function(p){return [X(p[2]),Y(p[1])]});
+    var d='M'+P[0][0].toFixed(1)+','+P[0][1].toFixed(1);
+    for(var i=1;i<P.length;i++){var A=P[i-1],Bp=P[i],lift=Math.min(130,Math.abs(Bp[0]-A[0])*.3+16);d+=' Q'+((A[0]+Bp[0])/2).toFixed(1)+','+(Math.min(A[1],Bp[1])-lift).toFixed(1)+' '+Bp[0].toFixed(1)+','+Bp[1].toFixed(1)}
+    s+='<path class="rt" pathLength="1" d="'+d+'"/>';
+    stops.forEach(function(p,i){var q=P[i];s+='<g class="stop" style="--d:'+i+'"><circle class="c'+(i===4?' home':'')+'" cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="'+(i===4?6:4.2)+'"/><text class="cl" x="'+(q[0]+p[4]).toFixed(1)+'" y="'+(q[1]+p[5]).toFixed(1)+'" text-anchor="'+p[6]+'">'+p[0]+'</text>'+(i===0||i===4?'<text class="cy" x="'+(q[0]+p[4]).toFixed(1)+'" y="'+(q[1]+p[5]+13).toFixed(1)+'" text-anchor="'+p[6]+'">'+p[3]+'</text>':'')+'</g>'});
+    host.innerHTML=s+'</svg>';
+    arm(host);
+  })();
+
+  /* quote: words light up as it scrolls through the viewport */
+  (function(){
+    var q=document.getElementById("qt"); if(!q||!MOTION) return;
+    var words=q.textContent.split(" ");
+    q.innerHTML=words.map(function(w){return '<span class="qw">'+esc(w)+'</span>'}).join(" ");
+    var spans=q.querySelectorAll(".qw"), ticking=false;
+    function upd(){ticking=false;var r=q.getBoundingClientRect(),vh=innerHeight;var p=Math.min(1,Math.max(0,(vh*.85-r.top)/(vh*.5)));var n=Math.round(p*spans.length);for(var i=0;i<spans.length;i++)spans[i].classList.toggle("lit",i<n)}
+    addEventListener("scroll",function(){if(!ticking){ticking=true;requestAnimationFrame(upd)}},{passive:true});upd();
+  })();
+
+  /* hero statement: one short load sequence */
+  (function(){
+    var h=document.querySelector(".statement"); if(!h||!MOTION) return;
+    var n=0;
+    [].forEach.call(h.childNodes,function(node){
+      if(node.nodeType===3){var f=document.createDocumentFragment();node.textContent.split(/(\s+)/).forEach(function(t){if(/^\s+$/.test(t)||!t){f.appendChild(document.createTextNode(t))}else{var s=document.createElement("span");s.className="w";s.style.setProperty("--d",n++);s.textContent=t;f.appendChild(s)}});h.replaceChild(f,node)}
+      else if(node.nodeType===1){node.innerHTML=node.textContent.split(" ").map(function(t){return '<span class="w" style="--d:'+(n++)+'">'+esc(t)+'</span>'}).join(" ")}
     });
+  })();
+
+  /* in-page links scroll in script, so they also work inside embedded previews */
+  document.addEventListener("click",function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]'); if(!a) return;
+    var id=a.getAttribute("href").slice(1), t=id?document.getElementById(id):null; if(!t) return;
+    e.preventDefault();
+    if(id==="top"||id==="main") scrollTo({top:0,behavior:MOTION?"smooth":"auto"});
+    else t.scrollIntoView({behavior:MOTION?"smooth":"auto",block:"start"});
+    if(t.tagName==="SECTION"||t.tagName==="FOOTER"){t.setAttribute("tabindex","-1");t.focus({preventScroll:true})}
   });
 
-  // Open the first trait by default once visible
-  var firstTrait = document.querySelector('[data-trait]');
-  if (firstTrait) {
-    var obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) {
-          setTimeout(function() { firstTrait.classList.add('open'); }, 600);
-          obs.disconnect();
-        }
-      });
-    }, { threshold: 0.5 });
-    obs.observe(firstTrait);
+  /* reader lens: reorders index + sections, swaps sub-line and next step */
+  var lenses={
+    all:{order:["now","career","work","writing","about","resume"],sub:"Fourteen years leading large programs and client relationships across insurance, financial services and the public sector.",cta:"Start a conversation",href:"#contact"},
+    hiring:{order:["career","now","resume","about","work","writing"],sub:"Open to Senior Manager, Director and Senior Director roles in technology delivery, client engagement, PMO and AI program leadership. Canada-first, remote-friendly.",cta:"Read the résumé",href:"#resume"},
+    client:{order:["work","now","career","writing","about","resume"],sub:"Fractional, advisory and project engagements, from two-week assessments to twelve-month retainers. AI programs, PMO design, platform modernization, coaching.",cta:"See ways to work together",href:"#work"},
+    reader:{order:["writing","now","about","career","work","resume"],sub:"Field guides, tools and frameworks on AI-enabled delivery, written by a practitioner who runs the programs.",cta:"Start with the field guide",href:"#writing"}
+  };
+  var btns=[].slice.call(document.querySelectorAll("#lens-menu button"));
+  var lbtn=document.getElementById("lens-btn"), menu=document.getElementById("lens-menu"), pathEl=document.getElementById("lens-path");
+  var names={now:"Now",career:"Career",work:"Work with me",writing:"Writing",about:"About",resume:"Résumé"};
+  var who={all:"someone curious",hiring:"a hiring leader",client:"a potential client",reader:"a reader"};
+  function openMenu(on){menu.hidden=!on;lbtn.setAttribute("aria-expanded",String(on));if(on){var c=menu.querySelector('[aria-checked="true"]')||btns[0];c.focus()}}
+  lbtn.addEventListener("click",function(){openMenu(menu.hidden)});
+  document.addEventListener("click",function(e){if(!menu.hidden&&!e.target.closest(".pick"))openMenu(false)});
+  menu.addEventListener("keydown",function(e){
+    var i=btns.indexOf(document.activeElement);
+    if(e.key==="Escape"){openMenu(false);lbtn.focus()}
+    else if(e.key==="ArrowDown"){e.preventDefault();btns[(i+1)%btns.length].focus()}
+    else if(e.key==="ArrowUp"){e.preventDefault();btns[(i-1+btns.length)%btns.length].focus()}
+  });
+  var rows=[].slice.call(document.querySelectorAll("#index li"));
+  function apply(k,push){
+    var L=lenses[k]||lenses.all;
+    var before=push&&MOTION?rows.map(function(r){return r.getBoundingClientRect().top}):null;
+    if(push&&MOTION){var sub=document.getElementById("sub");sub.classList.remove("swap");void sub.offsetWidth;sub.classList.add("swap")}
+    L.order.forEach(function(key,i){
+      var s=document.querySelector('.sec[data-k="'+key+'"]'); if(s) s.style.order=i;
+      var r=document.querySelector('#index li[data-k="'+key+'"]'); if(r) r.style.order=i;
+    });
+    L.order.forEach(function(key,i){var s=document.querySelector('.sec[data-k="'+key+'"]');if(s)s.classList.toggle("band",i%2===1)});
+    document.getElementById("sub").textContent=L.sub;
+    document.getElementById("cta-t").textContent=L.cta;
+    document.getElementById("cta").setAttribute("href",L.href);
+    btns.forEach(function(b){b.setAttribute("aria-checked",String(b.dataset.lens===k))});
+    document.getElementById("lens-val").textContent=who[k]||who.all;
+    pathEl.innerHTML=k==="all"?"Pick who you are and the page reorders itself for you."
+      :"Page reordered for you: <b>"+names[L.order[0]]+"</b> first, then "+names[L.order[1]]+" and "+names[L.order[2]]+".<button type=\"button\" id=\"lens-reset\">Reset</button>";
+    if(push&&MOTION){pathEl.classList.remove("swap");void pathEl.offsetWidth;pathEl.classList.add("swap")}
+    /* index rows glide to their new places */
+    if(before&&rows[0].animate) rows.forEach(function(r,i){var dy=before[i]-r.getBoundingClientRect().top;if(dy)r.animate([{transform:"translateY("+dy+"px)"},{transform:"none"}],{duration:520,easing:"cubic-bezier(.2,.7,.2,1)"})});
+    try{localStorage.setItem("pm-lens",k)}catch(e){}
+    if(push && history.replaceState) history.replaceState(null,"",k==="all"?location.pathname:"#"+k);
   }
+  btns.forEach(function(b){b.addEventListener("click",function(){apply(b.dataset.lens,true);openMenu(false);lbtn.focus()})});
+  pathEl.addEventListener("click",function(e){if(e.target.id==="lens-reset")apply("all",true)});
+  var h=(location.hash||"").slice(1), start="all";
+  if(lenses[h]) start=h; else { try{var s=localStorage.getItem("pm-lens"); if(lenses[s]) start=s}catch(e){} }
+  apply(start,false);
 
-  // Nav active state
-  var navLinks = document.querySelectorAll('nav a');
-  var sectionIds = ['top', 'philosophy', 'journey', 'expertise', 'career', 'work', 'insights', 'resume', 'contact'];
-  var sections = sectionIds.map(function(id) { return document.getElementById(id); }).filter(Boolean);
+  /* quiet reveals: section heads draw their rule, groups of rows stagger in */
+  [].forEach.call(document.querySelectorAll(".sh"),function(el){arm(el)});
+  var groups=[".layers > div",".also li",".doors tbody tr",".docs li",".principles > div",".traits > div",".places > div",".creds li",".kit > div",".inds > div",".cvs > div",".gr",".quote",".close-line",".cvnote",".now-lead"];
+  groups.forEach(function(sel){[].forEach.call(document.querySelectorAll(sel),function(el){var sib=[].indexOf.call(el.parentNode.children,el);el.classList.add("rv");arm(el,Math.min(sib,6))})});
+  /* at-a-glance rows follow the headline in on load */
+  if(MOTION)[].forEach.call(document.querySelectorAll(".glance .ri, .glance .cta"),function(el,i){el.style.setProperty("--s",i);el.classList.add("row-in")});
 
-  var navObs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) {
-        var id = e.target.id;
-        navLinks.forEach(function(link) {
-          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
-        });
-      }
-    });
-  }, { threshold: 0.4 });
-  sections.forEach(function(s) { navObs.observe(s); });
+  /* sticky bar rule */
+  var top=document.getElementById("top");
+  addEventListener("scroll",function(){top.classList.toggle("scrolled",scrollY>8)},{passive:true});
 
-  // Show nav after scroll
-  var lastY = 0;
-  var nav = document.getElementById('nav');
-  window.addEventListener('scroll', function() {
-    var y = window.scrollY;
-    if (y < 200) {
-      nav.style.transform = 'translateX(-50%) translateY(-20px)';
-      nav.style.opacity = '0';
-    } else if (y > lastY + 5 && y > 400) {
-      nav.style.transform = 'translateX(-50%) translateY(-80px)';
-      nav.style.opacity = '0';
-    } else {
-      nav.style.transform = 'translateX(-50%) translateY(0)';
-      nav.style.opacity = '1';
-    }
-    lastY = y;
-  });
+  /* theme toggle: follows the system until the visitor chooses */
+  var root=document.documentElement, tbtn=document.getElementById("theme");
+  function isDark(){var t=root.getAttribute("data-theme");return t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches}
+  function label(){tbtn.textContent=isDark()?"Switch to light":"Switch to dark"}
+  try{var saved=localStorage.getItem("pm-theme"); if(saved) root.setAttribute("data-theme",saved)}catch(e){}
+  label();
+  tbtn.addEventListener("click",function(){var n=isDark()?"light":"dark";root.setAttribute("data-theme",n);try{localStorage.setItem("pm-theme",n)}catch(e){}label()});
+})();
 </script>
 </body>
 </html>
