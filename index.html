@@ -219,7 +219,6 @@ a:hover{color:inherit}
 .traits p{font-size:14.5px;color:var(--ink-2);margin-top:8px}
 .places{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 28px;margin-top:8px}
 .places > div{padding:20px 0;border-top:2px solid var(--ink)}
-.places .co{font:400 11px/1.5 var(--mono);color:var(--mute)}
 .places h3{font:500 1.3rem/1.15 var(--display);margin-top:6px}
 .places .r{font-size:13px;color:var(--ok);margin-top:4px}
 .places p{font-size:14.5px;color:var(--ink-2);margin-top:10px}
@@ -280,23 +279,23 @@ a:hover{color:inherit}
 .quote .qw{color:var(--mute);transition:color .25s}
 .quote .qw.lit{color:var(--ink)}
 
-/* route map */
-.map{margin:6px 0 4px;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);overflow-x:auto}
-.map svg{display:block;width:100%;min-width:560px;height:auto}
-.map .g{stroke:var(--line);stroke-width:.7}
-.map .g0{stroke:var(--line-2);stroke-width:1}
-.map .gl{font:400 9.5px var(--mono);fill:var(--mute)}
-.map .rt{fill:none;stroke:var(--acc);stroke-width:1.7;stroke-linecap:round}
-.map .c{fill:var(--paper);stroke:var(--acc);stroke-width:1.6}
-.map .c.home{fill:var(--acc)}
-.map .cl{font:500 13px var(--display);fill:var(--ink)}
-.map .cy{font:400 9.5px var(--mono);fill:var(--mute)}
-.map .rt{stroke-dasharray:1;stroke-dashoffset:0;transition:stroke-dashoffset 2.6s cubic-bezier(.45,.1,.25,1) .2s}
-.map.pre .rt{stroke-dashoffset:1}
-.map .stop{transition:opacity .5s;transition-delay:calc(var(--d) * 520ms + 200ms)}
-.map.pre .stop{opacity:0}
-.swipe{display:none;font:400 12px/1.4 var(--sans);color:var(--mute);margin:8px 0 0}
-.mapcap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font:400 11px/1.5 var(--mono);color:var(--mute);margin-bottom:8px}
+/* route: the moves in order, as a line with stops (no map, no coordinates) */
+.route{margin-top:6px}
+.route .phases,.route ol{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0 18px}
+.route .phases span{font:500 11px/1.4 var(--sans);text-transform:uppercase;letter-spacing:.07em;color:var(--ink-2);border-top:2px solid var(--ink);padding-top:9px}
+.route .p2{grid-column:span 2}
+.route ol{position:relative;margin-top:26px}
+.route ol::before{content:"";position:absolute;left:0;right:0;top:6px;height:1px;background:var(--ink);transform-origin:left;transition:transform 1.8s cubic-bezier(.45,.1,.25,1) .1s}
+.route li{position:relative;padding-top:30px;transition:opacity .5s,transform .5s var(--ease);transition-delay:calc(var(--i) * 220ms + 300ms)}
+.route li::before{content:"";position:absolute;left:0;top:0;width:11px;height:11px;border-radius:50%;background:var(--paper);border:1.5px solid var(--ink);box-sizing:border-box}
+.sec.band .route li::before{background:var(--band)}
+.route li.now::before{background:var(--ink)}
+.route .yr{font:500 12px/1.4 var(--sans);color:var(--mute);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.route h3{font:500 1.2rem/1.2 var(--display);letter-spacing:-.015em;margin-top:4px}
+.route p{font-size:15px;color:var(--ink-2);margin-top:8px}
+.route .ph{display:none}
+.route.pre ol::before{transform:scaleX(0)}
+.route.pre li{opacity:0;transform:translateY(8px)}
 
 /* motion: quiet reveals for content below the first screen, hairlines that draw, small hover cues */
 .rv{transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--s,0) * 70ms)}
@@ -324,8 +323,8 @@ a:hover{color:inherit}
 /* type roles: grotesk for structure, Garamond for anything read as prose */
 .statement,.sh h2,.index h2,.contact h2{font-weight:500;letter-spacing:-.035em}
 .nums .n{font-weight:500;letter-spacing:-.035em}
-.label,.fn,.gr .org,.gr .when,.docs .id,.docs .k,.docs .facts,.places .co,.glance dt,.doors th,.doors .terms span,.kit dt,.lines span.k,.axis .ticks,.chip,.foot,.mapcap,.sub-h,.quote cite{letter-spacing:.07em}
-.sub,.now-lead,.layers p,.also li,.gr p,.doors li,.docs p,.principles p,.traits p,.places p,.cvs p,.cvnote,.sh p,.contact p.lead,.body > .side,.inds p,.close-line span{font-family:var(--serif);font-size-adjust:.47;line-height:1.5}
+.label,.fn,.gr .org,.gr .when,.docs .id,.docs .k,.docs .facts,.glance dt,.doors th,.doors .terms span,.kit dt,.lines span.k,.axis .ticks,.chip,.foot,.sub-h,.quote cite{letter-spacing:.07em}
+.sub,.now-lead,.route p,.layers p,.also li,.gr p,.doors li,.docs p,.principles p,.traits p,.places p,.cvs p,.cvnote,.sh p,.contact p.lead,.body > .side,.inds p,.close-line span{font-family:var(--serif);font-size-adjust:.47;line-height:1.5}
 .quote{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em;font-size:clamp(1.8rem,3.6vw,2.8rem);line-height:1.15}
 .quote cite{font-family:var(--sans);font-style:normal}
 .now-lead b{font-family:var(--sans);font-weight:500;font-size-adjust:none}
@@ -354,7 +353,12 @@ a:hover{color:inherit}
   .axis{display:none}
   .gr{grid-template-columns:minmax(0,1fr);gap:8px}
   .gr .track{order:-1;margin-right:12px}
-  .swipe{display:block}
+  .route .phases{display:none}
+  .route ol{grid-template-columns:minmax(0,1fr);margin-top:8px}
+  .route ol::before{left:5px;right:auto;top:6px;bottom:6px;width:1px;height:auto;transform-origin:top}
+  .route.pre ol::before{transform:scaleY(0)}
+  .route li{padding:0 0 24px 30px}
+  .route .ph{display:block;font:500 11px/1.4 var(--sans);text-transform:uppercase;letter-spacing:.07em;color:var(--ink-2);margin-bottom:6px}
   .menu{min-width:min(290px,calc(100vw - 32px))}
   .doors thead{display:none}
   .doors,.doors tbody,.doors tr,.doors td{display:block;width:100%!important}
@@ -526,14 +530,22 @@ a:hover{color:inherit}
     </div>
 
     <p class="sub-h">Three continents, one perspective</p>
-    <div class="mapcap"><span>Hyderabad → New York → Columbus → Indianapolis → Victoria</span><span>Equirectangular · 15° graticule</span></div>
-    <div class="map" id="map"></div>
-    <p class="swipe">Swipe the map to follow the full route →</p>
+    <div class="route" id="route">
+      <div class="phases" aria-hidden="true"><span class="p2">Study</span><span class="p2">Work in the US</span><span>Back to India</span><span>Canada</span></div>
+      <ol aria-label="Where I have lived and worked, in order">
+        <li style="--i:0"><span class="ph">Study</span><div class="yr">2004 – 2008</div><h3>India &amp; Dubai</h3><p>Grew up and studied across both. BE (Hons.) in Electronics &amp; Instrumentation from BITS Pilani.</p></li>
+        <li style="--i:1"><div class="yr">2009 – 2011</div><h3>New York</h3><p>MS in Electrical Engineering at New York University.</p></li>
+        <li style="--i:2"><span class="ph">Work in the US</span><div class="yr">2011</div><h3>Indianapolis</h3><p>First roles in P&amp;C insurance, with Mapfre USA and Liberty Mutual.</p></li>
+        <li style="--i:3"><div class="yr">to 2015</div><h3>Columbus</h3><p>Insurance work continued, then joined CGI's insurance practice.</p></li>
+        <li style="--i:4"><span class="ph">Back to India</span><div class="yr">2015</div><h3>Hyderabad</h3><p>With CGI. Scaled an insurance delivery team from 23 to 75 in 15 months.</p></li>
+        <li style="--i:5" class="now"><span class="ph">Canada</span><div class="yr">2017 – now</div><h3>Victoria</h3><p>MBA at the University of Victoria, then CGI, S&amp;P Global and Sapiens. Home base today.</p></li>
+      </ol>
+    </div>
     <div class="places">
-      <div><div class="co">17.39° N · 78.49° E</div><h3>India</h3><div class="r">Born · educated · built teams</div><p>Engineering grounding at BITS Pilani. Scaled an insurance delivery org from 23 to 75 in Hyderabad. Learned that talent is universal; opportunity is not.</p></div>
-      <div><div class="co">40.71° N · 74.01° W</div><h3>United States</h3><div class="r">Studied · worked · delivered</div><p>MS at NYU, then years on the ground in Indianapolis, Columbus and New England, where directness and execution speed shaped my consulting style.</p></div>
-      <div><div class="co">48.43° N · 123.37° W</div><h3>Canada</h3><div class="r">Settled · leading · now</div><p>MBA at the University of Victoria. Found that thoughtfulness and consensus are not slowness; they are how lasting things get built.</p></div>
-      <div><div class="co">Across time zones</div><h3>EMEA &amp; Asia</h3><div class="r">Partnered · collaborated</div><p>Years of cross-border work with teams in the UK, Europe and Asia-Pacific taught me to write better, listen harder, and assume good intent by default.</p></div>
+      <div><h3>India</h3><div class="r">Born · educated · built teams</div><p>Engineering grounding at BITS Pilani. Scaled an insurance delivery org from 23 to 75 in Hyderabad. Learned that talent is universal; opportunity is not.</p></div>
+      <div><h3>United States</h3><div class="r">Studied · worked · delivered</div><p>MS at NYU, then years on the ground in Indianapolis, Columbus and New England, where directness and execution speed shaped my consulting style.</p></div>
+      <div><h3>Canada</h3><div class="r">Settled · leading · now</div><p>MBA at the University of Victoria. Found that thoughtfulness and consensus are not slowness; they are how lasting things get built.</p></div>
+      <div><h3>EMEA &amp; Asia</h3><div class="r">Partnered · collaborated</div><p>Years of cross-border work with teams in the UK, Europe and Asia-Pacific taught me to write better, listen harder, and assume good intent by default.</p></div>
     </div>
 
     <p class="sub-h">Education &amp; credentials</p>
@@ -629,23 +641,7 @@ a:hover{color:inherit}
   function arm(el,stag){if(!later(el))return;if(stag!=null)el.style.setProperty("--s",stag);el.classList.add("pre");rvo.observe(el)}
   arm(g);
 
-  /* route map with real coordinates */
-  (function(){
-    var host=document.getElementById("map"); if(!host) return;
-    var W=1000,H=380,L0=-140,L1=100,T=66,B=2;
-    var X=function(l){return (l-L0)/(L1-L0)*W}, Y=function(l){return (T-l)/(T-B)*H};
-    var stops=[["Hyderabad",17.385,78.487,"17.39° N 78.49° E",-10,-16,"end"],["New York",40.713,-74.006,"40.71° N 74.01° W",10,24,"start"],["Columbus",39.961,-82.999,"39.96° N 83.00° W",4,46,"middle"],["Indianapolis",39.768,-86.158,"39.77° N 86.16° W",-12,26,"end"],["Victoria",48.428,-123.366,"48.43° N 123.37° W",12,24,"start"]];
-    var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Route map: Hyderabad, New York, Columbus, Indianapolis, Victoria">';
-    for(var lon=-135;lon<=90;lon+=15){var x=X(lon);s+='<line class="'+(lon===0?'g0':'g')+'" x1="'+x+'" y1="0" x2="'+x+'" y2="'+H+'"/>';if(lon%45===0)s+='<text class="gl" x="'+(x+4)+'" y="'+(H-8)+'">'+Math.abs(lon)+'°'+(lon<0?'W':lon>0?'E':'')+'</text>'}
-    for(var lat=15;lat<=60;lat+=15){var y=Y(lat);s+='<line class="g" x1="0" y1="'+y+'" x2="'+W+'" y2="'+y+'"/><text class="gl" x="6" y="'+(y-5)+'">'+lat+'°N</text>'}
-    var P=stops.map(function(p){return [X(p[2]),Y(p[1])]});
-    var d='M'+P[0][0].toFixed(1)+','+P[0][1].toFixed(1);
-    for(var i=1;i<P.length;i++){var A=P[i-1],Bp=P[i],lift=Math.min(130,Math.abs(Bp[0]-A[0])*.3+16);d+=' Q'+((A[0]+Bp[0])/2).toFixed(1)+','+(Math.min(A[1],Bp[1])-lift).toFixed(1)+' '+Bp[0].toFixed(1)+','+Bp[1].toFixed(1)}
-    s+='<path class="rt" pathLength="1" d="'+d+'"/>';
-    stops.forEach(function(p,i){var q=P[i];s+='<g class="stop" style="--d:'+i+'"><circle class="c'+(i===4?' home':'')+'" cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="'+(i===4?6:4.2)+'"/><text class="cl" x="'+(q[0]+p[4]).toFixed(1)+'" y="'+(q[1]+p[5]).toFixed(1)+'" text-anchor="'+p[6]+'">'+p[0]+'</text>'+(i===0||i===4?'<text class="cy" x="'+(q[0]+p[4]).toFixed(1)+'" y="'+(q[1]+p[5]+13).toFixed(1)+'" text-anchor="'+p[6]+'">'+p[3]+'</text>':'')+'</g>'});
-    host.innerHTML=s+'</svg>';
-    arm(host);
-  })();
+  arm(document.getElementById("route"));
 
   /* quote: words light up as it scrolls through the viewport */
   (function(){
